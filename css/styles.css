@@ -1,174 +1,185 @@
-/* Allmänt nollsättning för olika browser */
-
-* {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-/* Grundläggande Body Styles */
+:root{
+    --mainpadding: 10px
+}
 
 body {
-    font-family: sans-serif;
-    line-height: 1.5;
-    color: black;
+    font-family: sans-serif; 
 }
 
-/* Almänna img */
+.wrapper {
+    border: 2px solid black;
+    background-color: aqua;
+    height: auto;
+    width: 100%;
+    padding: var(--mainpadding);
+}
 
-img {
+.header {
+    border: 4px solid black;
+    background-color: aquamarine;
+    padding: var(--mainpadding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--mainpadding);
+}
+
+.logotype {
+    border: 4px solid black;
+    background-color: antiquewhite;
+    height: 98px;
+}
+
+.actions {
+    border: 4px solid black;
+    background-color:azure;
+    display: flex;
+    flex-direction: row;
+    gap: var(--mainpadding);
+    justify-content: space-between;
+}
+
+.search-bar{
+    border: 8px solid black;
+    background-color:blue;
+    width: 395px;
+}
+
+.action-buttons{
+    border: 8px solid black;
+    background-color:blueviolet;
+    display: flex;
+    flex-direction: row;
+    gap: var(--mainpadding);
+}
+
+.navigation-list{
+    border: 8px solid black;
+    background-color:brown;
+    list-style-type: none;
+    padding: var(--mainpadding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--mainpadding);
+}
+
+.hero{
+    border: 8px solid black;
+    background-color:burlywood;
+    padding: var(--mainpadding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--mainpadding);
+}
+
+.hero-image{
+    border: 8px solid black;
+    background-color:cadetblue;
+}
+
+.hero-image img{
+    width: 100%;
+    height: auto;
+}
+
+.hero-text{
+    display: flex;
+    flex-direction: column;
+    gap: var(--mainpadding);
+    text-align: center;
+}
+
+.products-wrapper{
+    border: 2px solid black;
+    background-color:chartreuse;
+    padding: var(--mainpadding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--mainpadding);
+}
+
+.product-card{
+    border: 8px solid black;
+    background-color:chocolate;
+    padding: var(--mainpadding);
+}
+
+.product-image-wrapper{
+    border: 8px solid black;
+    background-color:coral;
+}
+
+.product-image{
+    border: 8px solid black;
+    background-color:cornflowerblue;
+    width: 100%; 
+    position: relative;
+}
+
+.product-image img{
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-/* Almänna länkar */
-
-a {
-    text-decoration: none;
-    color: inherit;
+.product-overlay {
+    position: absolute; 
+    z-index: 1;       
+    color: white;    
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 4px 8px; 
+    font-size: 12px; 
 }
 
-ul {
-    list-style: none;
+.overlay-heart {
+    bottom: 10px;    
+    right: 10px;       
+    font-size: 20px;  
+    background-color: transparent; 
+    padding: 0;        
+    color: red;        
+    cursor: pointer;   
 }
 
-/* Header styles */
-
-.site-header {
-    padding: 1rem;
-    border: 1px solid black;
+.overlay-heart:hover {
+     transform: scale(1.1);
 }
 
-.header-top{
+.overlay-banner {
+    top: 10px;         
+    left: 10px;       
+    background-color: #e44d26; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    font-size: 10px;
+}
+
+.product-info {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+    padding: var(--mainpadding);
 }
 
-.logo a {
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-.search-icon a {
-    font-size: 1.2rem;
-}
-
-.main-nav ul{
+.perks-wrapper{
+    border: 8px solid black;
+    background-color:cyan;
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    flex-direction: column;
 }
 
-.main-nav a{
-    padding: 0.5rem;
-    display: block;
-}
-
-/* Main content Styles*/
-
-.site-main {
-    padding: 1rem;
-    border: 1px solid blue;
-}
-
-.site-main section {
-    margin-bottom: 2rem;
-}
-
-.hero, .content-block {
-    text-align: center; 
-}
-
-.hero img, .content-block img {
-    margin-bottom: 1rem; 
-}
-
-/* Product Grid Styles */
-.product-grid h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem; 
-}
-
-/* Product Card Styles */
-.product-card {
-    border: 1px solid #eee;
-    padding: 1rem;
-    text-align: center;
-}
-
-.product-card img {
-    margin-bottom: 0.5rem;
-}
-
-.product-card h3 {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-}
-
-.product-card .price {
-    font-weight: bold;
-    color: #555;
-}
-
-/* Feature Blocks Styles */
-
-.feature-blocks {
-    display: grid; 
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    text-align: center;
-    padding: 1rem;
-    background-color: #f9f9f9; 
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-}
-
-
-/* Footer Styles */
-
-
-.site-footer {
-    padding: 2rem 1rem 1rem 1rem; 
-    background-color: #f0f0f0; 
-    border-top: 1px solid #ddd;
-}
-
-.footer-nav {
-    display: grid; 
-    grid-template-columns: 1fr; 
-    gap: 1.5rem; 
-    margin-bottom: 2rem;
-}
-
-.footer-nav h4 {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-}
-
-.footer-nav ul li {
-    margin-bottom: 0.25rem;
-}
-
-.footer-nav a {
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.footer-bottom {
-    text-align: center;
-    font-size: 0.8rem;
-    color: #777;
-    margin-top: 1rem; 
-    padding-top: 1rem; 
-    border-top: 1px solid #eee; 
+.perk-item{
+    border: 8px solid black;
+    background-color:darkblue;
+    display: flex;
+    flex-direction: row;
+    padding: var(--mainpadding);
+    gap: var(--mainpadding);
 }
