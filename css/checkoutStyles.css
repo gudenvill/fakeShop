@@ -1,0 +1,285 @@
+.checkout-page-main {
+    padding: calc(var(--mainpadding) * 2) 0;
+}
+
+.checkout-page-main h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: calc(var(--mainpadding) * 3);
+    color: var(--text-color);
+}
+
+.checkout-content {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--mainpadding) * 4);
+}
+
+.checkout-summary h2,
+.customer-details h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: calc(var(--mainpadding) * 1.5);
+    padding-bottom: var(--mainpadding);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.cart-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border-color);
+}
+
+.cart-summary-table thead {
+    display: none;
+}
+
+.cart-summary-table tbody tr {
+    display: block;
+    margin-bottom: calc(var(--mainpadding) * 2);
+    padding-bottom: calc(var(--mainpadding) * 2);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-summary-table td {
+    display: block;
+    text-align: right;
+    padding-left: 40%;
+    position: relative;
+    font-size: 0.95rem;
+    padding-top: calc(var(--mainpadding) * 0.5);
+    padding-bottom: calc(var(--mainpadding) * 0.5);
+}
+
+.cart-summary-table td small {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    display: block;
+    margin-top: 4px;
+}
+
+.cart-summary-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 35%;
+    padding-right: var(--mainpadding);
+    font-weight: bold;
+    text-align: left;
+    color: var(--text-color);
+}
+
+.cart-summary-table tfoot tr {
+    border-top: 2px solid var(--text-color);
+    font-weight: bold;
+    padding-top: var(--mainpadding);
+}
+
+.cart-summary-table tfoot td {
+    border-bottom: none;
+    /* Override mobile row border */
+    padding-bottom: 0;
+    /* Override mobile cell padding */
+}
+
+.cart-summary-table tfoot td:first-child {
+    text-align: left;
+    padding-left: 0;
+    font-size: 1rem;
+}
+
+.cart-summary-table tfoot td:first-child::before {
+    display: none;
+}
+
+.cart-summary-table tfoot td:last-child {
+    font-size: 1.1rem;
+    color: #000;
+}
+
+.customer-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--mainpadding) * 1.5);
+}
+
+.form-group {
+    flex: 1 1 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: calc(var(--mainpadding) * 0.5);
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: calc(var(--mainpadding) * 0.5);
+    /* For stacked inputs like address */
+}
+
+.form-group input[type="text"]:last-child,
+.form-group input[type="email"]:last-child {
+    margin-bottom: 0;
+    /* No margin on last input in a group */
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #aaa;
+    box-shadow: 0 0 0 2px rgba(170, 170, 170, 0.2);
+}
+
+.form-group.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: var(--mainpadding);
+    margin-top: var(--mainpadding);
+}
+
+.form-group.checkbox-group label {
+    margin-bottom: 0;
+    font-weight: normal;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.form-group.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+    /* Ensure space even without gap support */
+    flex-shrink: 0;
+}
+
+.btn-purchase {
+    background-color: #333;
+    color: var(--background-white);
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    text-align: center;
+    width: 100%;
+    margin-top: var(--mainpadding);
+}
+
+.btn-purchase:hover {
+    background-color: #000;
+}
+
+@media(min-width: 640px) {
+    .checkout-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: calc(var(--mainpadding) * 5);
+    }
+
+    .checkout-summary,
+    .customer-details {
+        width: 100%;
+    }
+
+    .cart-summary-table thead {
+        display: table-header-group;
+    }
+
+    .cart-summary-table tbody tr,
+    .cart-summary-table tfoot tr {
+        display: table-row;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .cart-summary-table tfoot tr {
+        border-top-width: 2px;
+        font-weight: normal;
+    }
+
+    .cart-summary-table td {
+        display: table-cell;
+        text-align: left;
+        padding: var(--mainpadding) calc(var(--mainpadding) * 0.75);
+        position: static;
+        font-size: 0.9rem;
+        vertical-align: middle;
+        border-right: 1px solid var(--border-color); 
+    }
+
+    .cart-summary-table td small {
+        margin-top: 2px;
+    }
+
+
+    .cart-summary-table td::before {
+        display: none;
+    }
+
+    .cart-summary-table th {
+        text-align: left;
+        padding: var(--mainpadding) calc(var(--mainpadding) * 0.75);
+        font-weight: bold;
+        font-size: 0.85rem;
+        color: var(--text-light);
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+    }
+
+    .cart-summary-table td[data-label="Antal"] {
+        text-align: center;
+    }
+
+    .cart-summary-table th:nth-child(2) {
+        text-align: center;
+    }
+
+    .cart-summary-table td[data-label="Pris"],
+    .cart-summary-table td[data-label="Totalt"] {
+        text-align: right;
+    }
+
+    .cart-summary-table th:nth-child(3),
+    .cart-summary-table th:nth-child(4) {
+        text-align: right;
+    }
+
+
+    .cart-summary-table tfoot td:first-child {
+        font-weight: bold;
+        font-size: 0.95rem;
+        text-align: right;
+        color: var(--text-color);
+    }
+
+    .cart-summary-table tfoot td:last-child {
+        font-weight: bold;
+        font-size: 1rem;
+        color: #000;
+    }
+
+    .customer-form .form-group {
+        flex: 1 1 calc(50% - var(--mainpadding) * 0.75);
+    }
+
+    .customer-form .form-group.full-width {
+        flex-basis: 100%;
+    }
+
+    .btn-purchase {
+        width: auto;
+        padding: 12px 40px;
+    }
+}
