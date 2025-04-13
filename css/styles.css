@@ -7,7 +7,8 @@
 }
 
 :root{
-    --mainpadding: 10px
+    --mainpadding: 10px;
+    --maincolor: #444
 }
 
 body {
@@ -50,6 +51,11 @@ body {
     border: 8px solid black;
     background-color:blue;
     width: 395px;
+    height: 33px;
+}
+
+.input {
+    width: 80%;
 }
 
 .action-buttons{
@@ -58,6 +64,7 @@ body {
     display: flex;
     flex-direction: row;
     gap: var(--mainpadding);
+    height: 33px;
 }
 
 .navigation-list{
@@ -82,6 +89,7 @@ body {
 .hero-image{
     border: 8px solid black;
     background-color:cadetblue;
+    padding: var(--mainpadding);
 }
 
 .hero-image img{
@@ -94,13 +102,15 @@ body {
     flex-direction: column;
     gap: var(--mainpadding);
     text-align: center;
+    padding: var(--mainpadding);
 }
 
 .products-wrapper{
     border: 2px solid black;
     background-color:chartreuse;
     padding: var(--mainpadding);
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     flex-direction: column;
     gap: var(--mainpadding);
 }
@@ -171,8 +181,8 @@ body {
 .perks-wrapper{
     border: 8px solid black;
     background-color:cyan;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
 }
 
 .perk-item{
@@ -182,4 +192,100 @@ body {
     flex-direction: row;
     padding: var(--mainpadding);
     gap: var(--mainpadding);
+}
+
+.accordion{
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border: none;
+    padding: var(--mainpadding);
+    outline: none;
+    transition: 0.4s;
+    border: 4px solid black;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+  }
+
+.panel {
+    padding: var(--mainpadding);
+    background-color: white;
+    display: none;
+    overflow: hidden;
+  }
+
+.panel-item {
+    padding: var(--mainpadding);
+}
+
+.accordion-wrapper{
+    padding: var(--mainpadding);
+    border: 8px solid black;
+
+}
+
+footer {
+    padding-top: calc(2*var(--mainpadding));
+    padding-bottom: calc(2*var(--mainpadding));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(min-width: 640px) {
+    .wrapper {
+        background-color: #e44d26;
+    }
+    .header{
+        flex-direction: row;
+    }
+    .search-bar{
+        width: 55%;
+    }
+    .actions{
+        width: 100%;
+        align-items: center;
+    }
+    .navigation-list{
+        flex-direction: row;
+    }
+    .products-wrapper{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .perks-wrapper{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .accordions{
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .accordion{
+        font-weight: bold;  
+    }
+    .panel{
+        display: block !important;
+    }
+}
+
+@media(min-width: 1024px) {
+    .hero{
+        flex-direction: row;
+    }
+    .hero-image{
+        order: 2;
+    }
+    .hero-text{
+        justify-content: center;
+        background-color: cornflowerblue;
+    }
+    .products-wrapper{
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .perks-wrapper{
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
