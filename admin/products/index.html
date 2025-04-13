@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration: Lista produkter</title>
+  <link rel="stylesheet" href="../../css/adminStyles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Administration</h2>
+      <nav>
+        <ul>
+          <li><strong>Produkter</strong></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1>Produkter</h1>
+      <a href="/admin/products/new.html" class="button">Ny produkt</a>
+      <table>
+        <thead>
+          <tr>
+            <th>Namn</th>
+            <th>SKU</th>
+            <th>Pris</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Svart T-Shirt</td>
+            <td>AAA111</td>
+            <td>199</td>
+            <td>
+              <a href="#"><span class="icon edit">✏️</span></a>
+              <a href="#"><span class="icon delete">🗑️</span></a>
+            </td>
+          </tr>
+          <tr>
+            <td>Vit T-Shirt</td>
+            <td>BBB111</td>
+            <td>199</td>
+            <td>
+              <a href="#"><span class="icon edit">✏️</span></a>
+              <a href="#"><span class="icon delete">🗑️</span></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+</html>

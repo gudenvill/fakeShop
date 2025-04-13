@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration: Ny produkt</title>
+  <link rel="stylesheet" href="../../css/adminStyles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Administration</h2>
+      <nav>
+        <ul>
+          <li><a href="/admin/products/index.html">Produkter</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1>Ny produkt</h1>
+      <form action="#" method="post" enctype="multipart/form-data">
+        <label for="name">Namn</label>
+        <input type="text" id="name" name="name" maxlength="50" required placeholder="Ange namn">
+
+        <label for="description">Beskrivning</label>
+        <textarea id="description" name="description" rows="4" required placeholder="Ange beskrivning"></textarea>
+
+        <label for="image">Bild</label>
+        <input type="file" id="image" name="image" accept="image/png, image/jpeg" required>
+
+        <label for="sku">SKU</label>
+        <input type="text" id="sku" name="sku" pattern="[A-Z]{3}[0-9]{3}" required placeholder="Ange SKU">
+
+        <label for="price">Pris</label>
+        <input type="number" id="price" name="price" required placeholder="Ange pris">
+
+        <label for="publish-date">Publiceringsdatum</label>
+        <input type="date" id="publish-date" name="publish-date">
+
+        <fieldset>
+          <legend>Kategorier</legend>
+          <label><input type="checkbox" name="category" value="tshirts"> T-Shirts</label><br>
+          <label><input type="checkbox" name="category" value="sommar"> Sommar</label><br>
+          <label><input type="checkbox" name="category" value="byxor"> Byxor</label><br>
+          <label><input type="checkbox" name="category" value="skor"> Skor</label>
+        </fieldset>
+
+        <button type="submit" class="button">Lägg till</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
