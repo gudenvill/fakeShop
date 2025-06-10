@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration: Lista produkter</title>
+  <link rel="stylesheet" href="../../css/adminStyles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Administration</h2>
+      <nav>
+        <ul>
+          <li><strong>Produkter</strong></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1>Produkter</h1>
+      <a href="/admin/products/new.html" class="button">Ny produkt</a>
+      
+      <div id="loading" style="text-align: center; padding: 20px;">
+        Laddar produkter...
+      </div>
+      
+      <table id="products-table" style="display: none;">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Namn</th>
+            <th>Märke</th>
+            <th>SKU</th>
+            <th>Pris</th>
+            <th>Lager</th>
+            <th>Skapad</th>
+            <th>Status</th>
+            <th>Åtgärder</th>
+          </tr>
+        </thead>
+        <tbody id="products-tbody">
+          <!-- Produkter laddas dynamiskt här -->
+        </tbody>
+      </table>
+      
+      <div id="error-message" style="display: none; color: red; text-align: center; padding: 20px;">
+        Fel vid laddning av produkter. Försök uppdatera sidan.
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Formatera datum för visning
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const daysDifference = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      
+      const formattedDate = date.toLocaleDateString('sv-SE', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+      
+      if (daysDifference === 0) {
+        return `${formattedDate} (Idag)`;
+      } else if (daysDifference === 1) {
+        return `${formattedDate} (Igår)`;
+      } else if (daysDifference <= 7) {
+        return `${formattedDate} (${daysDifference} dagar sedan)`;
+      } else {
+        return `${formattedDate} (${daysDifference} dagar sedan)`;
+      }
+    }
+
+    // Kontrollera om produkt är ny för status-kolumn
+    function getProductStatus(createdAt) {
+      const now = new Date();
+      const productDate = new Date(createdAt);
+      const daysDifference = Math.floor((now - productDate) / (1000 * 60 * 60 * 24));
+      
+      if (daysDifference <= 7) {
+        return '<span style="color: green; font-weight: bold;">✨ Nyhet</span>';
+      } else {
+        return '<span style="color: gray;">Vanlig</span>';
+      }
+    }
+
+    // Hämta och visa alla produkter
+    async function loadProducts() {
+      try {
+        console.log('🔄 Hämtar produkter för admin...');
+        const response = await fetch('/api/products');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const products = await response.json();
+        console.log('✅ Produkter hämtade:', products.length);
+        
+        displayProducts(products);
+      } catch (error) {
+        console.error('❌ Fel vid hämtning av produkter:', error);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error-message').style.display = 'block';
+      }
+    }
+
+    // Visa produkter i tabellen
+    function displayProducts(products) {
+      const tbody = document.getElementById('products-tbody');
+      const loading = document.getElementById('loading');
+      const table = document.getElementById('products-table');
+      
+      if (products.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Inga produkter hittades</td></tr>';
+      } else {
+        // Sortera produkter efter skapandedatum (nyaste först)
+        const sortedProducts = products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        
+        tbody.innerHTML = sortedProducts.map(product => `
+          <tr>
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>${product.brand}</td>
+            <td>${product.sku}</td>
+            <td>${product.price} SEK</td>
+            <td>${product.stock_quantity}</td>
+            <td>${formatDate(product.created_at)}</td>
+            <td>${getProductStatus(product.created_at)}</td>
+            <td>
+              <button onclick="editProduct(${product.id})" class="icon edit" title="Redigera">✏️</button>
+              <button onclick="deleteProduct(${product.id}, '${product.name}')" class="icon delete" title="Ta bort">🗑️</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+      
+      loading.style.display = 'none';
+      table.style.display = 'table';
+    }
+
+    // Redigera produkt - navigera till edit-sidan
+    function editProduct(id) {
+      window.location.href = `/admin/products/edit.html?id=${id}`;
+    }
+
+    // Ta bort produkt
+    async function deleteProduct(id, name) {
+      if (!confirm(`Är du säker på att du vill ta bort "${name}"?`)) {
+        return;
+      }
+      
+      try {
+        console.log('🗑️ Tar bort produkt:', id);
+        const response = await fetch(`/api/products/${id}`, {
+          method: 'DELETE'
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Produkt borttagen:', result.message);
+        
+        // Ladda om produktlistan
+        loadProducts();
+        
+      } catch (error) {
+        console.error('❌ Fel vid borttagning:', error);
+        alert('Fel vid borttagning av produkt. Försök igen.');
+      }
+    }
+
+    // Ladda produkter när sidan laddas
+    document.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+</body>
+</html>

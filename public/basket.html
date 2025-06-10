@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeShop | Varukorg</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/basketStyles.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="logotype">
+                <h1><a href="/" style="text-decoration: none; color: inherit;">logotype</a></h1>
+            </div>
+            <div class="actions">
+                <div class="search-bar">
+                    <input class="input" type="text" placeholder="Sök produkt...">
+                    <button type="submit" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" aria-label="Wishlist">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="/basket" aria-label="Shopping Basket">
+                        <i class="fas fa-shopping-basket"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+        
+        <ul class="navigation-list">
+            <li><a href="/" style="text-decoration: none; color: inherit;">Hem</a></li>
+            <li>Nyheter</li>
+            <li>Bästsäljare</li>
+            <li>Kvinnor</li>
+            <li>Män</li>
+        </ul>
+
+        <main class="basket-main">
+            <h1>Varukorg</h1>
+
+            <!-- Tom varukorg meddelande -->
+            <div id="empty-basket" class="empty-basket" style="display: none;">
+                <div class="empty-basket-content">
+                    <i class="fas fa-shopping-basket empty-basket-icon"></i>
+                    <h2>Din varukorg är tom</h2>
+                    <p>Lägg till produkter för att fortsätta med ditt köp</p>
+                    <a href="/" class="continue-shopping-btn">Fortsätt handla</a>
+                </div>
+            </div>
+
+            <!-- Varukorg innehåll -->
+            <div id="basket-content" class="basket-content">
+                <!-- Varukorg tabell -->
+                <div class="basket-table-container">
+                    <table class="basket-table">
+                        <thead>
+                            <tr>
+                                <th>Produkt</th>
+                                <th>Pris</th>
+                                <th>Antal</th>
+                                <th>Totalt</th>
+                                <th>Åtgärd</th>
+                            </tr>
+                        </thead>
+                        <tbody id="basket-items">
+                            <!-- Varukorgsartiklar laddas dynamiskt här -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Varukorg sammandrag -->
+                <div class="basket-summary">
+                    <div class="summary-row">
+                        <span>Delsumma:</span>
+                        <span id="subtotal">0 SEK</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Frakt:</span>
+                        <span id="shipping">Gratis</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Totalt:</span>
+                        <span id="total">0 SEK</span>
+                    </div>
+                    
+                    <div class="basket-actions">
+                        <button class="continue-shopping-btn secondary" onclick="window.location.href='/'">
+                            Fortsätt handla
+                        </button>
+                        <button class="checkout-btn primary" id="checkout-btn">
+                            Till kassan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="perks-wrapper">
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </div>
+                <div class="perk-text">
+                    Gratis frakt och returer
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <div class="perk-text">
+                    Expressfrakt
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-shield"></i>
+                </div>
+                <div class="perk-text">
+                    Säkra betalningar
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-face-smile"></i>
+                </div>
+                <div class="perk-text">
+                    Nyheter varje dag
+                </div>
+            </div>
+        </div>
+
+        <div class="accordions">
+            <div class="accordion-wrapper">
+                <button class="accordion">Shopping</button>
+                <div class="panel">
+                    <p class="panel-item">Vinterjackor</p>
+                    <p class="panel-item">Pufferjackor</p>
+                    <p class="panel-item">Kappa</p>
+                    <p class="panel-item">Trenchcoats</p>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper">
+                <button class="accordion">Mina sidor</button>
+                <div class="panel">
+                    <p class="panel-item">Mina Ordrar</p>
+                    <p class="panel-item">Mitt konto</p>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper">
+                <button class="accordion">Kundtjänst</button>
+                <div class="panel">
+                    <p class="panel-item">Kontakta oss</p>
+                    <p class="panel-item">Hitta hit</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            &#169; FakeShop
+        </footer>
+    </div>
+
+    <script>
+        // Varukorg hantering med localStorage
+        class BasketManager {
+            constructor() {
+                this.items = this.loadBasket();
+                this.init();
+            }
+
+            // Ladda varukorg från localStorage
+            loadBasket() {
+                const basket = localStorage.getItem('fakeShopBasket');
+                return basket ? JSON.parse(basket) : [];
+            }
+
+            // Spara varukorg till localStorage
+            saveBasket() {
+                localStorage.setItem('fakeShopBasket', JSON.stringify(this.items));
+            }
+
+            // Lägg till produkt i varukorg
+            addItem(product, quantity = 1) {
+                const existingItem = this.items.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    this.items.push({
+                        id: product.id,
+                        name: product.name,
+                        brand: product.brand,
+                        price: product.price,
+                        image_url: product.image_url,
+                        quantity: quantity
+                    });
+                }
+                
+                this.saveBasket();
+                this.render();
+                console.log('✅ Produkt tillagd i varukorg:', product.name);
+            }
+
+            // Uppdatera kvantitet
+            updateQuantity(productId, newQuantity) {
+                if (newQuantity <= 0) {
+                    this.removeItem(productId);
+                    return;
+                }
+
+                const item = this.items.find(item => item.id === productId);
+                if (item) {
+                    item.quantity = newQuantity;
+                    this.saveBasket();
+                    this.render();
+                }
+            }
+
+            // Ta bort produkt från varukorg
+            removeItem(productId) {
+                this.items = this.items.filter(item => item.id !== productId);
+                this.saveBasket();
+                this.render();
+                console.log('✅ Produkt borttagen från varukorg');
+            }
+
+            // Räkna ut totaler
+            calculateTotals() {
+                const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const shipping = subtotal > 500 ? 0 : (subtotal > 0 ? 49 : 0);
+                const total = subtotal + shipping;
+
+                return { subtotal, shipping, total };
+            }
+
+            // Rendera varukorg
+            render() {
+                const emptyBasket = document.getElementById('empty-basket');
+                const basketContent = document.getElementById('basket-content');
+                const basketItems = document.getElementById('basket-items');
+
+                if (this.items.length === 0) {
+                    emptyBasket.style.display = 'block';
+                    basketContent.style.display = 'none';
+                    return;
+                }
+
+                emptyBasket.style.display = 'none';
+                basketContent.style.display = 'block';
+
+                // Rendera varukorgsartiklar
+                basketItems.innerHTML = this.items.map(item => `
+                    <tr class="basket-item">
+                        <td class="item-info">
+                            <img src="${item.image_url}" alt="${item.name}" class="item-image">
+                            <div class="item-details">
+                                <h3>${item.name}</h3>
+                                <p>${item.brand}</p>
+                            </div>
+                        </td>
+                        <td class="item-price">${item.price} SEK</td>
+                        <td class="item-quantity">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="basket.updateQuantity(${item.id}, ${item.quantity - 1})">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" value="${item.quantity}" min="1" 
+                                       onchange="basket.updateQuantity(${item.id}, parseInt(this.value))"
+                                       class="quantity-input">
+                                <button class="quantity-btn" onclick="basket.updateQuantity(${item.id}, ${item.quantity + 1})">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="item-total">${item.price * item.quantity} SEK</td>
+                        <td class="item-actions">
+                            <button class="remove-btn" onclick="basket.removeItem(${item.id})" title="Ta bort">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Uppdatera totaler
+                const { subtotal, shipping, total } = this.calculateTotals();
+                document.getElementById('subtotal').textContent = `${subtotal} SEK`;
+                document.getElementById('shipping').textContent = shipping === 0 ? 'Gratis' : `${shipping} SEK`;
+                document.getElementById('total').textContent = `${total} SEK`;
+            }
+
+            // Initiera
+            init() {
+                this.render();
+                
+                // Checkout knapp
+                document.getElementById('checkout-btn').addEventListener('click', () => {
+                    if (this.items.length > 0) {
+                        window.location.href = '/checkout.html';
+                    }
+                });
+            }
+        }
+
+        // Accordion funktionalitet
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initiera varukorg
+            window.basket = new BasketManager();
+            
+            // Accordion
+            var acc = document.getElementsByClassName("accordion");
+            for (let i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                        panel.style.display = "none";
+                    } else {
+                        panel.style.display = "block";
+                    }
+                });
+            }
+        });
+
+        // Testa funktionalitet - lägg till några produkter (kan tas bort senare)
+        function addTestItems() {
+            const testProduct1 = {
+                id: 1,
+                name: "Premium T-shirt",
+                brand: "Levis", 
+                price: 249,
+                image_url: "/images/product.png"
+            };
+            
+            const testProduct2 = {
+                id: 33,
+                name: "Blå Jeans",
+                brand: "Levis",
+                price: 599,
+                image_url: "/images/product.png"
+            };
+            
+            basket.addItem(testProduct1, 2);
+            basket.addItem(testProduct2, 1);
+        }
+    </script>
+</body>
+
+</html>

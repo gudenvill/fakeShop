@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration: Lista ordrar</title>
+  <link rel="stylesheet" href="../../css/adminStyles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Administration</h2>
+      <nav>
+        <ul>
+          <li><a href="/admin/products/index.html">Produkter</a></li>
+          <li><strong>Ordrar</strong></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <div class="admin-header">
+        <h1>Ordrar</h1>
+        <div class="admin-stats">
+          <div class="stat-card">
+            <span class="stat-number" id="total-orders">0</span>
+            <span class="stat-label">Totalt ordrar</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="completed-orders">0</span>
+            <span class="stat-label">Slutförda</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="pending-orders">0</span>
+            <span class="stat-label">Väntande</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="total-revenue">0 SEK</span>
+            <span class="stat-label">Total omsättning</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Laddningsmeddelande -->
+      <div id="loading" class="loading-message">
+        Laddar ordrar...
+      </div>
+      
+      <!-- Orderslista -->
+      <div id="orders-content" style="display: none;">
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Ordernummer</th>
+                <th>Kund</th>
+                <th>E-post</th>
+                <th>Produkter</th>
+                <th>Totalt</th>
+                <th>Status</th>
+                <th>Skapad</th>
+                <th>Åtgärder</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <!-- Ordrar laddas här dynamiskt -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Tom lista meddelande -->
+      <div id="empty-orders" class="empty-message" style="display: none;">
+        <h3>Inga ordrar hittades</h3>
+        <p>Det finns inga ordrar att visa ännu.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Order Detaljer Modal -->
+  <div id="order-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Orderdetaljer</h2>
+        <span class="close" onclick="closeOrderModal()">&times;</span>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Order detaljer laddas här -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn secondary" onclick="closeOrderModal()">Stäng</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allOrders = [];
+
+    // Hämta alla ordrar från API
+    async function fetchOrders() {
+      try {
+        console.log('🔄 Hämtar ordrar från API...');
+        const response = await fetch('/api/orders');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const orders = await response.json();
+        console.log('✅ Ordrar hämtade:', orders.length);
+        
+        allOrders = orders;
+        displayOrders(orders);
+        updateStats(orders);
+        
+      } catch (error) {
+        console.error('❌ Fel vid hämtning av ordrar:', error);
+        document.getElementById('loading').textContent = 'Fel vid laddning av ordrar.';
+      }
+    }
+
+    // Visa ordrar i tabellen
+    function displayOrders(orders) {
+      const tableBody = document.getElementById('orders-table-body');
+      const loading = document.getElementById('loading');
+      const content = document.getElementById('orders-content');
+      const empty = document.getElementById('empty-orders');
+      
+      if (orders.length === 0) {
+        loading.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+      
+      const ordersHTML = orders.map(order => {
+        const statusClass = getStatusClass(order.status);
+        const statusText = getStatusText(order.status);
+        const createdDate = new Date(order.created_at).toLocaleDateString('sv-SE', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        return `
+          <tr>
+            <td>
+              <strong>${order.order_number}</strong>
+            </td>
+            <td>${order.customer_name}</td>
+            <td>${order.customer_email}</td>
+            <td>
+              <small>${order.items_summary || 'Inga produkter'}</small>
+            </td>
+            <td><strong>${order.total_amount} SEK</strong></td>
+            <td>
+              <span class="status-badge ${statusClass}">${statusText}</span>
+            </td>
+            <td>
+              <small>${createdDate}</small>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn small primary" onclick="viewOrder(${order.id})" title="Visa detaljer">
+                  👁️
+                </button>
+                <select class="status-select" onchange="updateOrderStatus(${order.id}, this.value)">
+                  <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Väntande</option>
+                  <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Slutförd</option>
+                  <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Skickad</option>
+                  <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Avbruten</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      
+      tableBody.innerHTML = ordersHTML;
+      loading.style.display = 'none';
+      content.style.display = 'block';
+      
+      console.log('✅ Ordrar visade i tabell');
+    }
+
+    // Uppdatera statistik
+    function updateStats(orders) {
+      const totalOrders = orders.length;
+      const completedOrders = orders.filter(o => o.status === 'completed').length;
+      const pendingOrders = orders.filter(o => o.status === 'pending').length;
+      const totalRevenue = orders
+        .filter(o => o.status === 'completed')
+        .reduce((sum, o) => sum + parseFloat(o.total_amount), 0);
+      
+      document.getElementById('total-orders').textContent = totalOrders;
+      document.getElementById('completed-orders').textContent = completedOrders;
+      document.getElementById('pending-orders').textContent = pendingOrders;
+      document.getElementById('total-revenue').textContent = `${totalRevenue.toFixed(2)} SEK`;
+    }
+
+    // Få status CSS-klass
+    function getStatusClass(status) {
+      switch(status) {
+        case 'completed': return 'status-completed';
+        case 'pending': return 'status-pending';
+        case 'shipped': return 'status-shipped';
+        case 'cancelled': return 'status-cancelled';
+        default: return 'status-pending';
+      }
+    }
+
+    // Få status text på svenska
+    function getStatusText(status) {
+      switch(status) {
+        case 'completed': return 'Slutförd';
+        case 'pending': return 'Väntande';
+        case 'shipped': return 'Skickad';
+        case 'cancelled': return 'Avbruten';
+        default: return 'Okänd';
+      }
+    }
+
+    // Visa orderdetaljer
+    async function viewOrder(orderId) {
+      try {
+        console.log('🔄 Hämtar orderdetaljer för ID:', orderId);
+        const response = await fetch(`/api/orders/${orderId}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const order = await response.json();
+        console.log('✅ Orderdetaljer hämtade:', order);
+        
+        showOrderModal(order);
+        
+      } catch (error) {
+        console.error('❌ Fel vid hämtning av orderdetaljer:', error);
+        alert('Kunde inte ladda orderdetaljer.');
+      }
+    }
+
+    // Visa order modal
+    function showOrderModal(order) {
+      const modal = document.getElementById('order-modal');
+      const title = document.getElementById('modal-title');
+      const body = document.getElementById('modal-body');
+      
+      title.textContent = `Order ${order.order_number}`;
+      
+      const itemsHTML = order.items && order.items.length > 0 
+        ? order.items.map(item => `
+            <tr>
+              <td>${item.product_name}</td>
+              <td>${item.product_brand}</td>
+              <td>${item.price} SEK</td>
+              <td>${item.quantity}</td>
+              <td>${item.subtotal} SEK</td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="5">Inga produkter hittades</td></tr>';
+      
+      body.innerHTML = `
+        <div class="order-details">
+          <div class="detail-section">
+            <h3>Kundinformation</h3>
+            <p><strong>Namn:</strong> ${order.customer_name}</p>
+            <p><strong>E-post:</strong> ${order.customer_email}</p>
+            <p><strong>Telefon:</strong> ${order.customer_phone || 'Ej angivet'}</p>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Leveransadress</h3>
+            <p>${order.shipping_address}</p>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Beställda produkter</h3>
+            <table class="modal-table">
+              <thead>
+                <tr>
+                  <th>Produkt</th>
+                  <th>Märke</th>
+                  <th>Pris</th>
+                  <th>Antal</th>
+                  <th>Summa</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemsHTML}
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Orderinformation</h3>
+            <p><strong>Status:</strong> ${getStatusText(order.status)}</p>
+            <p><strong>Betalmetod:</strong> ${order.payment_method || 'Ej angivet'}</p>
+            <p><strong>Totalt:</strong> ${order.total_amount} SEK</p>
+            <p><strong>Skapad:</strong> ${new Date(order.created_at).toLocaleString('sv-SE')}</p>
+          </div>
+        </div>
+      `;
+      
+      modal.style.display = 'block';
+    }
+
+    // Stäng order modal
+    function closeOrderModal() {
+      document.getElementById('order-modal').style.display = 'none';
+    }
+
+    // Uppdatera order status
+    async function updateOrderStatus(orderId, newStatus) {
+      try {
+        console.log('🔄 Uppdaterar order status:', orderId, 'till', newStatus);
+        const response = await fetch(`/api/orders/${orderId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Order status uppdaterad:', result);
+        
+        // Uppdatera tabellen
+        fetchOrders();
+        
+      } catch (error) {
+        console.error('❌ Fel vid uppdatering av order status:', error);
+        alert('Kunde inte uppdatera order status.');
+        // Återställ select
+        fetchOrders();
+      }
+    }
+
+    // Stäng modal vid klick utanför
+    window.onclick = function(event) {
+      const modal = document.getElementById('order-modal');
+      if (event.target === modal) {
+        closeOrderModal();
+      }
+    }
+
+    // Initiera sidan
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 Admin ordersida laddad');
+      fetchOrders();
+    });
+  </script>
+</body>
+</html> 

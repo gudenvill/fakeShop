@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeShop | Kassa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/checkoutStyles.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="logotype">
+                <h1>logotype</h1>
+            </div>
+            <div class="actions">
+                <div class="search-bar">
+                    <input class="input" type="text" placeholder="Search products...">
+                    <button type="submit" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="action-buttons">
+                    <button aria-label="Wishlist">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <button aria-label="Shopping Basket">
+                        <i class="fas fa-shopping-basket"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <ul class="navigation-list">
+            <li>Nyheter</li>
+            <li>Bästsäljare</li>
+            <li>Kvinnor</li>
+            <li>Män</li>
+        </ul>
+
+        <main class="checkout-page-main">
+            <h1>Kassan</h1>
+
+            <div class="checkout-content">
+                <section class="checkout-summary">
+                    <h2>Varukorg</h2>
+                    <table class="cart-summary-table">
+                        <thead>
+                            <tr>
+                                <th>Produkt</th>
+                                <th>Antal</th>
+                                <th>Pris</th>
+                                <th>Totalt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Produkt:">Svart T-Shirt<br><small>Artikelnummer: 12345</small></td>
+                                <td data-label="Antal:">1</td>
+                                <td data-label="Pris:">199 SEK</td>
+                                <td data-label="Totalt:">199 SEK</td>
+                            </tr>
+                             <tr>
+                                <td data-label="Produkt:">Vit T-Shirt<br><small>Artikelnummer: 67890</small></td>
+                                <td data-label="Antal:">2</td>
+                                <td data-label="Pris:">199 SEK</td>
+                                <td data-label="Totalt:">398 SEK</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">RE-SUMMA</td>
+                                <td>597 SEK</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </section>
+
+                <section class="customer-details">
+                    <h2>Kunduppgifter</h2>
+                    <form class="customer-form" id="checkout-form">
+                        <div class="form-group">
+                            <label for="fnamn">Förnamn</label>
+                            <input type="text" id="fnamn" name="fnamn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enamn">Efternamn</label>
+                            <input type="text" id="enamn" name="enamn" required>
+                        </div>
+                         <div class="form-group full-width">
+                            <label for="email">E-post</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group full-width">
+                             <label for="telefon">Telefon (valfritt)</label>
+                             <input type="tel" id="telefon" name="telefon" placeholder="070-123 45 67">
+                        </div>
+                        <div class="form-group full-width">
+                             <label for="adress">Leveransadress</label>
+                             <input type="text" id="gata" name="gata" placeholder="Gata och nummer" required>
+                             <input type="text" id="postnummer" name="postnummer" placeholder="Postnummer" required>
+                             <input type="text" id="stad" name="stad" placeholder="Stad" required>
+                         </div>
+
+                        <div class="form-group checkbox-group full-width">
+                            <input type="checkbox" id="newsletter" name="newsletter" value="subscribe">
+                            <label for="newsletter">Jag vill ta emot nyhetsbrev</label>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <button type="submit" class="btn-purchase" id="purchase-btn">
+                                <span id="btn-text">Slutför köp</span>
+                                <span id="btn-spinner" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> Bearbetar...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+
+        <div class="perks-wrapper">
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </div>
+                <div class="perk-text">
+                    Gratis frakt och returer
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <div class="perk-text">
+                    Expressfrakt
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-shield"></i>
+                </div>
+                <div class="perk-text">
+                    Säkra betalningar
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-face-smile"></i>
+                </div>
+                <div class="perk-text">
+                    Nyheter varje dag
+                </div>
+            </div>
+        </div>
+
+        <div class="accordions">
+             <div class="accordion-wrapper">
+                <button class="accordion">
+                    Shopping
+                </button>
+                <div class="panel">
+                    <p class="panel-item">Vinterjackor</p>
+                    <p class="panel-item">Pufferjackor</p>
+                    <p class="panel-item">Koppa</p>
+                    <p class="panel-item">Trenchcoats</p>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper">
+                <button class="accordion">
+                    Mina sidor
+                </button>
+                <div class="panel">
+                    <p class="panel-item">Mina Ordrar</p>
+                    <p class="panel-item">Mitt konto</p>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper">
+                <button class="accordion">
+                    Kundtjänst
+                </button>
+                <div class="panel">
+                    <p class="panel-item">Kontakta oss</p>
+                    <p class="panel-item">Hitta hit</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            &#169; FakeShop
+        </footer>
+    </div>
+     <script>
+        // Accordion funktionalitet
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+             if (window.matchMedia("(max-width: 639px)").matches) {
+                 acc[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                        panel.style.display = "none";
+                    } else {
+                        panel.style.display = "block";
+                    }
+                });
+            }
+        }
+
+        // Checkout funktionalitet
+        class CheckoutManager {
+            constructor() {
+                this.basketItems = this.loadBasket();
+                console.log('🛒 CheckoutManager initialiserad, varukorg:', this.basketItems);
+                this.init();
+            }
+
+            // Ladda varukorg från localStorage
+            loadBasket() {
+                const basket = localStorage.getItem('fakeShopBasket');
+                return basket ? JSON.parse(basket) : [];
+            }
+
+            // Räkna ut totaler
+            calculateTotals() {
+                const subtotal = this.basketItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const shipping = subtotal > 500 ? 0 : (subtotal > 0 ? 49 : 0);
+                const total = subtotal + shipping;
+                return { subtotal, shipping, total };
+            }
+
+            // Rendera varukorg i checkout
+            renderCheckoutSummary() {
+                const tableBody = document.querySelector('.cart-summary-table tbody');
+                const tableFoot = document.querySelector('.cart-summary-table tfoot');
+
+                if (this.basketItems.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="4">Din varukorg är tom</td></tr>';
+                    tableFoot.innerHTML = '<tr><td colspan="3">TOTALT</td><td>0 SEK</td></tr>';
+                    return;
+                }
+
+                // Rendera artiklar
+                tableBody.innerHTML = this.basketItems.map(item => `
+                    <tr>
+                        <td data-label="Produkt:">${item.name}<br><small>${item.brand}</small></td>
+                        <td data-label="Antal:">${item.quantity}</td>
+                        <td data-label="Pris:">${item.price} SEK</td>
+                        <td data-label="Totalt:">${item.price * item.quantity} SEK</td>
+                    </tr>
+                `).join('');
+
+                // Uppdatera totaler
+                const { subtotal, shipping, total } = this.calculateTotals();
+                tableFoot.innerHTML = `
+                    <tr>
+                        <td colspan="3">Delsumma</td>
+                        <td>${subtotal} SEK</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Frakt</td>
+                        <td>${shipping === 0 ? 'Gratis' : shipping + ' SEK'}</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td colspan="3">TOTALT</td>
+                        <td>${total} SEK</td>
+                    </tr>
+                `;
+            }
+
+            // Hantera form submission
+            async handleCheckout(event) {
+                console.log('📨 Form submission fångad av JavaScript');
+                
+                // Förhindra default form submission - VIKTIGT!
+                event.preventDefault();
+                event.stopPropagation();
+                
+                if (this.basketItems.length === 0) {
+                    alert('Din varukorg är tom!');
+                    return;
+                }
+
+                const form = event.target;
+                const formData = new FormData(form);
+                
+                // Visa loading state
+                const btnText = document.getElementById('btn-text');
+                const btnSpinner = document.getElementById('btn-spinner');
+                const submitBtn = document.getElementById('purchase-btn');
+                
+                btnText.style.display = 'none';
+                btnSpinner.style.display = 'inline';
+                submitBtn.disabled = true; // Förhindra flera klick
+                
+                try {
+                    // Skapa order data
+                    const orderData = {
+                        customer_name: `${formData.get('fnamn')} ${formData.get('enamn')}`,
+                        customer_email: formData.get('email'),
+                        customer_phone: formData.get('telefon') || '',
+                        shipping_address: `${formData.get('gata')}, ${formData.get('postnummer')} ${formData.get('stad')}`,
+                        payment_method: 'card',
+                        items: this.basketItems.map(item => ({
+                            id: item.id,
+                            name: item.name,
+                            brand: item.brand,
+                            quantity: item.quantity,
+                            price: item.price
+                        }))
+                    };
+
+                    console.log('🔄 Skickar order:', orderData);
+                    console.log('📊 Items detaljer:', JSON.stringify(orderData.items, null, 2));
+
+                    // Skicka order till API
+                    const response = await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(orderData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('✅ Order skapad:', result);
+
+                    // Rensa varukorg
+                    localStorage.removeItem('fakeShopBasket');
+
+                    // Omdirigera till bekräftelsesida
+                    window.location.href = `/order-confirmation.html?order=${result.order_id}`;
+
+                } catch (error) {
+                    console.error('❌ Fel vid checkout:', error);
+                    alert('Ett fel uppstod vid beställningen. Försök igen.');
+                    
+                    // Återställ knapp
+                    btnText.style.display = 'inline';
+                    btnSpinner.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            }
+
+            // Initiera
+            init() {
+                console.log('🔧 Initialiserar CheckoutManager...');
+                this.renderCheckoutSummary();
+                
+                // Lägg till event listener för form
+                const form = document.getElementById('checkout-form');
+                if (form) {
+                    console.log('✅ Form hittad, lägger till event listener');
+                    form.addEventListener('submit', (e) => this.handleCheckout(e));
+                    
+                    // Extra säkerhet - lyssna på submit-knappen också
+                    const submitBtn = document.getElementById('purchase-btn');
+                    if (submitBtn) {
+                        submitBtn.addEventListener('click', (e) => {
+                            console.log('🖱️ Submit-knapp klickad');
+                            // Låt den normala form submission hantera detta
+                        });
+                    }
+                } else {
+                    console.error('❌ Kunde inte hitta checkout-form!');
+                }
+            }
+        }
+
+        // Initiera när sidan laddas
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM laddad, startar CheckoutManager');
+            
+            // RENSA OCH LÄGG TILL NYA TESTPRODUKTER
+            console.log('🧹 Rensar befintlig varukorg för felsökning...');
+            localStorage.removeItem('fakeShopBasket');
+            
+            console.log('🛒 Lägger till nya testprodukter...');
+            const testItems = [
+                {
+                    id: 36,
+                    name: "Premium Kappa",
+                    brand: "Calvin Klein",
+                    price: 1299,
+                    quantity: 1,
+                    image_url: "/images/product.png"
+                },
+                {
+                    id: 5,
+                    name: "Hot Tröja",
+                    brand: "Tommy Hilfiger",
+                    price: 549,
+                    quantity: 2,
+                    image_url: "/images/product.png"
+                }
+            ];
+            localStorage.setItem('fakeShopBasket', JSON.stringify(testItems));
+            console.log('✅ Testprodukter tillagda:', testItems);
+            
+            new CheckoutManager();
+        });
+    </script>
+</body>
+</html>

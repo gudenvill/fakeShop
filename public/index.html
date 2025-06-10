@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeShop | Startsida</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="logotype">
+                <h1>logotype</h1>
+            </div>
+            <div class="actions">
+                <div class="search-bar">
+                    <input class="input" type="text" placeholder="Search products...">
+                    <button type="submit" aria-label="Search"> 
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" aria-label="Wishlist"> 
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="/basket.html" aria-label="Shopping Basket">
+                        <i class="fas fa-shopping-basket"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <ul class="navigation-list">
+            <li>Nyheter</li>
+            <li>Bästsäljare</li>
+            <li>Kvinnor</li>
+            <li>Män</li>
+        </ul>
+        <div class="hero">
+            <div class="hero-image">
+                <img src="./images/placeholder-hero.jpg" alt="heroPlaceholder">
+            </div>
+            <div class="hero-text">
+                <h2>
+                    Lorem ipsum dolor sit amet
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa
+                    nesciunt nihil aut nostrum explicabo.
+                </p>
+            </div>
+        </div>
+
+        <!-- Sökresultat text (ny sektion) -->
+        <div id="search-results-info" style="display: none; text-align: center; padding: 20px 0; font-size: 18px; color: #666; font-weight: 500;">
+            <!-- Sökresultat text visas här -->
+        </div>
+
+        <div class="products-wrapper" id="products-container">
+            <!-- Produkter laddas dynamiskt här -->
+            <div class="loading-message">Laddar produkter...</div>
+        </div>
+
+        <div class="perks-wrapper">
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </div>
+                <div class="perk-text">
+                    Gratis frakt och returer
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <div class="perk-text">
+                    Expressfrakt
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-shield"></i>
+                </div>
+                <div class="perk-text">
+                    Säkra betalningar
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-face-smile"></i>
+                </div>
+                <div class="perk-text">
+                    Nyheter varje dag
+                </div>
+            </div>
+        </div>
+
+        <div class="accordions">
+
+            <div class="accordion-wrapper">
+                <button class="accordion">
+                    Shopping
+                </button>
+                <div class="panel">
+                    <p class="panel-item">Vinterjackor</p>
+                    <p class="panel-item">Pufferjackor</p>
+                    <p class="panel-item">Koppa</p>
+                    <p class="panel-item">Trenchcoats</p>
+                </div>
+            </div>
+    
+            <div class="accordion-wrapper">
+                <button class="accordion">
+                    Mina sidor
+                </button>
+                <div class="panel">
+                    <p class="panel-item">Mina Ordrar</p>
+                    <p class="panel-item">Mitt konto</p>
+                </div>
+            </div>
+    
+            <div class="accordion-wrapper">
+                <button class="accordion">
+                    Kundtjänst
+                </button>
+                <div class="panel">
+                    <p class="panel-item">Kontakta oss</p>
+                    <p class="panel-item">Hitta hit</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            &#169; FakeShop
+        </footer>
+    </div>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                /* Toggle between adding and removing the "active" class,
+                to highlight the button that controls the panel */
+                this.classList.toggle("active");
+
+                /* Toggle between hiding and showing the active panel */
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+    <script>
+    let allProducts = []; // Lagra alla produkter för snabb filtrering
+    let currentSearchQuery = ''; // Håll koll på aktuell sökning
+
+    // Hämta produkter från API:et
+    async function fetchProducts() {
+        try {
+            console.log('🔄 Hämtar produkter från API...');
+            const response = await fetch('/api/products');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const products = await response.json();
+            console.log('✅ Produkter hämtade:', products.length);
+            
+            allProducts = products; // Spara för sökning
+            displayProducts(products);
+        } catch (error) {
+            console.error('❌ Fel vid hämtning av produkter:', error);
+            document.getElementById('products-container').innerHTML = 
+                '<div class="error-message">Kunde inte ladda produkter. Försök igen senare.</div>';
+        }
+    }
+
+    // Sök produkter lokalt (snabbare)
+    function searchProducts(query) {
+        currentSearchQuery = query;
+        
+        if (!query || query.trim() === '') {
+            hideSearchResults();
+            displayProducts(allProducts);
+            return;
+        }
+        
+        const searchTerm = query.toLowerCase().trim();
+        const filteredProducts = allProducts.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.brand.toLowerCase().includes(searchTerm) ||
+            (product.description && product.description.toLowerCase().includes(searchTerm))
+        );
+        
+        console.log(`🔍 Sökning "${query}" gav ${filteredProducts.length} resultat`);
+        showSearchResults(filteredProducts.length, query);
+        displayProducts(filteredProducts);
+    }
+
+    // Visa sökresultat information
+    function showSearchResults(count, query) {
+        const searchInfo = document.getElementById('search-results-info');
+        searchInfo.textContent = `Hittade ${count} produkter`;
+        searchInfo.style.display = 'block';
+    }
+
+    // Dölj sökresultat information
+    function hideSearchResults() {
+        const searchInfo = document.getElementById('search-results-info');
+        searchInfo.style.display = 'none';
+    }
+
+    // Kontrollera om en produkt är ny (skapad inom 7 dagar)
+    function isNewProduct(createdAt) {
+        const now = new Date();
+        const productDate = new Date(createdAt);
+        const daysDifference = Math.floor((now - productDate) / (1000 * 60 * 60 * 24));
+        
+        return daysDifference <= 7;
+    }
+
+    // Visa produkter på sidan
+    function displayProducts(products) {
+        const container = document.getElementById('products-container');
+        
+        if (products.length === 0) {
+            const message = currentSearchQuery 
+                ? `Inga produkter hittades för "${currentSearchQuery}"`
+                : 'Inga produkter hittades.';
+            container.innerHTML = `<div class="no-products">${message}</div>`;
+            return;
+        }
+        
+        // Skapa HTML för alla produkter
+        const productsHTML = products.map(product => {
+            const isNew = isNewProduct(product.created_at);
+            
+            return `
+                <div class="product-card" data-product-id="${product.id}" title="Klicka för att se detaljer">
+                    <div class="product-image">
+                        <img src="${product.image_url}" alt="${product.name}">
+                        <div class="product-overlay overlay-heart">
+                            &#x2764;
+                        </div>
+                        ${isNew ? '<div class="product-overlay overlay-banner">Nyhet</div>' : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-info-name">
+                            <h3>${product.name}</h3>
+                            <p>${product.brand}</p>
+                        </div>
+                        <div class="product-info-price">${product.price} SEK</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        container.innerHTML = productsHTML;
+        console.log('✅ Produkter visade på sidan');
+    }
+
+    // Hantera sökfunktionalitet
+    function setupSearch() {
+        const searchInput = document.querySelector('.search-bar .input');
+        const searchButton = document.querySelector('.search-bar button');
+        
+        // Sök medan användaren skriver (med fördröjning)
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchProducts(this.value);
+            }, 300); // Vänta 300ms efter användaren slutat skriva
+        });
+        
+        // Sök när knappen klickas
+        searchButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            searchProducts(searchInput.value);
+        });
+        
+        // Sök när Enter trycks
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchProducts(this.value);
+            }
+        });
+        
+        console.log('✅ Sökfunktionalitet aktiverad');
+    }
+
+    // Lägg till klickhändelse för produktkort
+    function addProductClickListeners() {
+        document.addEventListener('click', function(e) {
+            const productCard = e.target.closest('.product-card');
+            if (productCard) {
+                const productId = productCard.dataset.productId;
+                console.log('🖱️ Produkt klickad, ID:', productId);
+                // Navigera till produktsidan med produkt-ID
+                window.location.href = `/product-details.html?id=${productId}`;
+            }
+        });
+    }
+
+    // Kör när sidan har laddats
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📄 Sida laddad, hämtar produkter...');
+        fetchProducts();
+        setupSearch();
+        addProductClickListeners();
+    });
+    </script>
+</body>
+
+</html>

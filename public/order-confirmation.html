@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeShop | Orderbekräftelse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/confirmationStyles.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="logotype">
+                <h1><a href="/" style="text-decoration: none; color: inherit;">logotype</a></h1>
+            </div>
+            <div class="actions">
+                <div class="search-bar">
+                    <input class="input" type="text" placeholder="Sök produkter...">
+                    <button type="submit" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" aria-label="Wishlist">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="/basket.html" aria-label="Shopping Basket">
+                        <i class="fas fa-shopping-basket"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+        
+        <ul class="navigation-list">
+            <li><a href="/" style="text-decoration: none; color: inherit;">Hem</a></li>
+            <li>Nyheter</li>
+            <li>Bästsäljare</li>
+            <li>Kvinnor</li>
+            <li>Män</li>
+        </ul>
+
+        <main class="confirmation-main">
+            <!-- Laddningsmeddelande -->
+            <div id="loading" class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Bearbetar din order...</p>
+            </div>
+
+            <!-- Felmeddelande -->
+            <div id="error" class="error-container" style="display: none;">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                    <h2>Ett fel uppstod</h2>
+                    <p id="error-message">Kunde inte hitta orderinformation.</p>
+                    <div class="error-actions">
+                        <a href="/" class="btn-primary">Tillbaka till startsidan</a>
+                        <a href="/basket.html" class="btn-secondary">Visa varukorg</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orderbekräftelse -->
+            <div id="confirmation" class="confirmation-container" style="display: none;">
+                <div class="confirmation-header">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h1>Tack för din beställning!</h1>
+                    <p class="success-message">Din order har lagts och bekräftelse skickas till din e-post.</p>
+                </div>
+
+                <div class="order-summary">
+                    <div class="order-info">
+                        <h2>Orderinformation</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="label">Ordernummer:</span>
+                                <span class="value" id="order-number">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Datum:</span>
+                                <span class="value" id="order-date">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Kund:</span>
+                                <span class="value" id="customer-name">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">E-post:</span>
+                                <span class="value" id="customer-email">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Leveransadress:</span>
+                                <span class="value" id="shipping-address">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-items">
+                        <h2>Dina produkter</h2>
+                        <div class="items-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Produkt</th>
+                                        <th>Pris</th>
+                                        <th>Antal</th>
+                                        <th>Summa</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-items-list">
+                                    <!-- Order items will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="order-total">
+                        <div class="total-row">
+                            <span class="label">Totalt:</span>
+                            <span class="value total-amount" id="total-amount">0 SEK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="confirmation-actions">
+                    <a href="/" class="btn-primary">
+                        <i class="fas fa-home"></i>
+                        Fortsätt handla
+                    </a>
+                    <button class="btn-secondary" onclick="window.print()">
+                        <i class="fas fa-print"></i>
+                        Skriv ut kvitto
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <div class="perks-wrapper">
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </div>
+                <div class="perk-text">
+                    Gratis frakt och returer
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <div class="perk-text">
+                    Expressfrakt
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-shield"></i>
+                </div>
+                <div class="perk-text">
+                    Säkra betalningar
+                </div>
+            </div>
+            <div class="perk-item">
+                <div class="perk-icon">
+                    <i class="fa-solid fa-face-smile"></i>
+                </div>
+                <div class="perk-text">
+                    Nyheter varje dag
+                </div>
+            </div>
+        </div>
+
+        <div class="accordions">
+            <div class="accordion-wrapper">
+                <button class="accordion">Shopping</button>
+                <div class="panel">
+                    <p class="panel-item">Vinterjackor</p>
+                    <p class="panel-item">Pufferjackor</p>
+                    <p class="panel-item">Kappa</p>
+                    <p class="panel-item">Trenchcoats</p>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper">
+                <button class="accordion">Mina sidor</button>
+                <div class="panel">
+                    <p class="panel-item">Mina Ordrar</p>
+                    <p class="panel-item">Mitt konto</p>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper">
+                <button class="accordion">Kundtjänst</button>
+                <div class="panel">
+                    <p class="panel-item">Kontakta oss</p>
+                    <p class="panel-item">Hitta hit</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            &#169; FakeShop
+        </footer>
+    </div>
+
+    <script>
+        // Hämta order-ID från URL parametrar
+        function getOrderIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('order');
+        }
+
+        // Formatera datum
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('sv-SE', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Ladda orderinformation
+        async function loadOrderConfirmation() {
+            const orderId = getOrderIdFromUrl();
+            
+            if (!orderId) {
+                showError('Inget ordernummer specificerat.');
+                return;
+            }
+
+            try {
+                console.log('🔄 Hämtar orderbekräftelse för ID:', orderId);
+                const response = await fetch(`/api/orders/${orderId}`);
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        showError('Order hittades inte.');
+                        return;
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const order = await response.json();
+                console.log('✅ Orderdata hämtad:', order);
+                
+                displayOrderConfirmation(order);
+                
+            } catch (error) {
+                console.error('❌ Fel vid hämtning av orderbekräftelse:', error);
+                showError('Kunde inte ladda orderinformation. Försök igen senare.');
+            }
+        }
+
+        // Visa orderbekräftelse
+        function displayOrderConfirmation(order) {
+            // Uppdatera orderinformation
+            document.getElementById('order-number').textContent = order.order_number;
+            document.getElementById('order-date').textContent = formatDate(order.created_at);
+            document.getElementById('customer-name').textContent = order.customer_name;
+            document.getElementById('customer-email').textContent = order.customer_email;
+            document.getElementById('shipping-address').textContent = order.shipping_address;
+            document.getElementById('total-amount').textContent = `${order.total_amount} SEK`;
+            
+            // Visa order items
+            const itemsList = document.getElementById('order-items-list');
+            if (order.items && order.items.length > 0) {
+                const itemsHTML = order.items.map(item => `
+                    <tr>
+                        <td>
+                            <div class="item-info">
+                                <strong>${item.product_name}</strong>
+                                <br>
+                                <small>${item.product_brand}</small>
+                            </div>
+                        </td>
+                        <td>${item.price} SEK</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.subtotal} SEK</td>
+                    </tr>
+                `).join('');
+                
+                itemsList.innerHTML = itemsHTML;
+            } else {
+                itemsList.innerHTML = '<tr><td colspan="4">Inga produkter hittades</td></tr>';
+            }
+            
+            // Visa bekräftelse och dölja laddning
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('confirmation').style.display = 'block';
+            
+            // Rensa varukorgen efter lyckad order
+            localStorage.removeItem('fakeShopBasket');
+            
+            console.log('✅ Orderbekräftelse visad');
+        }
+
+        // Visa felmeddelande
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Accordion funktionalitet
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion
+            var acc = document.getElementsByClassName("accordion");
+            for (let i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                        panel.style.display = "none";
+                    } else {
+                        panel.style.display = "block";
+                    }
+                });
+            }
+            
+            // Ladda orderbekräftelse
+            loadOrderConfirmation();
+        });
+    </script>
+</body>
+
+</html> 

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration: Ny produkt</title>
+  <link rel="stylesheet" href="../../css/adminStyles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Administration</h2>
+      <nav>
+        <ul>
+          <li><a href="/admin/products/index.html">Produkter</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1>Ny produkt</h1>
+      
+      <div id="success-message" style="display: none; color: green; padding: 10px; margin-bottom: 20px; border: 1px solid green; background: #f0f8f0;">
+        Produkt skapad framgångsrikt!
+      </div>
+      
+      <div id="error-message" style="display: none; color: red; padding: 10px; margin-bottom: 20px; border: 1px solid red; background: #fff0f0;">
+        <!-- Felmeddelande visas här -->
+      </div>
+
+      <form id="product-form">
+        <label for="name">Namn *</label>
+        <input type="text" id="name" name="name" maxlength="50" required placeholder="Ange namn">
+
+        <label for="brand">Märke *</label>
+        <input type="text" id="brand" name="brand" maxlength="50" required placeholder="Ange märke">
+
+        <label for="description">Beskrivning</label>
+        <textarea id="description" name="description" rows="4" placeholder="Ange beskrivning"></textarea>
+
+        <label for="sku">SKU *</label>
+        <input type="text" id="sku" name="sku" pattern="[A-Z]{3}[0-9]{3}" required placeholder="Ange SKU (t.ex. ABC123)">
+
+        <label for="price">Pris *</label>
+        <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="Ange pris">
+
+        <label for="stock_quantity">Lagersaldo</label>
+        <input type="number" id="stock_quantity" name="stock_quantity" min="0" value="0" placeholder="Antal i lager">
+
+        <fieldset>
+          <legend>Kategori</legend>
+          <label><input type="radio" name="category" value="tshirts" checked> T-Shirts</label><br>
+          <label><input type="radio" name="category" value="sommar"> Sommar</label><br>
+          <label><input type="radio" name="category" value="byxor"> Byxor</label><br>
+          <label><input type="radio" name="category" value="skor"> Skor</label><br>
+          <label><input type="radio" name="category" value="vinterjackor"> Vinterjackor</label><br>
+          <label><input type="radio" name="category" value="kjolar"> Kjolar</label>
+        </fieldset>
+
+        <button type="submit" class="button" id="submit-btn">Lägg till produkt</button>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    // Hantera formulär för ny produkt
+    document.getElementById('product-form').addEventListener('submit', async function(e) {
+      e.preventDefault(); // Förhindra normal form submission
+      
+      const submitBtn = document.getElementById('submit-btn');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      
+      // Dölj tidigare meddelanden
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      
+      // Inaktivera knappen under skickning
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Skapar produkt...';
+      
+      try {
+        // Samla formulärdata
+        const formData = new FormData(this);
+        const category = formData.get('category');
+        
+        const productData = {
+          name: formData.get('name'),
+          brand: formData.get('brand'),
+          description: formData.get('description') || '',
+          price: parseFloat(formData.get('price')),
+          sku: formData.get('sku'),
+          image_url: '/images/product.png', // Använd samma bild för alla
+          category: category,
+          stock_quantity: parseInt(formData.get('stock_quantity')) || 0
+        };
+        
+        console.log('📤 Skickar produktdata:', productData);
+        
+        // Skicka till API
+        const response = await fetch('/api/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(productData)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(result.error || `HTTP error! status: ${response.status}`);
+        }
+        
+        console.log('✅ Produkt skapad:', result);
+        
+        // Visa framgångsmeddelande
+        successMessage.style.display = 'block';
+        
+        // Rensa formuläret
+        this.reset();
+        
+        // Scroll till toppen för att visa meddelandet
+        window.scrollTo(0, 0);
+        
+      } catch (error) {
+        console.error('❌ Fel vid skapande av produkt:', error);
+        errorMessage.textContent = error.message;
+        errorMessage.style.display = 'block';
+        window.scrollTo(0, 0);
+      } finally {
+        // Återställ knappen
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Lägg till produkt';
+      }
+    });
+  </script>
+</body>
+</html>
