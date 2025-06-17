@@ -1,50 +1,73 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+  <!-- Meta-taggar för dokumenttyp och språk -->
   <meta charset="UTF-8">
+  
+  <!-- Sidans titel som visas i webbläsarens flik -->
   <title>Administration: Ny produkt</title>
+  
+  <!-- CSS för admin-gränssnittet -->
   <link rel="stylesheet" href="../../css/adminStyles.css">
 </head>
 <body>
+  <!-- HUVUDCONTAINER FÖR ADMIN-GRÄNSSNITTET -->
   <div class="admin-container">
+    
+    <!-- SIDEBAR: Navigeringsmeny för admin-funktioner -->
     <aside class="sidebar">
       <h2>Administration</h2>
+      <!-- Navigeringsmeny för olika admin-sektioner -->
       <nav>
         <ul>
+          <!-- Länk tillbaka till produktlistan -->
           <li><a href="/admin/products/index.html">Produkter</a></li>
         </ul>
       </nav>
     </aside>
+    
+    <!-- HUVUDINNEHÅLL: Formulär för att skapa ny produkt -->
     <main class="main-content">
       <h1>Ny produkt</h1>
       
+      <!-- FRAMGÅNGSMEDDELANDE: Visas när produkten skapats -->
       <div id="success-message" style="display: none; color: green; padding: 10px; margin-bottom: 20px; border: 1px solid green; background: #f0f8f0;">
         Produkt skapad framgångsrikt!
       </div>
       
+      <!-- FELMEDDELANDE: Visas vid problem med att skapa produkten -->
       <div id="error-message" style="display: none; color: red; padding: 10px; margin-bottom: 20px; border: 1px solid red; background: #fff0f0;">
-        <!-- Felmeddelande visas här -->
+        <!-- Felmeddelande visas här dynamiskt av JavaScript -->
       </div>
 
+      <!-- PRODUKTFORMULÄR: Alla fält för att skapa en ny produkt -->
       <form id="product-form">
+        
+        <!-- PRODUKTNAMN: Obligatoriskt fält -->
         <label for="name">Namn *</label>
         <input type="text" id="name" name="name" maxlength="50" required placeholder="Ange namn">
 
+        <!-- PRODUKTMÄRKE: Obligatoriskt fält -->
         <label for="brand">Märke *</label>
         <input type="text" id="brand" name="brand" maxlength="50" required placeholder="Ange märke">
 
+        <!-- PRODUKTBESKRIVNING: Valfritt fält -->
         <label for="description">Beskrivning</label>
         <textarea id="description" name="description" rows="4" placeholder="Ange beskrivning"></textarea>
 
+        <!-- SKU (ARTIKELNUMMER): Obligatoriskt med specifikt format -->
         <label for="sku">SKU *</label>
         <input type="text" id="sku" name="sku" pattern="[A-Z]{3}[0-9]{3}" required placeholder="Ange SKU (t.ex. ABC123)">
 
+        <!-- PRODUKTPRIS: Obligatoriskt, tillåter decimaler -->
         <label for="price">Pris *</label>
         <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="Ange pris">
 
+        <!-- LAGERSALDO: Valfritt, standardvärde 0 -->
         <label for="stock_quantity">Lagersaldo</label>
         <input type="number" id="stock_quantity" name="stock_quantity" min="0" value="0" placeholder="Antal i lager">
 
+        <!-- KATEGORIVAL: Radio buttons för olika produktkategorier -->
         <fieldset>
           <legend>Kategori</legend>
           <label><input type="radio" name="category" value="tshirts" checked> T-Shirts</label><br>
@@ -55,47 +78,73 @@
           <label><input type="radio" name="category" value="kjolar"> Kjolar</label>
         </fieldset>
 
+        <!-- SUBMIT-KNAPP: Skickar formuläret -->
         <button type="submit" class="button" id="submit-btn">Lägg till produkt</button>
       </form>
     </main>
   </div>
 
+  <!-- JAVASCRIPT-SEKTION: All funktionalitet för att skapa nya produkter -->
   <script>
-    // Hantera formulär för ny produkt
+    // ====================================================================
+    // FORMULÄRHANTERING: SKAPA NY PRODUKT
+    // ====================================================================
+    
+    /**
+     * Event listener för formulärinlämning
+     * Hanterar API-kommunikation för att skapa ny produkt
+     */
     document.getElementById('product-form').addEventListener('submit', async function(e) {
-      e.preventDefault(); // Förhindra normal form submission
+      console.log('📝 Formulär för ny produkt skickat');
       
+      // VIKTIGT: Förhindra webbläsarens standard form submission
+      e.preventDefault();
+      
+      // Hämta referenser till UI-element
       const submitBtn = document.getElementById('submit-btn');
       const successMessage = document.getElementById('success-message');
       const errorMessage = document.getElementById('error-message');
+      
+      // ================================================================
+      // FÖRBEREDA UI FÖR SKICKNING
+      // ================================================================
       
       // Dölj tidigare meddelanden
       successMessage.style.display = 'none';
       errorMessage.style.display = 'none';
       
-      // Inaktivera knappen under skickning
+      // Inaktivera knappen under skickning för att förhindra dubbelklick
       submitBtn.disabled = true;
       submitBtn.textContent = 'Skapar produkt...';
       
       try {
-        // Samla formulärdata
+        // ============================================================
+        // SAMLA FORMULÄRDATA
+        // ============================================================
+        
+        // Skapa FormData-objekt från formuläret
         const formData = new FormData(this);
         const category = formData.get('category');
         
+        // Skapa produktobjekt med all data
         const productData = {
-          name: formData.get('name'),
-          brand: formData.get('brand'),
-          description: formData.get('description') || '',
-          price: parseFloat(formData.get('price')),
-          sku: formData.get('sku'),
-          image_url: '/images/product.png', // Använd samma bild för alla
-          category: category,
-          stock_quantity: parseInt(formData.get('stock_quantity')) || 0
+          name: formData.get('name'),                               // Produktnamn
+          brand: formData.get('brand'),                             // Märke
+          description: formData.get('description') || '',           // Beskrivning (tom sträng om saknas)
+          price: parseFloat(formData.get('price')),                 // Pris som decimaltal
+          sku: formData.get('sku'),                                 // Artikelnummer
+          image_url: '/images/product.png',                         // Standardbild för alla produkter
+          category: category,                                       // Vald kategori
+          stock_quantity: parseInt(formData.get('stock_quantity')) || 0  // Lagersaldo (0 som standard)
         };
         
         console.log('📤 Skickar produktdata:', productData);
         
-        // Skicka till API
+        // ============================================================
+        // SKICKA API-REQUEST
+        // ============================================================
+        
+        // Skicka POST-request till produkter-API:et
         const response = await fetch('/api/products', {
           method: 'POST',
           headers: {
@@ -104,30 +153,49 @@
           body: JSON.stringify(productData)
         });
         
+        // Parsea JSON-svaret från servern
         const result = await response.json();
         
+        // Kontrollera om requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(result.error || `HTTP error! status: ${response.status}`);
         }
         
         console.log('✅ Produkt skapad:', result);
         
+        // ============================================================
+        // HANTERA FRAMGÅNGSRIKT SVAR
+        // ============================================================
+        
         // Visa framgångsmeddelande
         successMessage.style.display = 'block';
         
-        // Rensa formuläret
+        // Rensa formuläret för nästa produkt
         this.reset();
         
         // Scroll till toppen för att visa meddelandet
         window.scrollTo(0, 0);
         
       } catch (error) {
+        // ============================================================
+        // FELHANTERING
+        // ============================================================
+        
         console.error('❌ Fel vid skapande av produkt:', error);
+        
+        // Visa felmeddelande för användaren
         errorMessage.textContent = error.message;
         errorMessage.style.display = 'block';
+        
+        // Scroll till toppen för att visa felmeddelandet
         window.scrollTo(0, 0);
+        
       } finally {
-        // Återställ knappen
+        // ============================================================
+        // ÅTERSTÄLL UI EFTER SKICKNING
+        // ============================================================
+        
+        // Återställ knappen oavsett om det gick bra eller dåligt
         submitBtn.disabled = false;
         submitBtn.textContent = 'Lägg till produkt';
       }

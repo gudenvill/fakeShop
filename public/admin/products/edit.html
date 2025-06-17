@@ -1,56 +1,81 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+  <!-- Meta-taggar för dokumenttyp och språk -->
   <meta charset="UTF-8">
+  
+  <!-- Sidans titel som visas i webbläsarens flik -->
   <title>Administration: Redigera produkt</title>
+  
+  <!-- CSS för admin-gränssnittet -->
   <link rel="stylesheet" href="../../css/adminStyles.css">
 </head>
 <body>
+  <!-- HUVUDCONTAINER FÖR ADMIN-GRÄNSSNITTET -->
   <div class="admin-container">
+    
+    <!-- SIDEBAR: Navigeringsmeny för admin-funktioner -->
     <aside class="sidebar">
       <h2>Administration</h2>
+      <!-- Navigeringsmeny för olika admin-sektioner -->
       <nav>
         <ul>
+          <!-- Länk tillbaka till produktlistan -->
           <li><a href="/admin/products/index.html">Produkter</a></li>
         </ul>
       </nav>
     </aside>
+    
+    <!-- HUVUDINNEHÅLL: Formulär för att redigera produkt -->
     <main class="main-content">
+      <!-- Dynamisk rubrik som uppdateras med produktnamn -->
       <h1 id="page-title">Redigera produkt</h1>
       
+      <!-- LADDNINGSTILLSTÅND: Visas medan produktdata hämtas -->
       <div id="loading" style="text-align: center; padding: 20px;">
         Laddar produktdata...
       </div>
       
+      <!-- FRAMGÅNGSMEDDELANDE: Visas när produkten uppdaterats -->
       <div id="success-message" style="display: none; color: green; padding: 10px; margin-bottom: 20px; border: 1px solid green; background: #f0f8f0;">
         Produkt uppdaterad framgångsrikt!
       </div>
       
+      <!-- FELMEDDELANDE: Visas vid problem med att uppdatera produkten -->
       <div id="error-message" style="display: none; color: red; padding: 10px; margin-bottom: 20px; border: 1px solid red; background: #fff0f0;">
-        <!-- Felmeddelande visas här -->
+        <!-- Felmeddelande visas här dynamiskt av JavaScript -->
       </div>
 
+      <!-- REDIGERINGSFORMULÄR: Alla fält för att uppdatera produkten -->
       <form id="edit-product-form" style="display: none;">
+        <!-- Dolt fält som håller produkt-ID -->
         <input type="hidden" id="product-id" name="product-id">
         
+        <!-- PRODUKTNAMN: Obligatoriskt fält -->
         <label for="name">Namn *</label>
         <input type="text" id="name" name="name" maxlength="50" required placeholder="Ange namn">
 
+        <!-- PRODUKTMÄRKE: Obligatoriskt fält -->
         <label for="brand">Märke *</label>
         <input type="text" id="brand" name="brand" maxlength="50" required placeholder="Ange märke">
 
+        <!-- PRODUKTBESKRIVNING: Valfritt fält -->
         <label for="description">Beskrivning</label>
         <textarea id="description" name="description" rows="4" placeholder="Ange beskrivning"></textarea>
 
+        <!-- SKU (ARTIKELNUMMER): Obligatoriskt med specifikt format -->
         <label for="sku">SKU *</label>
         <input type="text" id="sku" name="sku" pattern="[A-Z]{3}[0-9]{3}" required placeholder="Ange SKU (t.ex. ABC123)">
 
+        <!-- PRODUKTPRIS: Obligatoriskt, tillåter decimaler -->
         <label for="price">Pris *</label>
         <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="Ange pris">
 
+        <!-- LAGERSALDO: Valfritt fält -->
         <label for="stock_quantity">Lagersaldo</label>
         <input type="number" id="stock_quantity" name="stock_quantity" min="0" placeholder="Antal i lager">
 
+        <!-- KATEGORIVAL: Radio buttons för olika produktkategorier -->
         <fieldset>
           <legend>Kategori</legend>
           <label><input type="radio" name="category" value="tshirts"> T-Shirts</label><br>
@@ -61,12 +86,14 @@
           <label><input type="radio" name="category" value="kjolar"> Kjolar</label>
         </fieldset>
 
+        <!-- PRODUKTSTATUS: Aktiv/inaktiv dropdown -->
         <label for="is_active">Status</label>
         <select id="is_active" name="is_active">
           <option value="1">Aktiv</option>
           <option value="0">Inaktiv</option>
         </select>
 
+        <!-- HANDLINGSKNAPPAR: Uppdatera eller avbryt -->
         <div style="margin-top: 20px;">
           <button type="submit" class="button" id="submit-btn">Uppdatera produkt</button>
           <a href="/admin/products/index.html" class="button" style="background-color: gray; margin-left: 10px;">Avbryt</a>
@@ -75,20 +102,46 @@
     </main>
   </div>
 
+  <!-- JAVASCRIPT-SEKTION: All funktionalitet för produktredigering -->
   <script>
+    // Global variabel för att hålla aktuellt produkt-ID
     let productId = null;
 
-    // Hämta produkt-ID från URL parametrar
+    // ====================================================================
+    // URL-PARAMETERHANTERING: HÄMTA PRODUKT-ID FRÅN URL
+    // ====================================================================
+    
+    /**
+     * Hämta produkt-ID från URL:s query parameters
+     * URL-format: /admin/products/edit.html?id=123
+     * @returns {string|null} Produkt-ID eller null om inte finns
+     */
     function getProductIdFromUrl() {
+      // Skapa URLSearchParams-objekt för att hantera query parameters
       const urlParams = new URLSearchParams(window.location.search);
+      
+      // Hämta 'id'-parametern från URL:en
       return urlParams.get('id');
     }
 
-    // Hämta produktdata från API
+    // ====================================================================
+    // API-KOMMUNIKATION: HÄMTA PRODUKTDATA FRÅN SERVERN
+    // ====================================================================
+    
+    /**
+     * Hämta produktdata från API:et och populera formuläret
+     * Hanterar URL-validering, API-kommunikation och felhantering
+     */
     async function loadProduct() {
+      // Hämta produkt-ID från URL
       productId = getProductIdFromUrl();
       
+      // ================================================================
+      // VALIDERA PRODUKT-ID
+      // ================================================================
+      
       if (!productId) {
+        console.log('❌ Inget produkt-ID i URL');
         document.getElementById('error-message').textContent = 'Inget produkt-ID angivet';
         document.getElementById('error-message').style.display = 'block';
         document.getElementById('loading').style.display = 'none';
@@ -97,8 +150,15 @@
 
       try {
         console.log('🔄 Hämtar produktdata för ID:', productId);
+        
+        // ============================================================
+        // SKICKA API-REQUEST
+        // ============================================================
+        
+        // Skicka GET-request till specifik produkt
         const response = await fetch(`/api/products/${productId}`);
         
+        // Kontrollera HTTP-status
         if (!response.ok) {
           if (response.status === 404) {
             throw new Error('Produkten hittades inte');
@@ -106,22 +166,51 @@
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        // Parsea JSON-svaret
         const product = await response.json();
         console.log('✅ Produktdata hämtad:', product);
         
+        // ============================================================
+        // POPULERA FORMULÄRET
+        // ============================================================
+        
+        // Fyll formuläret med produktdata
         populateForm(product);
         
       } catch (error) {
+        // ============================================================
+        // FELHANTERING
+        // ============================================================
+        
         console.error('❌ Fel vid hämtning av produktdata:', error);
+        
+        // Visa felmeddelande och dölj laddning
         document.getElementById('error-message').textContent = error.message;
         document.getElementById('error-message').style.display = 'block';
         document.getElementById('loading').style.display = 'none';
       }
     }
 
-    // Fyll formuläret med produktdata
+    // ====================================================================
+    // FORMULÄRPOPULERING: FYLL FORMULÄRET MED PRODUKTDATA
+    // ====================================================================
+    
+    /**
+     * Fyll formuläret med produktdata från API:et
+     * Uppdaterar alla fält med befintliga värden
+     * @param {Object} product - Produktobjekt från API:et
+     */
     function populateForm(product) {
+      console.log('📝 Populerar formulär med produktdata');
+      
+      // ================================================================
+      // UPPDATERA RUBRIK OCH GRUNDFÄLT
+      // ================================================================
+      
+      // Uppdatera sidans rubrik med produktnamn
       document.getElementById('page-title').textContent = `Redigera: ${product.name}`;
+      
+      // Fyll alla textfält med produktdata
       document.getElementById('product-id').value = product.id;
       document.getElementById('name').value = product.name;
       document.getElementById('brand').value = product.brand;
@@ -131,24 +220,52 @@
       document.getElementById('stock_quantity').value = product.stock_quantity;
       document.getElementById('is_active').value = product.is_active;
       
-      // Sätt rätt kategori-radio button
+      // ================================================================
+      // SÄTT KATEGORI-RADIOBUTTON
+      // ================================================================
+      
+      // Hitta och markera rätt kategori-radio button
       const categoryRadio = document.querySelector(`input[name="category"][value="${product.category}"]`);
       if (categoryRadio) {
         categoryRadio.checked = true;
+        console.log('✅ Kategori satt till:', product.category);
+      } else {
+        console.log('⚠️ Kunde inte hitta kategori:', product.category);
       }
       
-      // Visa formuläret
+      // ================================================================
+      // VISA FORMULÄRET
+      // ================================================================
+      
+      // Dölj laddning och visa formuläret
       document.getElementById('loading').style.display = 'none';
       document.getElementById('edit-product-form').style.display = 'block';
+      
+      console.log('✅ Formulär populerat och visat');
     }
 
-    // Hantera formulär för uppdatering av produkt
+    // ====================================================================
+    // FORMULÄRHANTERING: UPPDATERA PRODUKT
+    // ====================================================================
+    
+    /**
+     * Event listener för formulärinlämning
+     * Hanterar API-kommunikation för att uppdatera produkten
+     */
     document.getElementById('edit-product-form').addEventListener('submit', async function(e) {
+      console.log('📝 Formulär för produktuppdatering skickat');
+      
+      // VIKTIGT: Förhindra webbläsarens standard form submission
       e.preventDefault();
       
+      // Hämta referenser till UI-element
       const submitBtn = document.getElementById('submit-btn');
       const successMessage = document.getElementById('success-message');
       const errorMessage = document.getElementById('error-message');
+      
+      // ================================================================
+      // FÖRBEREDA UI FÖR SKICKNING
+      // ================================================================
       
       // Dölj tidigare meddelanden
       successMessage.style.display = 'none';
@@ -159,25 +276,34 @@
       submitBtn.textContent = 'Uppdaterar...';
       
       try {
-        // Samla formulärdata
+        // ============================================================
+        // SAMLA FORMULÄRDATA
+        // ============================================================
+        
+        // Skapa FormData-objekt från formuläret
         const formData = new FormData(this);
         const category = formData.get('category');
         
+        // Skapa uppdaterat produktobjekt
         const productData = {
-          name: formData.get('name'),
-          brand: formData.get('brand'),
-          description: formData.get('description') || '',
-          price: parseFloat(formData.get('price')),
-          sku: formData.get('sku'),
-          image_url: '/images/product.png', // Behåll samma bild
-          category: category,
-          stock_quantity: parseInt(formData.get('stock_quantity')) || 0,
-          is_active: parseInt(formData.get('is_active'))
+          name: formData.get('name'),                               // Produktnamn
+          brand: formData.get('brand'),                             // Märke
+          description: formData.get('description') || '',           // Beskrivning
+          price: parseFloat(formData.get('price')),                 // Pris som decimaltal
+          sku: formData.get('sku'),                                 // Artikelnummer
+          image_url: '/images/product.png',                         // Behåll samma standardbild
+          category: category,                                       // Vald kategori
+          stock_quantity: parseInt(formData.get('stock_quantity')) || 0,  // Lagersaldo
+          is_active: parseInt(formData.get('is_active'))            // Aktivitetsstatus
         };
         
         console.log('📤 Skickar uppdaterad produktdata:', productData);
         
-        // Skicka till API
+        // ============================================================
+        // SKICKA API-REQUEST
+        // ============================================================
+        
+        // Skicka PUT-request för att uppdatera produkten
         const response = await fetch(`/api/products/${productId}`, {
           method: 'PUT',
           headers: {
@@ -186,32 +312,65 @@
           body: JSON.stringify(productData)
         });
         
+        // Parsea JSON-svaret
         const result = await response.json();
         
+        // Kontrollera om requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(result.error || `HTTP error! status: ${response.status}`);
         }
         
         console.log('✅ Produkt uppdaterad:', result);
         
+        // ============================================================
+        // HANTERA FRAMGÅNGSRIKT SVAR
+        // ============================================================
+        
         // Visa framgångsmeddelande
         successMessage.style.display = 'block';
+        
+        // Scroll till toppen för att visa meddelandet
         window.scrollTo(0, 0);
         
       } catch (error) {
+        // ============================================================
+        // FELHANTERING
+        // ============================================================
+        
         console.error('❌ Fel vid uppdatering av produkt:', error);
+        
+        // Visa felmeddelande
         errorMessage.textContent = error.message;
         errorMessage.style.display = 'block';
+        
+        // Scroll till toppen för att visa felmeddelandet
         window.scrollTo(0, 0);
+        
       } finally {
-        // Återställ knappen
+        // ============================================================
+        // ÅTERSTÄLL UI EFTER SKICKNING
+        // ============================================================
+        
+        // Återställ knappen oavsett resultat
         submitBtn.disabled = false;
         submitBtn.textContent = 'Uppdatera produkt';
       }
     });
 
-    // Ladda produktdata när sidan laddas
-    document.addEventListener('DOMContentLoaded', loadProduct);
+    // ====================================================================
+    // HUVUDINITIALISERING: STARTA ALLT NÄR DOM:EN ÄR LADDAD
+    // ====================================================================
+    
+    /**
+     * DOMContentLoaded event listener som initialiserar sidan
+     * Startar produktdataladdning när allt är redo
+     */
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 Admin produktredigering laddad, hämtar produktdata...');
+      
+      // Starta produktdataladdning
+      loadProduct();
+    });
   </script>
 </body>
 </html>

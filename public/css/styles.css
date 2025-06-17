@@ -1,203 +1,295 @@
+/* ============================================================================
+   FAKESHOP - HUVUDSTYLMALL (STYLES.CSS)
+   ============================================================================
+   Detta är huvudstylmallen för FakeShop e-handelsapplikationen som innehåller:
+   - CSS Reset och grundläggande styling
+   - CSS Custom Properties (variabler) för konsekvent design
+   - Layout för header, navigation, produkter och footer
+   - Responsiv design för mobil, tablet och desktop
+   - Accordion-funktionalitet för mobil navigation
+   - Produktkort och grid-layout
+   - Hover-effekter och transitions
+   ============================================================================ */
+
+/* ============================================================================
+   CSS RESET - NORMALISERA WEBBLÄSARSKILLNADER
+   ============================================================================ */
+
+/* Universal selector som nollställer margin, padding och sätter box-sizing
+   Detta säkerställer konsekvent beteende mellan olika webbläsare */
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;    /* Inkludera padding och border i elementets totala bredd/höjd */
+    margin: 0;                 /* Ta bort all standard margin */
+    padding: 0;                /* Ta bort all standard padding */
 }
 
+/* ============================================================================
+   CSS CUSTOM PROPERTIES (VARIABLER) - DESIGNSYSTEM
+   ============================================================================ */
+
+/* Root-element där vi definierar alla designvariabler för konsekvent styling
+   Dessa variabler kan användas överallt i CSS:en med var(--variabelnamn) */
 :root {
-    --mainpadding: 10px;
-    --text-color: #333;
-    --text-light: #555;
-    --border-color: #eee;
-    --background-light: #f9f9f9;
-    --background-white: #fff;
-    --shadow-light: rgba(0, 0, 0, 0.05);
-    --shadow-medium: rgba(0, 0, 0, 0.1);
+    /* Avstånd och spacing */
+    --mainpadding: 10px;                    /* Huvudavstånd som används genomgående */
+    
+    /* Färgpalett för text */
+    --text-color: #333;                     /* Huvudtextfärg (mörk grå) */
+    --text-light: #555;                     /* Ljusare textfärg för sekundär text */
+    
+    /* Färgpalett för gränser och bakgrunder */
+    --border-color: #eee;                   /* Ljus grå för gränser */
+    --background-light: #f9f9f9;            /* Mycket ljus grå bakgrund */
+    --background-white: #fff;               /* Ren vit bakgrund */
+    
+    /* Skuggor för djupeffekt */
+    --shadow-light: rgba(0, 0, 0, 0.05);    /* Mycket subtil skugga */
+    --shadow-medium: rgba(0, 0, 0, 0.1);    /* Medium skugga för hover-effekter */
 }
 
+/* ============================================================================
+   GRUNDLÄGGANDE BODY-STYLING
+   ============================================================================ */
+
+/* Body-element som sätter grundläggande typografi och layout för hela sidan */
 body {
+    /* Modern systemfont-stack som använder operativsystemets standardfont */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: var(--text-color);
-    background-color: var(--background-white);
-    line-height: 1.6;
+    color: var(--text-color);              /* Använd huvudtextfärg från variabler */
+    background-color: var(--background-white); /* Vit bakgrund */
+    line-height: 1.6;                      /* Luftig radavstånd för bättre läsbarhet */
 }
 
+/* ============================================================================
+   HUVUDLAYOUT - WRAPPER OCH CONTAINER
+   ============================================================================ */
+
+/* Huvudwrapper som centrerar innehållet och sätter maxbredd */
 .wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--mainpadding);
-    width: 100%;
+    max-width: 1200px;                     /* Maximal bredd för desktop */
+    margin: 0 auto;                        /* Centrera horisontellt */
+    padding: var(--mainpadding);           /* Padding runt hela innehållet */
+    width: 100%;                           /* Ta upp full tillgänglig bredd */
 }
 
+/* ============================================================================
+   HEADER-SEKTION - LOGOTYP OCH NAVIGATIONSVERKTYG
+   ============================================================================ */
+
+/* Header-container som innehåller logotyp och handlingsverktyg */
 .header {
-    padding: var(--mainpadding);
-    display: flex;
-    flex-direction: column;
-    gap: var(--mainpadding);
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: calc(var(--mainpadding) * 2);
-    align-items: center;
+    padding: var(--mainpadding);           /* Inre avstånd */
+    display: flex;                         /* Flexbox för layout */
+    flex-direction: column;                /* Stapla element vertikalt på mobil */
+    gap: var(--mainpadding);               /* Avstånd mellan flex-items */
+    border-bottom: 1px solid var(--border-color); /* Subtil nedre gräns */
+    margin-bottom: calc(var(--mainpadding) * 2);  /* Dubbelt avstånd under header */
+    align-items: center;                   /* Centrera innehåll horisontellt */
 }
 
+/* Logotyp-styling */
 .logotype h1 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #222;
-    margin: 0;
-    padding: calc(var(--mainpadding) / 2) 0;
+    font-size: 1.8rem;                     /* Stor textstorlek för logotyp */
+    font-weight: bold;                     /* Fet text */
+    color: #222;                           /* Mörkare färg än vanlig text */
+    margin: 0;                             /* Ta bort standard margin */
+    padding: calc(var(--mainpadding) / 2) 0; /* Vertikal padding */
 }
 
+/* ============================================================================
+   HANDLINGSOMRÅDE - SÖKFÄLT OCH KNAPPAR
+   ============================================================================ */
+
+/* Container för sökfält och handlingsknappar */
 .actions {
-    display: flex;
-    flex-direction: row;
-    gap: var(--mainpadding);
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+    display: flex;                         /* Flexbox för horisontell layout */
+    flex-direction: row;                   /* Placera items horisontellt */
+    gap: var(--mainpadding);               /* Avstånd mellan items */
+    justify-content: space-between;        /* Fördela utrymme jämnt */
+    align-items: center;                   /* Centrera vertikalt */
+    width: 100%;                           /* Ta upp full bredd */
 }
 
+/* ============================================================================
+   SÖKFÄLT-STYLING
+   ============================================================================ */
+
+/* Sökfält-container */
 .search-bar {
-    display: flex;
-    flex-grow: 1;
-    max-width: 450px;
+    display: flex;                         /* Flexbox för input + knapp */
+    flex-grow: 1;                          /* Ta upp tillgängligt utrymme */
+    max-width: 450px;                      /* Maxbredd för att inte bli för bred */
 }
 
+/* Sökfält input-element */
 .search-bar .input {
-    flex-grow: 1;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-right: none;
-    font-size: 0.95rem;
-    border-radius: 4px 0 0 4px;
-    outline: none;
+    flex-grow: 1;                          /* Ta upp resterande utrymme */
+    padding: 8px 12px;                     /* Inre avstånd för komfort */
+    border: 1px solid #ccc;                /* Grå gräns */
+    border-right: none;                    /* Ta bort höger gräns (ansluter till knapp) */
+    font-size: 0.95rem;                    /* Lämplig textstorlek */
+    border-radius: 4px 0 0 4px;            /* Rundade hörn endast på vänster sida */
+    outline: none;                         /* Ta bort standard focus-outline */
 }
+
+/* Focus-state för sökfält (när användaren klickar i det) */
 .search-bar .input:focus {
-    border-color: #aaa;
+    border-color: #aaa;                    /* Mörkare gräns vid focus */
 }
 
-
+/* Sökknapp-styling */
 .search-bar button {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    background-color: var(--background-light);
-    cursor: pointer;
-    color: var(--text-light);
-    border-radius: 0 4px 4px 0;
-    transition: background-color 0.2s ease;
+    padding: 8px 12px;                     /* Samma padding som input */
+    border: 1px solid #ccc;                /* Matchande gräns */
+    background-color: var(--background-light); /* Ljus bakgrund */
+    cursor: pointer;                       /* Visa att det är klickbart */
+    color: var(--text-light);              /* Grå textfärg */
+    border-radius: 0 4px 4px 0;            /* Rundade hörn endast på höger sida */
+    transition: background-color 0.2s ease; /* Mjuk övergång vid hover */
 }
 
+/* Hover-effekt för sökknapp */
 .search-bar button:hover {
-    background-color: #e7e7e7;
+    background-color: #e7e7e7;            /* Mörkare bakgrund vid hover */
 }
 
+/* ============================================================================
+   HANDLINGSKNAPPAR - ÖNSKELISTA OCH VARUKORG
+   ============================================================================ */
 
+/* Container för handlingsknappar (hjärta och varukorg) */
 .action-buttons {
-    display: flex;
-    flex-direction: row;
-    gap: var(--mainpadding);
-    align-items: center;
+    display: flex;                         /* Flexbox för layout */
+    flex-direction: row;                   /* Horisontell layout */
+    gap: var(--mainpadding);               /* Avstånd mellan knappar */
+    align-items: center;                   /* Centrera vertikalt */
 }
 
-/* Base styles for all action links */
+/* Grundläggande styling för alla handlingslänkar */
 .action-buttons a {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    color: #555 !important;         /* Force gray as default */
-    cursor: pointer;
-    padding: 5px;
-    text-decoration: none;
-    transition: color 0.15s ease;   /* Shorter transition */
+    background: none;                      /* Ingen bakgrund */
+    border: none;                          /* Ingen gräns */
+    font-size: 1.3rem;                     /* Stor ikonstorlek */
+    color: #555 !important;                /* Grå som standardfärg (forcera) */
+    cursor: pointer;                       /* Visa att det är klickbart */
+    padding: 5px;                          /* Liten padding för klickområde */
+    text-decoration: none;                 /* Ta bort understreck */
+    transition: color 0.15s ease;          /* Snabb färgövergång */
 }
 
-/* Heart icon states */
+/* Hover-effekt för önskelista-ikon (hjärta) */
 .action-buttons a[aria-label="Wishlist"]:hover {
-    color: #ff4444 !important;      /* Bright red on hover */
+    color: #ff4444 !important;             /* Ljusröd vid hover */
 }
 
+/* Active-state för önskelista-ikon (när man klickar) */
 .action-buttons a[aria-label="Wishlist"]:active {
-    color: #cc0000 !important;      /* Dark red on click */
+    color: #cc0000 !important;             /* Mörkröd vid klick */
 }
 
-/* Basket icon states */
+/* Hover-effekt för varukorg-ikon */
 .action-buttons a[aria-label="Shopping Basket"]:hover {
-    color: #ff4444 !important;      /* Bright red on hover */
+    color: #ff4444 !important;             /* Ljusröd vid hover */
 }
 
+/* Active-state för varukorg-ikon */
 .action-buttons a[aria-label="Shopping Basket"]:active {
-    color: #cc0000 !important;      /* Dark red on click */
+    color: #cc0000 !important;             /* Mörkröd vid klick */
 }
 
-/* Override any visited/focus states */
+/* Återställ färg för visited och focus-states */
 .action-buttons a:visited,
 .action-buttons a:focus {
-    color: #555 !important;         /* Always return to gray */
+    color: #555 !important;                /* Alltid tillbaka till grå */
 }
 
+/* ============================================================================
+   HUVUDNAVIGATION - KATEGORIMENY
+   ============================================================================ */
+
+/* Navigation-lista för produktkategorier */
 .navigation-list {
-    list-style-type: none;
-    padding: var(--mainpadding) 0;
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--mainpadding) / 2);
-    margin-bottom: calc(var(--mainpadding) * 2);
+    list-style-type: none;                 /* Ta bort punkter */
+    padding: var(--mainpadding) 0;         /* Vertikal padding */
+    display: flex;                         /* Flexbox för layout */
+    flex-direction: column;                /* Vertikal layout på mobil */
+    gap: calc(var(--mainpadding) / 2);     /* Halvt avstånd mellan items */
+    margin-bottom: calc(var(--mainpadding) * 2); /* Dubbelt avstånd under */
 }
 
+/* Individuella navigationsobjekt */
 .navigation-list li {
-    padding: 8px var(--mainpadding);
-    cursor: pointer;
-    color: var(--text-light);
-    transition: background-color 0.2s ease, color 0.2s ease;
-    border-radius: 4px;
+    padding: 8px var(--mainpadding);       /* Padding för klickområde */
+    cursor: pointer;                       /* Visa att det är klickbart */
+    color: var(--text-light);              /* Ljusare textfärg */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Mjuka övergångar */
+    border-radius: 4px;                    /* Rundade hörn */
 }
 
+/* Hover-effekt för navigationsobjekt */
 .navigation-list li:hover {
-    background-color: var(--background-light);
-    color: var(--text-color);
+    background-color: var(--background-light); /* Ljus bakgrund vid hover */
+    color: var(--text-color);              /* Mörkare text vid hover */
 }
 
+/* ============================================================================
+   HERO-SEKTION - HUVUDMARKNADSFÖRINGSOMRÅDE
+   ============================================================================ */
+
+/* Hero-container för stor marknadsföringsbild och text */
 .hero {
-    padding: var(--mainpadding) 0;
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--mainpadding) * 2);
-    margin-bottom: calc(var(--mainpadding) * 3);
-    align-items: center;
+    padding: var(--mainpadding) 0;         /* Vertikal padding */
+    display: flex;                         /* Flexbox för layout */
+    flex-direction: column;                /* Vertikal layout */
+    gap: calc(var(--mainpadding) * 2);     /* Dubbelt avstånd mellan items */
+    margin-bottom: calc(var(--mainpadding) * 3); /* Trippelt avstånd under */
+    align-items: center;                   /* Centrera innehåll */
 }
 
+/* Hero-bild container */
 .hero-image {
-    width: 100%;
-    max-width: 600px;
+    width: 100%;                           /* Full bredd */
+    max-width: 600px;                      /* Maxbredd för att inte bli för stor */
 }
 
+/* Hero-bild styling */
 .hero-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 4px;
+    width: 100%;                           /* Full bredd av container */
+    height: auto;                          /* Behåll proportioner */
+    display: block;                        /* Ta bort inline-spacing */
+    border-radius: 4px;                    /* Rundade hörn */
 }
 
+/* Hero-text container */
 .hero-text {
-    display: flex;
-    flex-direction: column;
-    gap: var(--mainpadding);
-    text-align: center;
-    padding: var(--mainpadding);
-    max-width: 600px;
+    display: flex;                         /* Flexbox för layout */
+    flex-direction: column;                /* Vertikal layout */
+    gap: var(--mainpadding);               /* Avstånd mellan text-element */
+    text-align: center;                    /* Centrera text */
+    padding: var(--mainpadding);           /* Padding runt text */
+    max-width: 600px;                      /* Maxbredd för läsbarhet */
 }
+
+/* Hero-rubrik styling */
 .hero-text h2 {
-    font-size: 1.8rem;
-    color: #222;
-    font-weight: 600;
+    font-size: 1.8rem;                     /* Stor textstorlek */
+    color: #222;                           /* Mörk färg */
+    font-weight: 600;                      /* Semi-fet text */
 }
+
+/* Hero-beskrivning styling */
 .hero-text p {
-    color: var(--text-light);
-    font-size: 1rem;
+    color: var(--text-light);              /* Ljusare textfärg */
+    font-size: 1rem;                       /* Normal textstorlek */
 }
 
+/* ============================================================================
+   PRODUKTER-SEKTION - GRID OCH KORT
+   ============================================================================ */
 
+/* Wrapper för produktgrid */
 .products-wrapper {
     padding: var(--mainpadding) 0;
     display: grid;
@@ -220,7 +312,6 @@ body {
     box-shadow: 0 4px 8px var(--shadow-medium);
     transform: translateY(-2px);
 }
-
 
 .product-image {
     width: 100%;
@@ -363,7 +454,6 @@ body {
     transform: rotate(180deg);
 }
 
-
 .active,
 .accordion:hover {
     background-color: var(--background-light);
@@ -388,7 +478,6 @@ body {
     color: #000;
 }
 
-
 footer {
     padding: calc(2 * var(--mainpadding)) 0;
     display: flex;
@@ -399,7 +488,6 @@ footer {
     color: #888;
     font-size: 0.9rem;
 }
-
 
 @media(min-width: 640px) {
     .header {
@@ -428,7 +516,6 @@ footer {
      .navigation-list li {
          padding: 8px 15px;
      }
-
 
     .products-wrapper {
         grid-template-columns: repeat(2, 1fr);

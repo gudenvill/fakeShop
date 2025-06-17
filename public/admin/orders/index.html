@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+  <!-- Meta-taggar för dokumenttyp och språk -->
   <meta charset="UTF-8">
+  
+  <!-- Sidans titel som visas i webbläsarens flik -->
   <title>Administration: Lista ordrar</title>
+  
+  <!-- CSS för admin-gränssnittet -->
   <link rel="stylesheet" href="../../css/adminStyles.css">
 </head>
 <body>
+  <!-- HUVUDCONTAINER FÖR ADMIN-GRÄNSSNITTET -->
   <div class="admin-container">
+    
+    <!-- SIDEBAR: Navigeringsmeny för admin-funktioner -->
     <aside class="sidebar">
       <h2>Administration</h2>
+      <!-- Navigeringsmeny för olika admin-sektioner -->
       <nav>
         <ul>
+          <!-- Länk till produkthantering -->
           <li><a href="/admin/products/index.html">Produkter</a></li>
+          <!-- Aktuell sida markerad med strong -->
           <li><strong>Ordrar</strong></li>
         </ul>
       </nav>
     </aside>
+    
+    <!-- HUVUDINNEHÅLL: Orderhantering och statistik -->
     <main class="main-content">
+      
+      <!-- ADMIN-HEADER: Rubrik och statistikkort -->
       <div class="admin-header">
         <h1>Ordrar</h1>
+        
+        <!-- STATISTIKSEKTION: Visar viktiga KPI:er för orderhantering -->
         <div class="admin-stats">
+          <!-- Statistikkort 1: Totalt antal ordrar -->
           <div class="stat-card">
             <span class="stat-number" id="total-orders">0</span>
             <span class="stat-label">Totalt ordrar</span>
           </div>
+          
+          <!-- Statistikkort 2: Antal slutförda ordrar -->
           <div class="stat-card">
             <span class="stat-number" id="completed-orders">0</span>
             <span class="stat-label">Slutförda</span>
           </div>
+          
+          <!-- Statistikkort 3: Antal väntande ordrar -->
           <div class="stat-card">
             <span class="stat-number" id="pending-orders">0</span>
             <span class="stat-label">Väntande</span>
           </div>
+          
+          <!-- Statistikkort 4: Total omsättning från slutförda ordrar -->
           <div class="stat-card">
             <span class="stat-number" id="total-revenue">0 SEK</span>
             <span class="stat-label">Total omsättning</span>
@@ -39,27 +63,31 @@
         </div>
       </div>
       
-      <!-- Laddningsmeddelande -->
+      <!-- LADDNINGSTILLSTÅND: Visas medan ordrar hämtas från API:et -->
       <div id="loading" class="loading-message">
         Laddar ordrar...
       </div>
       
-      <!-- Orderslista -->
+      <!-- ORDERSLISTA: Huvudinnehållet när ordrar har laddats -->
       <div id="orders-content" style="display: none;">
         <div class="table-container">
+          <!-- Tabell för att visa alla ordrar -->
           <table class="admin-table">
+            <!-- Tabellhuvud med kolumnrubriker -->
             <thead>
               <tr>
-                <th>Ordernummer</th>
-                <th>Kund</th>
-                <th>E-post</th>
-                <th>Produkter</th>
-                <th>Totalt</th>
-                <th>Status</th>
-                <th>Skapad</th>
-                <th>Åtgärder</th>
+                <th>Ordernummer</th>     <!-- Unikt ordernummer -->
+                <th>Kund</th>            <!-- Kundens namn -->
+                <th>E-post</th>          <!-- Kundens e-postadress -->
+                <th>Produkter</th>       <!-- Sammanfattning av beställda produkter -->
+                <th>Totalt</th>          <!-- Orderns totala värde -->
+                <th>Status</th>          <!-- Orderstatus (väntande, slutförd, etc.) -->
+                <th>Skapad</th>          <!-- När ordern skapades -->
+                <th>Åtgärder</th>        <!-- Knappar för hantering -->
               </tr>
             </thead>
+            
+            <!-- Tabellkropp som fylls dynamiskt av JavaScript -->
             <tbody id="orders-table-body">
               <!-- Ordrar laddas här dynamiskt -->
             </tbody>
@@ -67,7 +95,7 @@
         </div>
       </div>
       
-      <!-- Tom lista meddelande -->
+      <!-- TOM LISTA MEDDELANDE: Visas när inga ordrar finns -->
       <div id="empty-orders" class="empty-message" style="display: none;">
         <h3>Inga ordrar hittades</h3>
         <p>Det finns inga ordrar att visa ännu.</p>
@@ -75,54 +103,94 @@
     </main>
   </div>
 
-  <!-- Order Detaljer Modal -->
+  <!-- ORDER DETALJER MODAL: Popup för att visa detaljerad orderinformation -->
   <div id="order-modal" class="modal" style="display: none;">
     <div class="modal-content">
+      
+      <!-- Modal-header med titel och stäng-knapp -->
       <div class="modal-header">
         <h2 id="modal-title">Orderdetaljer</h2>
         <span class="close" onclick="closeOrderModal()">&times;</span>
       </div>
+      
+      <!-- Modal-kropp där orderdetaljer visas -->
       <div class="modal-body" id="modal-body">
-        <!-- Order detaljer laddas här -->
+        <!-- Order detaljer laddas här dynamiskt -->
       </div>
+      
+      <!-- Modal-footer med stäng-knapp -->
       <div class="modal-footer">
         <button class="btn secondary" onclick="closeOrderModal()">Stäng</button>
       </div>
     </div>
   </div>
 
+  <!-- JAVASCRIPT-SEKTION: All funktionalitet för orderhantering -->
   <script>
+    // ====================================================================
+    // GLOBALA VARIABLER: DATAHÅLLNING FÖR ORDERHANTERING
+    // ====================================================================
+    
+    // Array som håller alla ordrar från API:et
     let allOrders = [];
 
-    // Hämta alla ordrar från API
+    // ====================================================================
+    // API-KOMMUNIKATION: HÄMTA ORDRAR FRÅN SERVERN
+    // ====================================================================
+    
+    /**
+     * Hämta alla ordrar från API:et och visa dem
+     * Hanterar API-kommunikation, felhantering och UI-uppdatering
+     */
     async function fetchOrders() {
       try {
         console.log('🔄 Hämtar ordrar från API...');
+        
+        // Skicka GET-request till ordrar-API:et
         const response = await fetch('/api/orders');
         
+        // Kontrollera att requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        // Parsea JSON-svaret från servern
         const orders = await response.json();
         console.log('✅ Ordrar hämtade:', orders.length);
         
+        // Spara ordrar globalt och uppdatera UI
         allOrders = orders;
         displayOrders(orders);
         updateStats(orders);
         
       } catch (error) {
+        // Hantera fel vid API-kommunikation
         console.error('❌ Fel vid hämtning av ordrar:', error);
         document.getElementById('loading').textContent = 'Fel vid laddning av ordrar.';
       }
     }
 
-    // Visa ordrar i tabellen
+    // ====================================================================
+    // UI-RENDERING: VISA ORDRAR I TABELLEN
+    // ====================================================================
+    
+    /**
+     * Visa ordrar i admin-tabellen
+     * Skapar HTML för varje order och hanterar tom lista
+     * @param {Array} orders - Array med orderobjekt från API:et
+     */
     function displayOrders(orders) {
+      console.log('🎨 Renderar ordertabell med', orders.length, 'ordrar');
+      
+      // Hämta referenser till DOM-element
       const tableBody = document.getElementById('orders-table-body');
       const loading = document.getElementById('loading');
       const content = document.getElementById('orders-content');
       const empty = document.getElementById('empty-orders');
+      
+      // ================================================================
+      // HANTERA TOM ORDERLISTA
+      // ================================================================
       
       if (orders.length === 0) {
         loading.style.display = 'none';
@@ -130,39 +198,65 @@
         return;
       }
       
+      // ================================================================
+      // SKAPA HTML FÖR VARJE ORDER
+      // ================================================================
+      
       const ordersHTML = orders.map(order => {
+        // Få CSS-klass och text för orderstatus
         const statusClass = getStatusClass(order.status);
         const statusText = getStatusText(order.status);
+        
+        // Formatera skapandedatum för visning
         const createdDate = new Date(order.created_at).toLocaleDateString('sv-SE', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
+          year: 'numeric',    // Årtal med fyra siffror
+          month: 'short',     // Månad förkortad (jan, feb, etc.)
+          day: 'numeric',     // Dag utan nolla före
+          hour: '2-digit',    // Timme med två siffror
+          minute: '2-digit'   // Minut med två siffror
         });
         
+        // Skapa HTML för denna orderrad
         return `
           <tr>
+            <!-- Ordernummer med betoning -->
             <td>
               <strong>${order.order_number}</strong>
             </td>
+            
+            <!-- Kundens namn -->
             <td>${order.customer_name}</td>
+            
+            <!-- Kundens e-postadress -->
             <td>${order.customer_email}</td>
+            
+            <!-- Produktsammanfattning -->
             <td>
               <small>${order.items_summary || 'Inga produkter'}</small>
             </td>
+            
+            <!-- Ordertotal med betoning -->
             <td><strong>${order.total_amount} SEK</strong></td>
+            
+            <!-- Status med färgkodad badge -->
             <td>
               <span class="status-badge ${statusClass}">${statusText}</span>
             </td>
+            
+            <!-- Formaterat skapandedatum -->
             <td>
               <small>${createdDate}</small>
             </td>
+            
+            <!-- Åtgärdsknappar och status-dropdown -->
             <td>
               <div class="action-buttons">
+                <!-- Knapp för att visa orderdetaljer -->
                 <button class="btn small primary" onclick="viewOrder(${order.id})" title="Visa detaljer">
                   👁️
                 </button>
+                
+                <!-- Dropdown för att ändra orderstatus -->
                 <select class="status-select" onchange="updateOrderStatus(${order.id}, this.value)">
                   <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Väntande</option>
                   <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Slutförd</option>
@@ -175,40 +269,93 @@
         `;
       }).join('');
       
+      // ================================================================
+      // UPPDATERA UI MED ORDERDATA
+      // ================================================================
+      
+      // Sätt in genererad HTML i tabellkroppen
       tableBody.innerHTML = ordersHTML;
+      
+      // Dölj laddning och visa innehållet
       loading.style.display = 'none';
       content.style.display = 'block';
       
       console.log('✅ Ordrar visade i tabell');
     }
 
-    // Uppdatera statistik
+    // ====================================================================
+    // STATISTIKBERÄKNINGAR: UPPDATERA KPI-KORT
+    // ====================================================================
+    
+    /**
+     * Uppdatera statistikkorten baserat på orderdata
+     * Beräknar totaler, status-fördelning och omsättning
+     * @param {Array} orders - Array med orderobjekt
+     */
     function updateStats(orders) {
+      console.log('📊 Beräknar statistik för', orders.length, 'ordrar');
+      
+      // ================================================================
+      // BERÄKNA GRUNDLÄGGANDE STATISTIK
+      // ================================================================
+      
+      // Totalt antal ordrar
       const totalOrders = orders.length;
+      
+      // Antal slutförda ordrar
       const completedOrders = orders.filter(o => o.status === 'completed').length;
+      
+      // Antal väntande ordrar
       const pendingOrders = orders.filter(o => o.status === 'pending').length;
+      
+      // Total omsättning från slutförda ordrar
       const totalRevenue = orders
-        .filter(o => o.status === 'completed')
-        .reduce((sum, o) => sum + parseFloat(o.total_amount), 0);
+        .filter(o => o.status === 'completed')  // Endast slutförda ordrar
+        .reduce((sum, o) => sum + parseFloat(o.total_amount), 0);  // Summera totalbelopp
+      
+      // ================================================================
+      // UPPDATERA UI MED BERÄKNAD STATISTIK
+      // ================================================================
       
       document.getElementById('total-orders').textContent = totalOrders;
       document.getElementById('completed-orders').textContent = completedOrders;
       document.getElementById('pending-orders').textContent = pendingOrders;
       document.getElementById('total-revenue').textContent = `${totalRevenue.toFixed(2)} SEK`;
+      
+      console.log('✅ Statistik uppdaterad:', {
+        total: totalOrders,
+        completed: completedOrders,
+        pending: pendingOrders,
+        revenue: totalRevenue
+      });
     }
 
-    // Få status CSS-klass
+    // ====================================================================
+    // STATUSHANTERING: CSS-KLASSER OCH SVENSKA ÖVERSÄTTNINGAR
+    // ====================================================================
+    
+    /**
+     * Få CSS-klass för orderstatus
+     * Används för att färgkoda status-badges
+     * @param {string} status - Orderstatus från databasen
+     * @returns {string} CSS-klassnamn för styling
+     */
     function getStatusClass(status) {
       switch(status) {
-        case 'completed': return 'status-completed';
-        case 'pending': return 'status-pending';
-        case 'shipped': return 'status-shipped';
-        case 'cancelled': return 'status-cancelled';
-        default: return 'status-pending';
+        case 'completed': return 'status-completed';  // Grön för slutförd
+        case 'pending': return 'status-pending';      // Gul för väntande
+        case 'shipped': return 'status-shipped';      // Blå för skickad
+        case 'cancelled': return 'status-cancelled';  // Röd för avbruten
+        default: return 'status-pending';             // Standard är väntande
       }
     }
 
-    // Få status text på svenska
+    /**
+     * Få svenska översättning av orderstatus
+     * Konverterar engelska API-statusar till svenska för användaren
+     * @param {string} status - Orderstatus från databasen
+     * @returns {string} Status på svenska
+     */
     function getStatusText(status) {
       switch(status) {
         case 'completed': return 'Slutförd';
@@ -219,49 +366,86 @@
       }
     }
 
-    // Visa orderdetaljer
+    // ====================================================================
+    // ORDERDETALJER: VISA FULLSTÄNDIG ORDERINFORMATION
+    // ====================================================================
+    
+    /**
+     * Visa detaljerad orderinformation i modal
+     * Hämtar utförlig orderdata från API:et och visar i popup
+     * @param {number} orderId - ID för ordern att visa
+     */
     async function viewOrder(orderId) {
       try {
         console.log('🔄 Hämtar orderdetaljer för ID:', orderId);
+        
+        // Skicka GET-request för specifik order
         const response = await fetch(`/api/orders/${orderId}`);
         
+        // Kontrollera att requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        // Parsea JSON-svaret med detaljerad orderdata
         const order = await response.json();
         console.log('✅ Orderdetaljer hämtade:', order);
         
+        // Visa orderdata i modal
         showOrderModal(order);
         
       } catch (error) {
+        // Hantera fel vid hämtning av orderdetaljer
         console.error('❌ Fel vid hämtning av orderdetaljer:', error);
         alert('Kunde inte ladda orderdetaljer.');
       }
     }
 
-    // Visa order modal
+    // ====================================================================
+    // MODAL-HANTERING: VISA OCH DÖLJ ORDERDETALJER
+    // ====================================================================
+    
+    /**
+     * Visa orderdetaljer i modal-popup
+     * Skapar detaljerad HTML för all orderinformation
+     * @param {Object} order - Komplett orderobjekt med produkter och kundinfo
+     */
     function showOrderModal(order) {
+      console.log('📋 Visar orderdetaljer i modal för order:', order.order_number);
+      
+      // Hämta referenser till modal-element
       const modal = document.getElementById('order-modal');
       const title = document.getElementById('modal-title');
       const body = document.getElementById('modal-body');
       
+      // Sätt modal-titel med ordernummer
       title.textContent = `Order ${order.order_number}`;
       
+      // ================================================================
+      // SKAPA HTML FÖR PRODUKTLISTA
+      // ================================================================
+      
+      // Skapa tabell för beställda produkter
       const itemsHTML = order.items && order.items.length > 0 
         ? order.items.map(item => `
             <tr>
-              <td>${item.product_name}</td>
-              <td>${item.product_brand}</td>
-              <td>${item.price} SEK</td>
-              <td>${item.quantity}</td>
-              <td>${item.subtotal} SEK</td>
+              <td>${item.product_name}</td>      <!-- Produktnamn -->
+              <td>${item.product_brand}</td>     <!-- Produktmärke -->
+              <td>${item.price} SEK</td>         <!-- Pris per styck -->
+              <td>${item.quantity}</td>          <!-- Antal beställda -->
+              <td>${item.subtotal} SEK</td>      <!-- Delsumma för produkten -->
             </tr>
           `).join('')
         : '<tr><td colspan="5">Inga produkter hittades</td></tr>';
       
+      // ================================================================
+      // SKAPA FULLSTÄNDIG MODAL-INNEHÅLL
+      // ================================================================
+      
       body.innerHTML = `
         <div class="order-details">
+          
+          <!-- SEKTION 1: Kundinformation -->
           <div class="detail-section">
             <h3>Kundinformation</h3>
             <p><strong>Namn:</strong> ${order.customer_name}</p>
@@ -269,11 +453,13 @@
             <p><strong>Telefon:</strong> ${order.customer_phone || 'Ej angivet'}</p>
           </div>
           
+          <!-- SEKTION 2: Leveransadress -->
           <div class="detail-section">
             <h3>Leveransadress</h3>
             <p>${order.shipping_address}</p>
           </div>
           
+          <!-- SEKTION 3: Beställda produkter i tabellformat -->
           <div class="detail-section">
             <h3>Beställda produkter</h3>
             <table class="modal-table">
@@ -292,6 +478,7 @@
             </table>
           </div>
           
+          <!-- SEKTION 4: Orderinformation och totaler -->
           <div class="detail-section">
             <h3>Orderinformation</h3>
             <p><strong>Status:</strong> ${getStatusText(order.status)}</p>
@@ -302,18 +489,36 @@
         </div>
       `;
       
+      // Visa modal genom att sätta display till block
       modal.style.display = 'block';
+      
+      console.log('✅ Modal visad med orderdetaljer');
     }
 
-    // Stäng order modal
+    /**
+     * Stäng orderdetaljer-modal
+     * Döljer modal-popup och återställer tillstånd
+     */
     function closeOrderModal() {
+      console.log('❌ Stänger orderdetaljer-modal');
       document.getElementById('order-modal').style.display = 'none';
     }
 
-    // Uppdatera order status
+    // ====================================================================
+    // STATUSUPPDATERING: ÄNDRA ORDERSTATUS VIA API
+    // ====================================================================
+    
+    /**
+     * Uppdatera orderstatus via API
+     * Skickar PUT-request för att ändra status och uppdaterar UI
+     * @param {number} orderId - ID för ordern att uppdatera
+     * @param {string} newStatus - Ny status att sätta
+     */
     async function updateOrderStatus(orderId, newStatus) {
       try {
         console.log('🔄 Uppdaterar order status:', orderId, 'till', newStatus);
+        
+        // Skicka PUT-request till status-endpoint
         const response = await fetch(`/api/orders/${orderId}/status`, {
           method: 'PUT',
           headers: {
@@ -322,35 +527,57 @@
           body: JSON.stringify({ status: newStatus })
         });
         
+        // Kontrollera att requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        // Parsea svaret från servern
         const result = await response.json();
         console.log('✅ Order status uppdaterad:', result);
         
-        // Uppdatera tabellen
+        // Ladda om orderlistan för att visa uppdaterad data
         fetchOrders();
         
       } catch (error) {
+        // Hantera fel vid statusuppdatering
         console.error('❌ Fel vid uppdatering av order status:', error);
         alert('Kunde inte uppdatera order status.');
-        // Återställ select
+        
+        // Ladda om för att återställ select-värdet
         fetchOrders();
       }
     }
 
-    // Stäng modal vid klick utanför
+    // ====================================================================
+    // EVENT HANDLING: MODAL-INTERAKTION OCH KLICKHÄNDELSER
+    // ====================================================================
+    
+    /**
+     * Stäng modal vid klick utanför modal-innehållet
+     * Global event listener för att förbättra användarupplevelsen
+     */
     window.onclick = function(event) {
       const modal = document.getElementById('order-modal');
+      
+      // Om användaren klickar på modal-bakgrunden (ej innehållet)
       if (event.target === modal) {
         closeOrderModal();
       }
     }
 
-    // Initiera sidan
+    // ====================================================================
+    // HUVUDINITIALISERING: STARTA ALLT NÄR DOM:EN ÄR LADDAD
+    // ====================================================================
+    
+    /**
+     * DOMContentLoaded event listener som initialiserar admin-sidan
+     * Startar hämtning av ordrar när allt är redo
+     */
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('📄 Admin ordersida laddad');
+      console.log('📄 Admin ordersida laddad, hämtar ordrar...');
+      
+      // Starta hämtning av orderdata från API:et
       fetchOrders();
     });
   </script>

@@ -1,66 +1,100 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+  <!-- Meta-taggar för dokumenttyp och språk -->
   <meta charset="UTF-8">
+  
+  <!-- Sidans titel som visas i webbläsarens flik -->
   <title>Administration: Lista produkter</title>
+  
+  <!-- CSS för admin-gränssnittet -->
   <link rel="stylesheet" href="../../css/adminStyles.css">
 </head>
 <body>
+  <!-- HUVUDCONTAINER FÖR ADMIN-GRÄNSSNITTET -->
   <div class="admin-container">
+    
+    <!-- SIDEBAR: Navigeringsmeny för admin-funktioner -->
     <aside class="sidebar">
       <h2>Administration</h2>
+      <!-- Navigeringsmeny för olika admin-sektioner -->
       <nav>
         <ul>
+          <!-- Aktuell sida markerad med strong -->
           <li><strong>Produkter</strong></li>
         </ul>
       </nav>
     </aside>
+    
+    <!-- HUVUDINNEHÅLL: Produktlista och hantering -->
     <main class="main-content">
       <h1>Produkter</h1>
+      
+      <!-- KNAPP FÖR ATT SKAPA NY PRODUKT -->
       <a href="/admin/products/new.html" class="button">Ny produkt</a>
       
+      <!-- LADDNINGSTILLSTÅND: Visas medan produkter hämtas -->
       <div id="loading" style="text-align: center; padding: 20px;">
         Laddar produkter...
       </div>
       
+      <!-- PRODUKTTABELL: Visar alla produkter i tabellformat -->
       <table id="products-table" style="display: none;">
+        <!-- Tabellhuvud med kolumnrubriker -->
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Namn</th>
-            <th>Märke</th>
-            <th>SKU</th>
-            <th>Pris</th>
-            <th>Lager</th>
-            <th>Skapad</th>
-            <th>Status</th>
-            <th>Åtgärder</th>
+            <th>ID</th>           <!-- Unikt produkt-ID -->
+            <th>Namn</th>         <!-- Produktnamn -->
+            <th>Märke</th>        <!-- Produktmärke -->
+            <th>SKU</th>          <!-- Artikelnummer -->
+            <th>Pris</th>         <!-- Produktpris -->
+            <th>Lager</th>        <!-- Lagersaldo -->
+            <th>Skapad</th>       <!-- Skapandedatum -->
+            <th>Status</th>       <!-- Ny/vanlig status -->
+            <th>Åtgärder</th>     <!-- Redigera/ta bort knappar -->
           </tr>
         </thead>
+        
+        <!-- Tabellkropp som fylls dynamiskt av JavaScript -->
         <tbody id="products-tbody">
           <!-- Produkter laddas dynamiskt här -->
         </tbody>
       </table>
       
+      <!-- FELMEDDELANDE: Visas vid problem med att ladda produkter -->
       <div id="error-message" style="display: none; color: red; text-align: center; padding: 20px;">
         Fel vid laddning av produkter. Försök uppdatera sidan.
       </div>
     </main>
   </div>
 
+  <!-- JAVASCRIPT-SEKTION: All funktionalitet för produktlista -->
   <script>
-    // Formatera datum för visning
+    // ====================================================================
+    // DATUMFORMATERING: VISA DATUM I LÄSBART FORMAT
+    // ====================================================================
+    
+    /**
+     * Formatera datum för visning med relativ tid
+     * @param {string} dateString - ISO-datum från databasen
+     * @returns {string} Formaterat datum med relativ information
+     */
     function formatDate(dateString) {
+      // Skapa Date-objekt från ISO-sträng
       const date = new Date(dateString);
       const now = new Date();
+      
+      // Beräkna antal dagar sedan produkten skapades
       const daysDifference = Math.floor((now - date) / (1000 * 60 * 60 * 24));
       
+      // Formatera datum till svenskt format
       const formattedDate = date.toLocaleDateString('sv-SE', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
+        year: 'numeric',        // Årtal med fyra siffror
+        month: 'short',         // Månad förkortad (jan, feb, etc.)
+        day: 'numeric'          // Dag utan nolla före
       });
       
+      // Lägg till relativ tid baserat på antal dagar
       if (daysDifference === 0) {
         return `${formattedDate} (Idag)`;
       } else if (daysDifference === 1) {
@@ -72,12 +106,24 @@
       }
     }
 
-    // Kontrollera om produkt är ny för status-kolumn
+    // ====================================================================
+    // PRODUKTSTATUS: KONTROLLERA OM PRODUKT ÄR NY
+    // ====================================================================
+    
+    /**
+     * Kontrollera om en produkt är ny för status-kolumn
+     * Produkter som skapats inom 7 dagar markeras som "Nyhet"
+     * @param {string} createdAt - Produktens skapandedatum
+     * @returns {string} HTML-sträng med status-märkning
+     */
     function getProductStatus(createdAt) {
       const now = new Date();
       const productDate = new Date(createdAt);
+      
+      // Beräkna antal dagar sedan produkten skapades
       const daysDifference = Math.floor((now - productDate) / (1000 * 60 * 60 * 24));
       
+      // Returnera lämplig status baserat på ålder
       if (daysDifference <= 7) {
         return '<span style="color: green; font-weight: bold;">✨ Nyhet</span>';
       } else {
@@ -85,49 +131,102 @@
       }
     }
 
-    // Hämta och visa alla produkter
+    // ====================================================================
+    // API-KOMMUNIKATION: HÄMTA PRODUKTER FRÅN SERVERN
+    // ====================================================================
+    
+    /**
+     * Hämta alla produkter från API:et och visa dem
+     * Hanterar laddningstillstånd, fel och framgångsrik datahämtning
+     */
     async function loadProducts() {
       try {
         console.log('🔄 Hämtar produkter för admin...');
+        
+        // Skicka GET-request till produkter-API:et
         const response = await fetch('/api/products');
         
+        // Kontrollera att requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        // Parsea JSON-svaret
         const products = await response.json();
         console.log('✅ Produkter hämtade:', products.length);
         
+        // Visa produkterna i tabellen
         displayProducts(products);
+        
       } catch (error) {
+        // Hantera fel vid hämtning
         console.error('❌ Fel vid hämtning av produkter:', error);
+        
+        // Dölj laddning och visa felmeddelande
         document.getElementById('loading').style.display = 'none';
         document.getElementById('error-message').style.display = 'block';
       }
     }
 
-    // Visa produkter i tabellen
+    // ====================================================================
+    // UI-RENDERING: VISA PRODUKTER I TABELLEN
+    // ====================================================================
+    
+    /**
+     * Visa produkter i tabellen
+     * Sorterar produkter och genererar HTML för varje rad
+     * @param {Array} products - Array med produktobjekt från API:et
+     */
     function displayProducts(products) {
+      console.log('🎨 Renderar produkttabell med', products.length, 'produkter');
+      
+      // Hämta referenser till DOM-element
       const tbody = document.getElementById('products-tbody');
       const loading = document.getElementById('loading');
       const table = document.getElementById('products-table');
       
+      // ================================================================
+      // HANTERA TOM PRODUKTLISTA
+      // ================================================================
+      
       if (products.length === 0) {
         tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Inga produkter hittades</td></tr>';
       } else {
+        // ============================================================
+        // SORTERA OCH RENDERA PRODUKTER
+        // ============================================================
+        
         // Sortera produkter efter skapandedatum (nyaste först)
         const sortedProducts = products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         
+        // Skapa HTML för varje produktrad
         tbody.innerHTML = sortedProducts.map(product => `
           <tr>
+            <!-- Produkt-ID -->
             <td>${product.id}</td>
+            
+            <!-- Produktnamn -->
             <td>${product.name}</td>
+            
+            <!-- Produktmärke -->
             <td>${product.brand}</td>
+            
+            <!-- SKU (artikelnummer) -->
             <td>${product.sku}</td>
+            
+            <!-- Pris med valuta -->
             <td>${product.price} SEK</td>
+            
+            <!-- Lagersaldo -->
             <td>${product.stock_quantity}</td>
+            
+            <!-- Formaterat skapandedatum -->
             <td>${formatDate(product.created_at)}</td>
+            
+            <!-- Status (ny/vanlig) -->
             <td>${getProductStatus(product.created_at)}</td>
+            
+            <!-- Åtgärdsknappar (redigera/ta bort) -->
             <td>
               <button onclick="editProduct(${product.id})" class="icon edit" title="Redigera">✏️</button>
               <button onclick="deleteProduct(${product.id}, '${product.name}')" class="icon delete" title="Ta bort">🗑️</button>
@@ -136,45 +235,92 @@
         `).join('');
       }
       
+      // ================================================================
+      // VISA TABELL OCH DÖLJ LADDNING
+      // ================================================================
+      
       loading.style.display = 'none';
       table.style.display = 'table';
+      
+      console.log('✅ Produkttabell renderad');
     }
 
-    // Redigera produkt - navigera till edit-sidan
+    // ====================================================================
+    // CRUD-OPERATIONER: REDIGERA OCH TA BORT PRODUKTER
+    // ====================================================================
+    
+    /**
+     * Redigera produkt - navigera till edit-sidan
+     * @param {number} id - ID för produkten att redigera
+     */
     function editProduct(id) {
+      console.log('✏️ Navigerar till redigering av produkt ID:', id);
       window.location.href = `/admin/products/edit.html?id=${id}`;
     }
 
-    // Ta bort produkt
+    /**
+     * Ta bort produkt med bekräftelse
+     * @param {number} id - ID för produkten att ta bort
+     * @param {string} name - Produktnamn för bekräftelse
+     */
     async function deleteProduct(id, name) {
+      console.log('🗑️ Begäran om borttagning av produkt:', name, 'ID:', id);
+      
+      // ================================================================
+      // BEKRÄFTELSE FRÅN ANVÄNDAREN
+      // ================================================================
+      
+      // Visa bekräftelsedialog
       if (!confirm(`Är du säker på att du vill ta bort "${name}"?`)) {
+        console.log('❌ Användaren avbröt borttagningen');
         return;
       }
       
       try {
         console.log('🗑️ Tar bort produkt:', id);
+        
+        // Skicka DELETE-request till API:et
         const response = await fetch(`/api/products/${id}`, {
           method: 'DELETE'
         });
         
+        // Kontrollera att requestet var framgångsrikt
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        // Parsea svaret
         const result = await response.json();
         console.log('✅ Produkt borttagen:', result.message);
         
-        // Ladda om produktlistan
+        // ============================================================
+        // UPPDATERA PRODUKTLISTAN
+        // ============================================================
+        
+        // Ladda om produktlistan för att visa uppdaterad data
         loadProducts();
         
       } catch (error) {
+        // Hantera fel vid borttagning
         console.error('❌ Fel vid borttagning:', error);
         alert('Fel vid borttagning av produkt. Försök igen.');
       }
     }
 
-    // Ladda produkter när sidan laddas
-    document.addEventListener('DOMContentLoaded', loadProducts);
+    // ====================================================================
+    // HUVUDINITIALISERING: STARTA ALLT NÄR DOM:EN ÄR LADDAD
+    // ====================================================================
+    
+    /**
+     * DOMContentLoaded event listener som initialiserar sidan
+     * Startar produktladdning när allt är redo
+     */
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 Admin produktlista laddad, hämtar produkter...');
+      
+      // Starta produktladdning
+      loadProducts();
+    });
   </script>
 </body>
 </html>

@@ -1,329 +1,441 @@
-/* Order Confirmation Styles */
+/* ============================================================================
+   FAKESHOP - ORDERBEKRÄFTELSESIDANS STILMALL (CONFIRMATIONSTYLES.CSS)
+   ============================================================================
+   Detta är stilmallen specifikt för orderbekräftelsesidan (order-confirmation.html) som innehåller:
+   - Laddningstillstånd medan orderdata hämtas från servern
+   - Felhantering när order inte kan hittas eller problem uppstår
+   - Framgångsrik orderbekräftelse med grönt tema
+   - Detaljerad ordersammanfattning med kundinformation
+   - Produkttabell med alla beställda artiklar
+   - Totalsumma och priser
+   - Handlingsknappar för att fortsätta handla eller skriv ut
+   - Responsiv design för mobil, tablet och desktop
+   - Utskriftsvänlig styling för fysiska kopior
+   ============================================================================ */
+
+/* ============================================================================
+   HUVUDLAYOUT - BEKRÄFTELSESIDANS CONTAINER
+   ============================================================================ */
+
+/* Huvudcontainer för bekräftelsesidans innehåll */
 .confirmation-main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    max-width: 800px;                         /* Maxbredd för desktop-läsbarhet */
+    margin: 2rem auto;                        /* Centrera med margin över/under */
+    padding: 0 1rem;                          /* Horisontell padding för mobil */
 }
 
-/* Loading State */
+/* ============================================================================
+   LADDNINGSTILLSTÅND - VISAS MEDAN ORDERDATA HÄMTAS
+   ============================================================================ */
+
+/* Container för laddningsindikator */
 .loading-container {
-    text-align: center;
-    padding: 4rem 2rem;
+    text-align: center;                       /* Centrera allt innehåll */
+    padding: 4rem 2rem;                       /* Generös padding för luftighet */
 }
 
+/* Roterande laddningsspinner */
 .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #333;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+    width: 50px;                              /* Fast bredd för spinner */
+    height: 50px;                             /* Fast höjd (kvadrat) */
+    border: 4px solid #f3f3f3;                /* Ljusgrå grund-cirkel */
+    border-top: 4px solid #333;               /* Mörk färg för roterande del */
+    border-radius: 50%;                       /* Perfekt cirkel */
+    animation: spin 1s linear infinite;       /* Kontinuerlig rotation */
+    margin: 0 auto 1rem;                      /* Centrera och avstånd under */
 }
 
+/* Keyframe-animation för spinner-rotation */
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }           /* Startposition */
+    100% { transform: rotate(360deg); }       /* Fullständig rotation */
 }
 
+/* Laddningstext under spinner */
 .loading-container p {
-    color: #666;
-    font-size: 1.1rem;
+    color: #666;                              /* Medium grå textfärg */
+    font-size: 1.1rem;                        /* Något större textstorlek */
 }
 
-/* Error State */
+/* ============================================================================
+   FELTILLSTÅND - VISAS VID PROBLEM MED ORDERHÄMTNING
+   ============================================================================ */
+
+/* Container för felmeddelanden */
 .error-container {
-    text-align: center;
-    padding: 4rem 2rem;
+    text-align: center;                       /* Centrera allt innehåll */
+    padding: 4rem 2rem;                       /* Generös padding för luftighet */
 }
 
+/* Innehållscontainer för fel (begränsa bredd) */
 .error-content {
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 400px;                         /* Maxbredd för läsbarhet */
+    margin: 0 auto;                           /* Centrera innehållet */
 }
 
+/* Stor felikon (utropstecken eller liknande) */
 .error-icon {
-    font-size: 4rem;
-    color: #dc3545;
-    margin-bottom: 1rem;
+    font-size: 4rem;                          /* Mycket stor ikonstorlek */
+    color: #dc3545;                           /* Röd färg för varning */
+    margin-bottom: 1rem;                      /* Avstånd under ikonen */
 }
 
+/* Felrubrik */
 .error-container h2 {
-    color: #333;
-    margin-bottom: 1rem;
+    color: #333;                              /* Mörk textfärg */
+    margin-bottom: 1rem;                      /* Avstånd under rubriken */
 }
 
+/* Felbeskrivning */
 .error-container p {
-    color: #666;
-    margin-bottom: 2rem;
+    color: #666;                              /* Medium grå textfärg */
+    margin-bottom: 2rem;                      /* Avstånd under texten */
 }
 
+/* Container för felhandlingsknappar */
 .error-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: flex;                            /* Flexbox för knapp-layout */
+    gap: 1rem;                                /* Avstånd mellan knappar */
+    justify-content: center;                  /* Centrera knapparna */
+    flex-wrap: wrap;                          /* Tillåt radbrytning på mobil */
 }
 
-/* Success Confirmation */
+/* ============================================================================
+   FRAMGÅNGSRIK BEKRÄFTELSE - HUVUDCONTAINER
+   ============================================================================ */
+
+/* Huvudcontainer för orderbekräftelse */
 .confirmation-container {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    overflow: hidden;
+    background: white;                        /* Vit bakgrund */
+    border-radius: 8px;                       /* Rundade hörn */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);  /* Subtil skugga för djup */
+    overflow: hidden;                         /* Dölj innehåll utanför gränser */
 }
 
+/* ============================================================================
+   BEKRÄFTELSEHUVUD - GRÖN SEKTION MED FRAMGÅNGSMEDDELANDE
+   ============================================================================ */
+
+/* Övre grön sektion med framgångsmeddelande */
 .confirmation-header {
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
-    text-align: center;
-    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #28a745, #20c997); /* Grön gradient */
+    color: white;                             /* Vit text */
+    text-align: center;                       /* Centrera allt innehåll */
+    padding: 3rem 2rem;                       /* Generös padding */
 }
 
+/* Stor checkmark-ikon eller liknande */
 .success-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;                          /* Mycket stor ikonstorlek */
+    margin-bottom: 1rem;                      /* Avstånd under ikonen */
 }
 
+/* Huvudrubrik för bekräftelse */
 .confirmation-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
+    font-size: 2.5rem;                        /* Stor textstorlek */
+    margin-bottom: 1rem;                      /* Avstånd under rubriken */
+    font-weight: 600;                         /* Semi-fet text */
 }
 
+/* Framgångsmeddelande under rubriken */
 .success-message {
-    font-size: 1.1rem;
-    opacity: 0.9;
+    font-size: 1.1rem;                        /* Något större textstorlek */
+    opacity: 0.9;                             /* Lätt transparent för mjukare utseende */
 }
 
-/* Order Summary */
+/* ============================================================================
+   ORDERSAMMANFATTNING - DETALJERAD ORDERINFORMATION
+   ============================================================================ */
+
+/* Container för all orderinformation */
 .order-summary {
-    padding: 2rem;
+    padding: 2rem;                            /* Generös padding */
 }
 
+/* Sektioner för orderinfo och orderartiklar */
 .order-info, .order-items {
-    margin-bottom: 3rem;
+    margin-bottom: 3rem;                      /* Stort avstånd mellan sektioner */
 }
 
+/* Rubriker för orderinfo och orderartiklar */
 .order-info h2, .order-items h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 0.5rem;
+    color: #333;                              /* Mörk textfärg */
+    margin-bottom: 1.5rem;                    /* Avstånd under rubriken */
+    font-size: 1.5rem;                        /* Stor textstorlek */
+    border-bottom: 2px solid #eee;            /* Gränslinje under rubriken */
+    padding-bottom: 0.5rem;                   /* Padding innan gränslinje */
 }
 
-/* Info Grid */
+/* ============================================================================
+   INFORMATIONSRUTNÄT - KUNDINFORMATION OCH ORDERDETALJER
+   ============================================================================ */
+
+/* Grid-layout för orderinformation */
 .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+    display: grid;                            /* CSS Grid för layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsiva kolumner */
+    gap: 1rem;                                /* Avstånd mellan grid-items */
 }
 
+/* Individuella informationsrafter */
 .info-item {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 4px;
-    border-left: 4px solid #28a745;
+    background: #f8f9fa;                      /* Ljusgrå bakgrund */
+    padding: 1rem;                            /* Inre padding */
+    border-radius: 4px;                       /* Rundade hörn */
+    border-left: 4px solid #28a745;           /* Grön accent-kant till vänster */
 }
 
+/* Etiketter för informationsrafter (t.ex. "Ordernummer:", "Kundnamn:") */
 .info-item .label {
-    display: block;
-    font-weight: 600;
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    display: block;                           /* Block för egen rad */
+    font-weight: 600;                         /* Semi-fet text */
+    color: #666;                              /* Medium grå färg */
+    font-size: 0.9rem;                        /* Lite mindre textstorlek */
+    margin-bottom: 0.25rem;                   /* Litet avstånd under */
+    text-transform: uppercase;                /* Stora bokstäver */
+    letter-spacing: 0.5px;                    /* Lite extra bokstavsspacing */
 }
 
+/* Värden för informationsrafter (faktisk data) */
 .info-item .value {
-    display: block;
-    color: #333;
-    font-size: 1rem;
-    font-weight: 500;
+    display: block;                           /* Block för egen rad */
+    color: #333;                              /* Mörk textfärg */
+    font-size: 1rem;                          /* Normal textstorlek */
+    font-weight: 500;                         /* Medium textvikt */
 }
 
-/* Items Table */
+/* ============================================================================
+   ARTIKELTABELL - LISTA ÖVER BESTÄLLDA PRODUKTER
+   ============================================================================ */
+
+/* Container för artikeltabell med scrollning */
 .items-table {
-    overflow-x: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow-x: auto;                         /* Horisontell scrollning vid behov */
+    border-radius: 8px;                       /* Rundade hörn */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);  /* Subtil skugga */
 }
 
+/* Huvudtabell för orderartiklar */
 .items-table table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+    width: 100%;                              /* Full bredd */
+    border-collapse: collapse;                /* Slå ihop tabellgränser */
+    background: white;                        /* Vit bakgrund */
 }
 
+/* Tabellhuvud-celler */
 .items-table th {
-    background: #f8f9fa;
-    padding: 1rem;
-    text-align: left;
-    font-weight: 600;
-    color: #333;
-    border-bottom: 2px solid #dee2e6;
+    background: #f8f9fa;                      /* Ljusgrå bakgrund */
+    padding: 1rem;                            /* Generös padding */
+    text-align: left;                         /* Vänsterjustera text */
+    font-weight: 600;                         /* Semi-fet text */
+    color: #333;                              /* Mörk textfärg */
+    border-bottom: 2px solid #dee2e6;         /* Tjockare gränslinje under huvud */
 }
 
+/* Tabelldata-celler */
 .items-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #dee2e6;
-    vertical-align: middle;
+    padding: 1rem;                            /* Samma padding som huvud */
+    border-bottom: 1px solid #dee2e6;         /* Tunn gränslinje mellan rader */
+    vertical-align: middle;                   /* Centrera innehåll vertikalt */
 }
 
+/* Produktnamn i artikeltabellen */
 .item-info strong {
-    color: #333;
-    font-size: 1rem;
+    color: #333;                              /* Mörk färg för produktnamn */
+    font-size: 1rem;                          /* Normal textstorlek */
 }
 
+/* Produktmärke/detaljer i artikeltabellen */
 .item-info small {
-    color: #666;
-    font-size: 0.9rem;
+    color: #666;                              /* Medium grå färg */
+    font-size: 0.9rem;                        /* Lite mindre textstorlek */
 }
 
-/* Order Total */
+/* ============================================================================
+   ORDERTOTAL - SLUTSUMMA OCH PRISER
+   ============================================================================ */
+
+/* Container för ordertotal */
 .order-total {
-    border-top: 2px solid #333;
-    padding-top: 1rem;
-    margin-top: 2rem;
+    border-top: 2px solid #333;               /* Tjock gränslinje över */
+    padding-top: 1rem;                        /* Padding över */
+    margin-top: 2rem;                         /* Margin över */
 }
 
+/* Rad för totalsumma */
 .total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;                            /* Flexbox för layout */
+    justify-content: space-between;           /* Fördela utrymme mellan etikett och summa */
+    align-items: center;                      /* Centrera vertikalt */
 }
 
+/* Etikett för totalsumma ("TOTALT") */
 .total-row .label {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
+    font-size: 1.3rem;                        /* Större textstorlek */
+    font-weight: 600;                         /* Semi-fet text */
+    color: #333;                              /* Mörk färg */
 }
 
+/* Totalsumma i siffror */
 .total-amount {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #28a745;
+    font-size: 1.5rem;                        /* Stor textstorlek */
+    font-weight: 700;                         /* Fet text */
+    color: #28a745;                           /* Grön färg (samma som header) */
 }
 
-/* Confirmation Actions */
+/* ============================================================================
+   BEKRÄFTELSEÅTGÄRDER - HANDLINGSKNAPPAR
+   ============================================================================ */
+
+/* Container för handlingsknappar */
 .confirmation-actions {
-    background: #f8f9fa;
-    padding: 2rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    background: #f8f9fa;                      /* Ljusgrå bakgrund */
+    padding: 2rem;                            /* Generös padding */
+    display: flex;                            /* Flexbox för knapp-layout */
+    gap: 1rem;                                /* Avstånd mellan knappar */
+    justify-content: center;                  /* Centrera knapparna */
+    flex-wrap: wrap;                          /* Tillåt radbrytning på mobil */
 }
 
-/* Buttons */
+/* ============================================================================
+   KNAPP-STYLING - PRIMÄRA OCH SEKUNDÄRA KNAPPAR
+   ============================================================================ */
+
+/* Grundläggande knapp-styling för båda typerna */
 .btn-primary, .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
+    display: inline-flex;                     /* Inline-flex för ikon + text */
+    align-items: center;                      /* Centrera innehåll vertikalt */
+    gap: 0.5rem;                              /* Avstånd mellan ikon och text */
+    padding: 1rem 2rem;                       /* Generös padding */
+    border: none;                             /* Ingen gräns */
+    border-radius: 4px;                       /* Rundade hörn */
+    font-size: 1rem;                          /* Normal textstorlek */
+    font-weight: 600;                         /* Semi-fet text */
+    text-decoration: none;                    /* Ta bort understreck för länkar */
+    cursor: pointer;                          /* Visa att det är klickbart */
+    transition: all 0.2s;                     /* Mjuka övergångar */
+    text-align: center;                       /* Centrera text */
 }
 
+/* Primär knapp (huvudåtgärd) */
 .btn-primary {
-    background: #28a745;
-    color: white;
+    background: #28a745;                      /* Grön bakgrund */
+    color: white;                             /* Vit text */
 }
 
+/* Hover-effekt för primär knapp */
 .btn-primary:hover {
-    background: #218838;
-    transform: translateY(-1px);
+    background: #218838;                      /* Mörkare grön vid hover */
+    transform: translateY(-1px);              /* Lyft upp knappen lite */
 }
 
+/* Sekundär knapp (alternativ åtgärd) */
 .btn-secondary {
-    background: #6c757d;
-    color: white;
+    background: #6c757d;                      /* Grå bakgrund */
+    color: white;                             /* Vit text */
 }
 
+/* Hover-effekt för sekundär knapp */
 .btn-secondary:hover {
-    background: #5a6268;
-    transform: translateY(-1px);
+    background: #5a6268;                      /* Mörkare grå vid hover */
+    transform: translateY(-1px);              /* Lyft upp knappen lite */
 }
 
-/* Responsive Design */
+/* ============================================================================
+   RESPONSIV DESIGN - TABLET (MAX 768PX)
+   ============================================================================ */
+
 @media (max-width: 768px) {
+    /* Anpassa huvudcontainer för tablet */
     .confirmation-main {
-        padding: 0 0.5rem;
-        margin: 1rem auto;
+        padding: 0 0.5rem;                    /* Mindre horisontell padding */
+        margin: 1rem auto;                    /* Mindre vertikal margin */
     }
     
+    /* Anpassa bekräftelsehuvud för tablet */
     .confirmation-header {
-        padding: 2rem 1rem;
+        padding: 2rem 1rem;                   /* Mindre padding */
     }
     
+    /* Mindre rubrik på tablet */
     .confirmation-header h1 {
-        font-size: 2rem;
+        font-size: 2rem;                      /* Mindre textstorlek */
     }
     
+    /* Anpassa ordersammanfattning för tablet */
     .order-summary {
-        padding: 1rem;
+        padding: 1rem;                        /* Mindre padding */
     }
     
+    /* Enkolumns-layout för informationsrutnät */
     .info-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr;           /* En kolumn på tablet */
     }
     
+    /* Anpassa tabellpadding för tablet */
     .items-table th,
     .items-table td {
-        padding: 0.5rem;
-        font-size: 0.9rem;
+        padding: 0.5rem;                      /* Mindre padding */
+        font-size: 0.9rem;                    /* Mindre textstorlek */
     }
     
+    /* Anpassa handlingsområdet för tablet */
     .confirmation-actions {
-        padding: 1rem;
-        flex-direction: column;
+        padding: 1rem;                        /* Mindre padding */
+        flex-direction: column;               /* Vertikal layout för knappar */
     }
     
+    /* Fullbredd-knappar på tablet */
     .btn-primary, .btn-secondary {
-        width: 100%;
-        justify-content: center;
+        width: 100%;                          /* Full bredd */
+        justify-content: center;              /* Centrera innehåll */
     }
 }
+
+/* ============================================================================
+   RESPONSIV DESIGN - MOBIL (MAX 480PX)
+   ============================================================================ */
 
 @media (max-width: 480px) {
-    .items-table th:nth-child(2),
-    .items-table td:nth-child(2) {
-        display: none;
+    /* Dölj kolumner på mobil för att spara plats */
+    .items-table th:nth-child(2),            /* Dölj pris-kolumnhuvud */
+    .items-table td:nth-child(2) {           /* Dölj pris-kolumn */
+        display: none;                        /* Dold på mobil */
     }
     
+    /* Anpassa totalrad för mobil */
     .total-row {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
+        flex-direction: column;               /* Vertikal layout */
+        gap: 0.5rem;                          /* Avstånd mellan etikett och summa */
+        text-align: center;                   /* Centrera text */
     }
 }
 
-/* Print Styles */
+/* ============================================================================
+   UTSKRIFTSSTILAR - OPTIMERAD FÖR FYSISK UTSKRIFT
+   ============================================================================ */
+
 @media print {
+    /* Dölj webbsidans navigationselement vid utskrift */
     .header, .navigation-list, .perks-wrapper, .accordions, footer {
-        display: none !important;
+        display: none !important;             /* Dölj helt (viktigt för att överskrida) */
     }
     
+    /* Anpassa huvudcontainer för utskrift */
     .confirmation-main {
-        max-width: none;
-        margin: 0;
-        padding: 0;
+        max-width: none;                      /* Ta bort maxbredd */
+        margin: 0;                            /* Ta bort margin */
+        padding: 0;                           /* Ta bort padding */
     }
     
+    /* Dölj handlingsknappar vid utskrift */
     .confirmation-actions {
-        display: none !important;
+        display: none !important;             /* Knappar behövs inte på papper */
     }
     
+    /* Anpassa bekräftelsecontainer för utskrift */
     .confirmation-container {
-        box-shadow: none;
-        border: 1px solid #ccc;
+        box-shadow: none;                     /* Ta bort skugga */
+        border: 1px solid #ccc;               /* Lägg till enkel gräns */
     }
 } 

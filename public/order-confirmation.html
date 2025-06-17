@@ -2,29 +2,47 @@
 <html lang="sv">
 
 <head>
+    <!-- Meta-taggar för dokumenttyp och responsiv design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Sidans titel som visas i webbläsarens flik -->
     <title>FakeShop | Orderbekräftelse</title>
+    
+    <!-- Externa CSS-bibliotek för ikoner (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Lokal CSS för grundläggande styling av hela sidan -->
     <link rel="stylesheet" href="./css/styles.css">
+    
+    <!-- Specifik CSS för orderbekräftelsesidans styling -->
     <link rel="stylesheet" href="./css/confirmationStyles.css">
 </head>
 
 <body>
+    <!-- Huvudwrapper som omsluter hela sidans innehåll -->
     <div class="wrapper">
+        
+        <!-- HEADER-SEKTION: Innehåller logotyp och navigationsverktyg -->
         <header class="header">
+            <!-- Logotypområde med klickbar länk tillbaka till startsidan -->
             <div class="logotype">
                 <h1><a href="/" style="text-decoration: none; color: inherit;">logotype</a></h1>
             </div>
+            
+            <!-- Handlingsområde med sökfält och knappar -->
             <div class="actions">
+                <!-- Sökfält för produktsökning -->
                 <div class="search-bar">
                     <input class="input" type="text" placeholder="Sök produkter...">
                     <button type="submit" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
+                
+                <!-- Handlingsknappar för önskelista och varukorg -->
                 <div class="action-buttons">
                     <a href="#" aria-label="Wishlist">
                         <i class="fas fa-heart"></i>
@@ -36,6 +54,7 @@
             </div>
         </header>
         
+        <!-- NAVIGATIONSSEKTION: Huvudnavigering för olika produktkategorier -->
         <ul class="navigation-list">
             <li><a href="/" style="text-decoration: none; color: inherit;">Hem</a></li>
             <li>Nyheter</li>
@@ -44,19 +63,27 @@
             <li>Män</li>
         </ul>
 
+        <!-- HUVUDINNEHÅLL: Orderbekräftelsesidans innehåll -->
         <main class="confirmation-main">
-            <!-- Laddningsmeddelande -->
+            
+            <!-- LADDNINGSTILLSTÅND: Visas medan orderdata hämtas från servern -->
             <div id="loading" class="loading-container">
+                <!-- Roterande spinner för visuell feedback -->
                 <div class="loading-spinner"></div>
                 <p>Bearbetar din order...</p>
             </div>
 
-            <!-- Felmeddelande -->
+            <!-- FELTILLSTÅND: Visas om ordern inte kan hittas eller vid fel -->
             <div id="error" class="error-container" style="display: none;">
                 <div class="error-content">
+                    <!-- Fel-ikon (varningstriangel) -->
                     <i class="fas fa-exclamation-triangle error-icon"></i>
                     <h2>Ett fel uppstod</h2>
+                    
+                    <!-- Felmeddelande som uppdateras dynamiskt av JavaScript -->
                     <p id="error-message">Kunde inte hitta orderinformation.</p>
+                    
+                    <!-- Handlingsknappar för att navigera vidare efter fel -->
                     <div class="error-actions">
                         <a href="/" class="btn-primary">Tillbaka till startsidan</a>
                         <a href="/basket.html" class="btn-secondary">Visa varukorg</a>
@@ -64,9 +91,12 @@
                 </div>
             </div>
 
-            <!-- Orderbekräftelse -->
+            <!-- FRAMGÅNGSRIK ORDERBEKRÄFTELSE: Visas när orderdata har hämtats -->
             <div id="confirmation" class="confirmation-container" style="display: none;">
+                
+                <!-- BEKRÄFTELSEHUVUD: Grön sektion med framgångsmeddelande -->
                 <div class="confirmation-header">
+                    <!-- Stor checkmark-ikon för visuell bekräftelse -->
                     <div class="success-icon">
                         <i class="fas fa-check-circle"></i>
                     </div>
@@ -74,26 +104,40 @@
                     <p class="success-message">Din order har lagts och bekräftelse skickas till din e-post.</p>
                 </div>
 
+                <!-- ORDERSAMMANFATTNING: Detaljerad information om ordern -->
                 <div class="order-summary">
+                    
+                    <!-- ORDERINFORMATION: Grundläggande orderdetaljer -->
                     <div class="order-info">
                         <h2>Orderinformation</h2>
+                        
+                        <!-- Informationsrutnät med kundinformation -->
                         <div class="info-grid">
+                            <!-- Ordernummer -->
                             <div class="info-item">
                                 <span class="label">Ordernummer:</span>
                                 <span class="value" id="order-number">-</span>
                             </div>
+                            
+                            <!-- Orderdatum och tid -->
                             <div class="info-item">
                                 <span class="label">Datum:</span>
                                 <span class="value" id="order-date">-</span>
                             </div>
+                            
+                            <!-- Kundnamn -->
                             <div class="info-item">
                                 <span class="label">Kund:</span>
                                 <span class="value" id="customer-name">-</span>
                             </div>
+                            
+                            <!-- Kund-e-post -->
                             <div class="info-item">
                                 <span class="label">E-post:</span>
                                 <span class="value" id="customer-email">-</span>
                             </div>
+                            
+                            <!-- Leveransadress -->
                             <div class="info-item">
                                 <span class="label">Leveransadress:</span>
                                 <span class="value" id="shipping-address">-</span>
@@ -101,10 +145,14 @@
                         </div>
                     </div>
 
+                    <!-- ORDERARTIKLAR: Lista över alla beställda produkter -->
                     <div class="order-items">
                         <h2>Dina produkter</h2>
+                        
+                        <!-- Tabellcontainer för produktlista -->
                         <div class="items-table">
                             <table>
+                                <!-- Tabellhuvud med kolumnrubriker -->
                                 <thead>
                                     <tr>
                                         <th>Produkt</th>
@@ -113,26 +161,34 @@
                                         <th>Summa</th>
                                     </tr>
                                 </thead>
+                                
+                                <!-- Tabellkropp som fylls dynamiskt av JavaScript -->
                                 <tbody id="order-items-list">
-                                    <!-- Order items will be loaded here -->
+                                    <!-- Order items will be loaded here by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
+                    <!-- ORDERTOTAL: Totalsumma för beställningen -->
                     <div class="order-total">
                         <div class="total-row">
                             <span class="label">Totalt:</span>
+                            <!-- Totalsumma som uppdateras av JavaScript -->
                             <span class="value total-amount" id="total-amount">0 SEK</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- BEKRÄFTELSEÅTGÄRDER: Handlingsknappar efter lyckad order -->
                 <div class="confirmation-actions">
+                    <!-- Primär knapp: Fortsätt handla -->
                     <a href="/" class="btn-primary">
                         <i class="fas fa-home"></i>
                         Fortsätt handla
                     </a>
+                    
+                    <!-- Sekundär knapp: Skriv ut kvitto -->
                     <button class="btn-secondary" onclick="window.print()">
                         <i class="fas fa-print"></i>
                         Skriv ut kvitto
@@ -141,7 +197,9 @@
             </div>
         </main>
 
+        <!-- FÖRDELAR-SEKTION: Visar butikens fördelar och tjänster -->
         <div class="perks-wrapper">
+            <!-- Fördel 1: Gratis frakt och returer -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-earth-americas"></i>
@@ -150,6 +208,8 @@
                     Gratis frakt och returer
                 </div>
             </div>
+            
+            <!-- Fördel 2: Expressfrakt -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-truck-fast"></i>
@@ -158,6 +218,8 @@
                     Expressfrakt
                 </div>
             </div>
+            
+            <!-- Fördel 3: Säkra betalningar -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-shield"></i>
@@ -166,6 +228,8 @@
                     Säkra betalningar
                 </div>
             </div>
+            
+            <!-- Fördel 4: Dagliga nyheter -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-face-smile"></i>
@@ -176,7 +240,9 @@
             </div>
         </div>
 
+        <!-- ACCORDION-SEKTION: Utfällbara menyer för mobil navigation -->
         <div class="accordions">
+            <!-- Accordion 1: Shopping-kategorier -->
             <div class="accordion-wrapper">
                 <button class="accordion">Shopping</button>
                 <div class="panel">
@@ -187,6 +253,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 2: Mina sidor-funktioner -->
             <div class="accordion-wrapper">
                 <button class="accordion">Mina sidor</button>
                 <div class="panel">
@@ -195,6 +262,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 3: Kundtjänst-alternativ -->
             <div class="accordion-wrapper">
                 <button class="accordion">Kundtjänst</button>
                 <div class="panel">
@@ -204,34 +272,68 @@
             </div>
         </div>
 
+        <!-- FOOTER-SEKTION: Enkel copyright-information -->
         <footer>
             &#169; FakeShop
         </footer>
     </div>
 
+    <!-- JAVASCRIPT-SEKTION: All funktionalitet för orderbekräftelsesidan -->
     <script>
-        // Hämta order-ID från URL parametrar
+        // ====================================================================
+        // URL-PARAMETERHANTERING: HÄMTA ORDER-ID FRÅN URL
+        // ====================================================================
+        
+        /**
+         * Hämta order-ID från URL:s query parameters
+         * URL-format: /order-confirmation.html?order=123
+         * @returns {string|null} Order-ID eller null om inte finns
+         */
         function getOrderIdFromUrl() {
+            // Skapa URLSearchParams-objekt för att enkelt hantera query parameters
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // Hämta 'order'-parametern från URL:en
             return urlParams.get('order');
         }
 
-        // Formatera datum
+        // ====================================================================
+        // DATUMFORMATERING: VISA DATUM I SVENSKT FORMAT
+        // ====================================================================
+        
+        /**
+         * Formatera datum till svenskt format
+         * Konverterar ISO-datum till läsbart svenskt datum och tid
+         * @param {string} dateString - ISO-datum från databasen (t.ex. "2024-01-15T10:30:00Z")
+         * @returns {string} Formaterat datum (t.ex. "15 januari 2024 10:30")
+         */
         function formatDate(dateString) {
+            // Skapa Date-objekt från ISO-sträng
             const date = new Date(dateString);
+            
+            // Formatera till svenskt datum med tid
             return date.toLocaleDateString('sv-SE', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+                year: 'numeric',        // Årtal med fyra siffror
+                month: 'long',          // Månadsnamn (januari, februari, etc.)
+                day: 'numeric',         // Dag utan nolla före
+                hour: '2-digit',        // Timme med två siffror
+                minute: '2-digit'       // Minut med två siffror
             });
         }
 
-        // Ladda orderinformation
+        // ====================================================================
+        // API-KOMMUNIKATION: HÄMTA ORDERINFORMATION FRÅN SERVERN
+        // ====================================================================
+        
+        /**
+         * Hämta orderbekräftelse från API:et och visa på sidan
+         * Hanterar laddningstillstånd, fel och framgångsrik datahämtning
+         */
         async function loadOrderConfirmation() {
+            // Hämta order-ID från URL
             const orderId = getOrderIdFromUrl();
             
+            // Kontrollera att order-ID finns
             if (!orderId) {
                 showError('Inget ordernummer specificerat.');
                 return;
@@ -239,42 +341,79 @@
 
             try {
                 console.log('🔄 Hämtar orderbekräftelse för ID:', orderId);
+                
+                // Skicka GET-request till order-API:et
                 const response = await fetch(`/api/orders/${orderId}`);
                 
+                // Kontrollera HTTP-status
                 if (!response.ok) {
                     if (response.status === 404) {
+                        // Specifik hantering för 404 (order inte hittad)
                         showError('Order hittades inte.');
                         return;
                     }
+                    // Kasta fel för andra HTTP-felkoder
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
+                // Parsea JSON-svaret från API:et
                 const order = await response.json();
                 console.log('✅ Orderdata hämtad:', order);
                 
+                // Visa orderbekräftelse på sidan
                 displayOrderConfirmation(order);
                 
             } catch (error) {
+                // Hantera fel vid API-kommunikation
                 console.error('❌ Fel vid hämtning av orderbekräftelse:', error);
                 showError('Kunde inte ladda orderinformation. Försök igen senare.');
             }
         }
 
-        // Visa orderbekräftelse
+        // ====================================================================
+        // UI-RENDERING: VISA ORDERBEKRÄFTELSE PÅ SIDAN
+        // ====================================================================
+        
+        /**
+         * Visa orderbekräftelse med all orderinformation
+         * Uppdaterar alla DOM-element med data från API:et
+         * @param {Object} order - Orderobjekt från API:et med all orderdata
+         */
         function displayOrderConfirmation(order) {
-            // Uppdatera orderinformation
+            console.log('🎨 Renderarar orderbekräftelse...');
+            
+            // ================================================================
+            // UPPDATERA GRUNDLÄGGANDE ORDERINFORMATION
+            // ================================================================
+            
+            // Ordernummer
             document.getElementById('order-number').textContent = order.order_number;
+            
+            // Orderdatum formaterat till svenska
             document.getElementById('order-date').textContent = formatDate(order.created_at);
+            
+            // Kundinformation
             document.getElementById('customer-name').textContent = order.customer_name;
             document.getElementById('customer-email').textContent = order.customer_email;
             document.getElementById('shipping-address').textContent = order.shipping_address;
+            
+            // Totalsumma
             document.getElementById('total-amount').textContent = `${order.total_amount} SEK`;
             
-            // Visa order items
+            // ================================================================
+            // RENDERA ORDERARTIKLAR I TABELL
+            // ================================================================
+            
             const itemsList = document.getElementById('order-items-list');
+            
+            // Kontrollera att orderartiklar finns
             if (order.items && order.items.length > 0) {
+                console.log('📦 Renderarar', order.items.length, 'orderartiklar');
+                
+                // Skapa HTML för alla orderartiklar
                 const itemsHTML = order.items.map(item => `
                     <tr>
+                        <!-- Produktinformation (namn och märke) -->
                         <td>
                             <div class="item-info">
                                 <strong>${item.product_name}</strong>
@@ -282,51 +421,113 @@
                                 <small>${item.product_brand}</small>
                             </div>
                         </td>
+                        
+                        <!-- Styckpris -->
                         <td>${item.price} SEK</td>
+                        
+                        <!-- Antal beställda -->
                         <td>${item.quantity}</td>
+                        
+                        <!-- Totalsumma för denna artikel (pris × antal) -->
                         <td>${item.subtotal} SEK</td>
                     </tr>
                 `).join('');
                 
+                // Sätt in HTML i tabellkroppen
                 itemsList.innerHTML = itemsHTML;
             } else {
+                // Visa meddelande om inga produkter hittades
                 itemsList.innerHTML = '<tr><td colspan="4">Inga produkter hittades</td></tr>';
+                console.log('⚠️ Inga orderartiklar hittades i ordern');
             }
             
-            // Visa bekräftelse och dölja laddning
+            // ================================================================
+            // VISA BEKRÄFTELSE OCH DÖLJ LADDNING
+            // ================================================================
+            
+            // Dölj laddningsindikator
             document.getElementById('loading').style.display = 'none';
+            
+            // Visa orderbekräftelse
             document.getElementById('confirmation').style.display = 'block';
             
-            // Rensa varukorgen efter lyckad order
+            // ================================================================
+            // RENSA VARUKORG EFTER LYCKAD ORDER
+            // ================================================================
+            
+            // Ta bort varukorg från localStorage eftersom ordern är slutförd
             localStorage.removeItem('fakeShopBasket');
             
-            console.log('✅ Orderbekräftelse visad');
+            console.log('✅ Orderbekräftelse visad och varukorg rensad');
         }
 
-        // Visa felmeddelande
+        // ====================================================================
+        // FELHANTERING: VISA FELMEDDELANDEN
+        // ====================================================================
+        
+        /**
+         * Visa felmeddelande till användaren
+         * Döljer laddning och visar felcontainer med angivet meddelande
+         * @param {string} message - Felmeddelande att visa för användaren
+         */
         function showError(message) {
+            console.log('❌ Visar felmeddelande:', message);
+            
+            // Uppdatera felmeddelande-texten
             document.getElementById('error-message').textContent = message;
+            
+            // Dölj laddningsindikator
             document.getElementById('loading').style.display = 'none';
+            
+            // Visa felcontainer
             document.getElementById('error').style.display = 'block';
         }
 
-        // Accordion funktionalitet
+        // ====================================================================
+        // HUVUDINITIALISERING: STARTA ALLT NÄR DOM:EN ÄR LADDAD
+        // ====================================================================
+        
+        /**
+         * DOMContentLoaded event listener som initialiserar hela sidan
+         * Kör accordion-funktionalitet och laddar orderbekräftelse
+         */
         document.addEventListener('DOMContentLoaded', function() {
-            // Accordion
+            console.log('📄 Orderbekräftelsesida laddad, initialiserar...');
+            
+            // ================================================================
+            // ACCORDION-FUNKTIONALITET FÖR MOBIL NAVIGATION
+            // ================================================================
+            
+            // Hämta alla accordion-knappar
             var acc = document.getElementsByClassName("accordion");
+            
+            // Lägg till click-lyssnare för varje accordion
             for (let i = 0; i < acc.length; i++) {
                 acc[i].addEventListener("click", function () {
+                    console.log('🔄 Accordion klickad:', this.textContent);
+                    
+                    // Växla "active"-klassen på knappen
                     this.classList.toggle("active");
+                    
+                    // Hitta tillhörande panel (nästa element)
                     var panel = this.nextElementSibling;
+                    
+                    // Växla panelens synlighet
                     if (panel.style.display === "block") {
-                        panel.style.display = "none";
+                        panel.style.display = "none";  // Dölj panelen
+                        console.log('📤 Stängde accordion-panel');
                     } else {
-                        panel.style.display = "block";
+                        panel.style.display = "block"; // Visa panelen
+                        console.log('📥 Öppnade accordion-panel');
                     }
                 });
             }
             
-            // Ladda orderbekräftelse
+            // ================================================================
+            // LADDA ORDERBEKRÄFTELSE FRÅN API
+            // ================================================================
+            
+            // Starta orderbekräftelse-processen
             loadOrderConfirmation();
         });
     </script>

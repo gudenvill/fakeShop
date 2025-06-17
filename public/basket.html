@@ -2,29 +2,47 @@
 <html lang="sv">
 
 <head>
+    <!-- Meta-taggar för dokumenttyp och responsiv design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Sidans titel som visas i webbläsarens flik -->
     <title>FakeShop | Varukorg</title>
+    
+    <!-- Externa CSS-bibliotek för ikoner (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Lokal CSS för grundläggande styling av hela sidan -->
     <link rel="stylesheet" href="./css/styles.css">
+    
+    <!-- Specifik CSS för varukorgssidans styling -->
     <link rel="stylesheet" href="./css/basketStyles.css">
 </head>
 
 <body>
+    <!-- Huvudwrapper som omsluter hela sidans innehåll -->
     <div class="wrapper">
+        
+        <!-- HEADER-SEKTION: Innehåller logotyp och navigationsverktyg -->
         <header class="header">
+            <!-- Logotypområde med klickbar länk tillbaka till startsidan -->
             <div class="logotype">
                 <h1><a href="/" style="text-decoration: none; color: inherit;">logotype</a></h1>
             </div>
+            
+            <!-- Handlingsområde med sökfält och knappar -->
             <div class="actions">
+                <!-- Sökfält för produktsökning -->
                 <div class="search-bar">
                     <input class="input" type="text" placeholder="Sök produkt...">
                     <button type="submit" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
+                
+                <!-- Handlingsknappar för önskelista och varukorg -->
                 <div class="action-buttons">
                     <a href="#" aria-label="Wishlist">
                         <i class="fas fa-heart"></i>
@@ -36,6 +54,7 @@
             </div>
         </header>
         
+        <!-- NAVIGATIONSSEKTION: Huvudnavigering för olika produktkategorier -->
         <ul class="navigation-list">
             <li><a href="/" style="text-decoration: none; color: inherit;">Hem</a></li>
             <li>Nyheter</li>
@@ -44,58 +63,75 @@
             <li>Män</li>
         </ul>
 
+        <!-- HUVUDINNEHÅLL: Varukorgssidans innehåll -->
         <main class="basket-main">
             <h1>Varukorg</h1>
 
-            <!-- Tom varukorg meddelande -->
+            <!-- TOM VARUKORG-TILLSTÅND: Visas när inga produkter finns i varukorgen -->
             <div id="empty-basket" class="empty-basket" style="display: none;">
                 <div class="empty-basket-content">
+                    <!-- Stor varukorg-ikon för visuell feedback -->
                     <i class="fas fa-shopping-basket empty-basket-icon"></i>
                     <h2>Din varukorg är tom</h2>
                     <p>Lägg till produkter för att fortsätta med ditt köp</p>
+                    
+                    <!-- Knapp för att gå tillbaka till shopping -->
                     <a href="/" class="continue-shopping-btn">Fortsätt handla</a>
                 </div>
             </div>
 
-            <!-- Varukorg innehåll -->
+            <!-- VARUKORGSINNEHÅLL: Visas när det finns produkter i varukorgen -->
             <div id="basket-content" class="basket-content">
-                <!-- Varukorg tabell -->
+                
+                <!-- PRODUKTTABELL: Visar alla produkter i tabellformat -->
                 <div class="basket-table-container">
                     <table class="basket-table">
+                        <!-- Tabellhuvud med kolumnrubriker -->
                         <thead>
                             <tr>
-                                <th>Produkt</th>
-                                <th>Pris</th>
-                                <th>Antal</th>
-                                <th>Totalt</th>
-                                <th>Åtgärd</th>
+                                <th>Produkt</th>       <!-- Produktnamn, bild och märke -->
+                                <th>Pris</th>          <!-- Styckpris -->
+                                <th>Antal</th>         <!-- Kvantitet med +/- knappar -->
+                                <th>Totalt</th>        <!-- Pris × antal -->
+                                <th>Åtgärd</th>        <!-- Ta bort-knapp -->
                             </tr>
                         </thead>
+                        
+                        <!-- Tabellkropp som fylls dynamiskt av JavaScript -->
                         <tbody id="basket-items">
-                            <!-- Varukorgsartiklar laddas dynamiskt här -->
+                            <!-- Varukorgsartiklar laddas dynamiskt här av BasketManager -->
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Varukorg sammandrag -->
+                <!-- VARUKORGSAMMANDRAG: Totaler och kassaknapp -->
                 <div class="basket-summary">
+                    <!-- Delsumma (alla produkter tillsammans) -->
                     <div class="summary-row">
                         <span>Delsumma:</span>
                         <span id="subtotal">0 SEK</span>
                     </div>
+                    
+                    <!-- Fraktkostnad (gratis över 500 SEK) -->
                     <div class="summary-row">
                         <span>Frakt:</span>
                         <span id="shipping">Gratis</span>
                     </div>
+                    
+                    <!-- Totalsumma (delsumma + frakt) -->
                     <div class="summary-row total-row">
                         <span>Totalt:</span>
                         <span id="total">0 SEK</span>
                     </div>
                     
+                    <!-- Handlingsknappar -->
                     <div class="basket-actions">
+                        <!-- Sekundär knapp: Fortsätt handla -->
                         <button class="continue-shopping-btn secondary" onclick="window.location.href='/'">
                             Fortsätt handla
                         </button>
+                        
+                        <!-- Primär knapp: Gå till kassan -->
                         <button class="checkout-btn primary" id="checkout-btn">
                             Till kassan
                         </button>
@@ -104,7 +140,9 @@
             </div>
         </main>
 
+        <!-- FÖRDELAR-SEKTION: Visar butikens fördelar och tjänster -->
         <div class="perks-wrapper">
+            <!-- Fördel 1: Gratis frakt och returer -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-earth-americas"></i>
@@ -113,6 +151,8 @@
                     Gratis frakt och returer
                 </div>
             </div>
+            
+            <!-- Fördel 2: Expressfrakt -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-truck-fast"></i>
@@ -121,6 +161,8 @@
                     Expressfrakt
                 </div>
             </div>
+            
+            <!-- Fördel 3: Säkra betalningar -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-shield"></i>
@@ -129,6 +171,8 @@
                     Säkra betalningar
                 </div>
             </div>
+            
+            <!-- Fördel 4: Dagliga nyheter -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-face-smile"></i>
@@ -139,7 +183,9 @@
             </div>
         </div>
 
+        <!-- ACCORDION-SEKTION: Utfällbara menyer för mobil navigation -->
         <div class="accordions">
+            <!-- Accordion 1: Shopping-kategorier -->
             <div class="accordion-wrapper">
                 <button class="accordion">Shopping</button>
                 <div class="panel">
@@ -150,6 +196,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 2: Mina sidor-funktioner -->
             <div class="accordion-wrapper">
                 <button class="accordion">Mina sidor</button>
                 <div class="panel">
@@ -158,6 +205,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 3: Kundtjänst-alternativ -->
             <div class="accordion-wrapper">
                 <button class="accordion">Kundtjänst</button>
                 <div class="panel">
@@ -167,102 +215,225 @@
             </div>
         </div>
 
+        <!-- FOOTER-SEKTION: Enkel copyright-information -->
         <footer>
             &#169; FakeShop
         </footer>
     </div>
 
+    <!-- JAVASCRIPT-SEKTION: All funktionalitet för varukorgssidan -->
     <script>
-        // Varukorg hantering med localStorage
+        // ====================================================================
+        // BASKETMANAGER-KLASS: HUVUDKLASS FÖR ALLA VARUKORGSFUNKTIONER
+        // ====================================================================
+        
+        /**
+         * BasketManager - Klass som hanterar alla varukorgsfunktioner
+         * Ansvarar för localStorage-hantering, kvantitetsuppdateringar, 
+         * beräkningar och UI-rendering
+         */
         class BasketManager {
+            /**
+             * Konstruktor som initialiserar BasketManager
+             * Laddar befintlig varukorg och startar rendering
+             */
             constructor() {
+                // Ladda befintliga varukorgsartiklar från localStorage
                 this.items = this.loadBasket();
+                console.log('🛒 BasketManager initialiserad med', this.items.length, 'artiklar');
+                
+                // Initiera rendering och event listeners
                 this.init();
             }
 
-            // Ladda varukorg från localStorage
+            // ================================================================
+            // LOCALSTORAGE-HANTERING: LADDA OCH SPARA VARUKORG
+            // ================================================================
+            
+            /**
+             * Ladda varukorg från localStorage
+             * @returns {Array} Array med varukorgsartiklar, tom array om inget finns
+             */
             loadBasket() {
+                // Försök hämta varukorg från localStorage
                 const basket = localStorage.getItem('fakeShopBasket');
+                
+                // Parsea JSON-data om den finns, annars returnera tom array
                 return basket ? JSON.parse(basket) : [];
             }
 
-            // Spara varukorg till localStorage
+            /**
+             * Spara varukorg till localStorage
+             * Konverterar items-array till JSON och sparar den
+             */
             saveBasket() {
+                // Spara aktuella items som JSON-sträng i localStorage
                 localStorage.setItem('fakeShopBasket', JSON.stringify(this.items));
+                console.log('💾 Varukorg sparad i localStorage');
             }
 
-            // Lägg till produkt i varukorg
+            // ================================================================
+            // PRODUKTHANTERING: LÄGG TILL, UPPDATERA OCH TA BORT
+            // ================================================================
+            
+            /**
+             * Lägg till produkt i varukorg
+             * Om produkten redan finns, öka kvantiteten. Annars lägg till ny.
+             * @param {Object} product - Produktobjekt att lägga till
+             * @param {number} quantity - Antal att lägga till (standard: 1)
+             */
             addItem(product, quantity = 1) {
+                console.log('➕ Lägger till produkt:', product.name, 'antal:', quantity);
+                
+                // Leta efter befintlig produkt med samma ID
                 const existingItem = this.items.find(item => item.id === product.id);
                 
                 if (existingItem) {
+                    // Om produkten redan finns, öka kvantiteten
                     existingItem.quantity += quantity;
+                    console.log('🔄 Uppdaterade kvantitet för befintlig produkt');
                 } else {
+                    // Om produkten är ny, lägg till i items-array
                     this.items.push({
-                        id: product.id,
-                        name: product.name,
-                        brand: product.brand,
-                        price: product.price,
-                        image_url: product.image_url,
-                        quantity: quantity
+                        id: product.id,                    // Unikt produkt-ID
+                        name: product.name,                // Produktnamn
+                        brand: product.brand,              // Produktmärke
+                        price: product.price,              // Styckpris
+                        image_url: product.image_url,      // Produktbild
+                        quantity: quantity                 // Antal i varukorgen
                     });
+                    console.log('✅ Lade till ny produkt i varukorgen');
                 }
                 
+                // Spara till localStorage och uppdatera UI
                 this.saveBasket();
                 this.render();
                 console.log('✅ Produkt tillagd i varukorg:', product.name);
             }
 
-            // Uppdatera kvantitet
+            /**
+             * Uppdatera kvantitet för en specifik produkt
+             * @param {number} productId - ID för produkten att uppdatera
+             * @param {number} newQuantity - Ny kvantitet (om ≤0 tas produkten bort)
+             */
             updateQuantity(productId, newQuantity) {
+                console.log('🔢 Uppdaterar kvantitet för produkt ID:', productId, 'till:', newQuantity);
+                
+                // Om kvantiteten är 0 eller mindre, ta bort produkten helt
                 if (newQuantity <= 0) {
                     this.removeItem(productId);
                     return;
                 }
 
+                // Hitta produkten i items-array
                 const item = this.items.find(item => item.id === productId);
                 if (item) {
+                    // Uppdatera kvantiteten
                     item.quantity = newQuantity;
+                    console.log('✅ Kvantitet uppdaterad för:', item.name);
+                    
+                    // Spara och rendera om
                     this.saveBasket();
                     this.render();
+                } else {
+                    console.log('⚠️ Kunde inte hitta produkt med ID:', productId);
                 }
             }
 
-            // Ta bort produkt från varukorg
+            /**
+             * Ta bort produkt helt från varukorg
+             * @param {number} productId - ID för produkten att ta bort
+             */
             removeItem(productId) {
+                console.log('🗑️ Tar bort produkt med ID:', productId);
+                
+                // Filtrera bort produkten med angivet ID
+                const itemToRemove = this.items.find(item => item.id === productId);
                 this.items = this.items.filter(item => item.id !== productId);
+                
+                if (itemToRemove) {
+                    console.log('✅ Produkt borttagen:', itemToRemove.name);
+                } else {
+                    console.log('⚠️ Kunde inte hitta produkt att ta bort med ID:', productId);
+                }
+                
+                // Spara och rendera om
                 this.saveBasket();
                 this.render();
                 console.log('✅ Produkt borttagen från varukorg');
             }
 
-            // Räkna ut totaler
+            // ================================================================
+            // BERÄKNINGAR: TOTALER, FRAKT OCH DELSUMMOR
+            // ================================================================
+            
+            /**
+             * Räkna ut alla totaler för varukorgen
+             * Beräknar delsumma, frakt och totalsumma
+             * @returns {Object} Objekt med subtotal, shipping och total
+             */
             calculateTotals() {
-                const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                // Beräkna delsumma: summa av (pris × kvantitet) för alla produkter
+                const subtotal = this.items.reduce((sum, item) => {
+                    return sum + (item.price * item.quantity);
+                }, 0);
+                
+                // Beräkna frakt: Gratis över 500 SEK, 49 SEK annars (0 om tom korg)
                 const shipping = subtotal > 500 ? 0 : (subtotal > 0 ? 49 : 0);
+                
+                // Beräkna totalsumma
                 const total = subtotal + shipping;
 
+                console.log('💰 Totaler beräknade - Delsumma:', subtotal, 'Frakt:', shipping, 'Totalt:', total);
+                
+                // Returnera alla beräknade värden
                 return { subtotal, shipping, total };
             }
 
-            // Rendera varukorg
+            // ================================================================
+            // UI-RENDERING: UPPDATERA VARUKORGSDISPLAY
+            // ================================================================
+            
+            /**
+             * Rendera hela varukorgen i UI:et
+             * Hanterar tom varukorg, produktlista och totaler
+             */
             render() {
+                console.log('🎨 Renderar varukorg med', this.items.length, 'artiklar');
+                
+                // Hämta referenser till DOM-element
                 const emptyBasket = document.getElementById('empty-basket');
                 const basketContent = document.getElementById('basket-content');
                 const basketItems = document.getElementById('basket-items');
 
+                // ============================================================
+                // HANTERA TOM VARUKORG
+                // ============================================================
+                
                 if (this.items.length === 0) {
+                    // Visa tom varukorg-meddelande
                     emptyBasket.style.display = 'block';
                     basketContent.style.display = 'none';
+                    console.log('📭 Visar tom varukorg');
                     return;
                 }
 
+                // ============================================================
+                // VISA VARUKORG MED INNEHÅLL
+                // ============================================================
+                
+                // Dölj tom varukorg-meddelande och visa innehåll
                 emptyBasket.style.display = 'none';
                 basketContent.style.display = 'block';
 
-                // Rendera varukorgsartiklar
+                // ============================================================
+                // RENDERA ALLA VARUKORGSARTIKLAR
+                // ============================================================
+                
+                // Skapa HTML för varje artikel i varukorgen
                 basketItems.innerHTML = this.items.map(item => `
                     <tr class="basket-item">
+                        <!-- Produktinformation: bild, namn och märke -->
                         <td class="item-info">
                             <img src="${item.image_url}" alt="${item.name}" class="item-image">
                             <div class="item-details">
@@ -270,21 +441,34 @@
                                 <p>${item.brand}</p>
                             </div>
                         </td>
+                        
+                        <!-- Styckpris -->
                         <td class="item-price">${item.price} SEK</td>
+                        
+                        <!-- Kvantitetskontroller med +/- knappar -->
                         <td class="item-quantity">
                             <div class="quantity-controls">
+                                <!-- Minska kvantitet-knapp -->
                                 <button class="quantity-btn" onclick="basket.updateQuantity(${item.id}, ${item.quantity - 1})">
                                     <i class="fas fa-minus"></i>
                                 </button>
+                                
+                                <!-- Kvantitetsinput-fält -->
                                 <input type="number" value="${item.quantity}" min="1" 
                                        onchange="basket.updateQuantity(${item.id}, parseInt(this.value))"
                                        class="quantity-input">
+                                
+                                <!-- Öka kvantitet-knapp -->
                                 <button class="quantity-btn" onclick="basket.updateQuantity(${item.id}, ${item.quantity + 1})">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
                         </td>
+                        
+                        <!-- Totalpris för denna artikel (pris × kvantitet) -->
                         <td class="item-total">${item.price * item.quantity} SEK</td>
+                        
+                        <!-- Ta bort-knapp -->
                         <td class="item-actions">
                             <button class="remove-btn" onclick="basket.removeItem(${item.id})" title="Ta bort">
                                 <i class="fas fa-trash"></i>
@@ -293,67 +477,147 @@
                     </tr>
                 `).join('');
 
-                // Uppdatera totaler
+                // ============================================================
+                // UPPDATERA TOTALER I SAMMANDRAG
+                // ============================================================
+                
+                // Beräkna och visa alla totaler
                 const { subtotal, shipping, total } = this.calculateTotals();
+                
+                // Uppdatera delsumma
                 document.getElementById('subtotal').textContent = `${subtotal} SEK`;
+                
+                // Uppdatera frakt (visa "Gratis" eller belopp)
                 document.getElementById('shipping').textContent = shipping === 0 ? 'Gratis' : `${shipping} SEK`;
+                
+                // Uppdatera totalsumma
                 document.getElementById('total').textContent = `${total} SEK`;
+                
+                console.log('✅ Varukorg renderad med uppdaterade totaler');
             }
 
-            // Initiera
+            // ================================================================
+            // INITIALISERING: STARTA ALLA FUNKTIONER
+            // ================================================================
+            
+            /**
+             * Initiera BasketManager
+             * Renderar initial UI och sätter upp event listeners
+             */
             init() {
+                console.log('🔧 Initialiserar BasketManager...');
+                
+                // Rendera initial varukorg
                 this.render();
                 
-                // Checkout knapp
+                // ============================================================
+                // KASSAKNAPP EVENT LISTENER
+                // ============================================================
+                
+                // Lägg till click-lyssnare för kassaknappen
                 document.getElementById('checkout-btn').addEventListener('click', () => {
+                    console.log('🛒 Kassaknapp klickad');
+                    
+                    // Kontrollera att det finns produkter innan vi går till kassan
                     if (this.items.length > 0) {
+                        console.log('✅ Navigerar till kassan med', this.items.length, 'produkter');
                         window.location.href = '/checkout.html';
+                    } else {
+                        console.log('⚠️ Kan inte gå till kassan - tom varukorg');
+                        alert('Din varukorg är tom! Lägg till produkter först.');
                     }
                 });
+                
+                console.log('✅ BasketManager initialiserad');
             }
         }
 
-        // Accordion funktionalitet
+        // ====================================================================
+        // HUVUDINITIALISERING: STARTA ALLT NÄR DOM:EN ÄR LADDAD
+        // ====================================================================
+        
+        /**
+         * DOMContentLoaded event listener som initialiserar hela sidan
+         * Startar BasketManager och accordion-funktionalitet
+         */
         document.addEventListener('DOMContentLoaded', function() {
-            // Initiera varukorg
+            console.log('📄 Varukorgssida laddad, initialiserar...');
+            
+            // ================================================================
+            // INITIERA VARUKORG
+            // ================================================================
+            
+            // Skapa global BasketManager-instans
             window.basket = new BasketManager();
             
-            // Accordion
+            // ================================================================
+            // ACCORDION-FUNKTIONALITET FÖR MOBIL NAVIGATION
+            // ================================================================
+            
+            // Hämta alla accordion-knappar
             var acc = document.getElementsByClassName("accordion");
+            
+            // Lägg till click-lyssnare för varje accordion
             for (let i = 0; i < acc.length; i++) {
                 acc[i].addEventListener("click", function () {
+                    console.log('🔄 Accordion klickad:', this.textContent);
+                    
+                    // Växla "active"-klassen på knappen
                     this.classList.toggle("active");
+                    
+                    // Hitta tillhörande panel (nästa element)
                     var panel = this.nextElementSibling;
+                    
+                    // Växla panelens synlighet
                     if (panel.style.display === "block") {
-                        panel.style.display = "none";
+                        panel.style.display = "none";  // Dölj panelen
+                        console.log('📤 Stängde accordion-panel');
                     } else {
-                        panel.style.display = "block";
+                        panel.style.display = "block"; // Visa panelen
+                        console.log('📥 Öppnade accordion-panel');
                     }
                 });
             }
         });
 
-        // Testa funktionalitet - lägg till några produkter (kan tas bort senare)
+        // ====================================================================
+        // TESTFUNKTIONER: FÖR UTVECKLING OCH FELSÖKNING
+        // ====================================================================
+        
+        /**
+         * Lägg till testprodukter i varukorgen för utveckling/felsökning
+         * VIKTIGT: Denna funktion ska tas bort eller kommenteras bort i produktion
+         */
         function addTestItems() {
+            console.log('🧪 Lägger till testprodukter...');
+            
+            // Testprodukt 1: Premium T-shirt
             const testProduct1 = {
-                id: 1,
-                name: "Premium T-shirt",
-                brand: "Levis", 
-                price: 249,
-                image_url: "/images/product.png"
+                id: 1,                              // Unikt produkt-ID
+                name: "Premium T-shirt",            // Produktnamn
+                brand: "Levis",                     // Märke
+                price: 249,                         // Pris i SEK
+                image_url: "/images/product.png"    // Produktbild
             };
             
+            // Testprodukt 2: Blå Jeans
             const testProduct2 = {
-                id: 33,
-                name: "Blå Jeans",
-                brand: "Levis",
-                price: 599,
-                image_url: "/images/product.png"
+                id: 33,                             // Unikt produkt-ID
+                name: "Blå Jeans",                  // Produktnamn
+                brand: "Levis",                     // Märke
+                price: 599,                         // Pris i SEK
+                image_url: "/images/product.png"    // Produktbild
             };
             
-            basket.addItem(testProduct1, 2);
-            basket.addItem(testProduct2, 1);
+            // Lägg till testprodukterna i varukorgen
+            basket.addItem(testProduct1, 2);  // 2 st T-shirts
+            basket.addItem(testProduct2, 1);  // 1 st jeans
+            
+            console.log('✅ Testprodukter tillagda');
         }
+        
+        // Ovanstående funktion kan anropas för att testa funktionaliteten:
+        // addTestItems(); // Avkommentera denna rad för att lägga till testdata
     </script>
 </body>
 

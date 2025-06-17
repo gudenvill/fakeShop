@@ -2,46 +2,71 @@
 <html lang="en">
 
 <head>
+    <!-- Meta-taggar för dokumenttyp och responsiv design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Sidans titel som visas i webbläsarens flik -->
     <title>FakeShop | Startsida</title>
+    
+    <!-- Externa CSS-bibliotek för ikoner (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Lokal CSS för grundläggande styling av hela sidan -->
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
+    <!-- Huvudwrapper som omsluter hela sidans innehåll -->
     <div class="wrapper">
+        
+        <!-- HEADER-SEKTION: Innehåller logotyp och navigationsverktyg -->
         <header class="header">
+            <!-- Logotypområde -->
             <div class="logotype">
                 <h1>logotype</h1>
             </div>
+            
+            <!-- Handlingsområde med sökfält och knappar -->
             <div class="actions">
+                <!-- Sökfält för produktsökning -->
                 <div class="search-bar">
                     <input class="input" type="text" placeholder="Search products...">
                     <button type="submit" aria-label="Search"> 
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
+                
+                <!-- Handlingsknappar för önskelista och varukorg -->
                 <div class="action-buttons">
+                    <!-- Önskelista-knapp (endast visuell, ej implementerad funktionalitet) -->
                     <a href="#" aria-label="Wishlist"> 
                         <i class="fas fa-heart"></i>
                     </a>
+                    <!-- Varukorg-knapp som navigerar till varukorgssidan -->
                     <a href="/basket.html" aria-label="Shopping Basket">
                         <i class="fas fa-shopping-basket"></i>
                     </a>
                 </div>
             </div>
         </header>
+        
+        <!-- NAVIGATIONSSEKTION: Huvudnavigering för olika produktkategorier -->
         <ul class="navigation-list">
             <li>Nyheter</li>
             <li>Bästsäljare</li>
             <li>Kvinnor</li>
             <li>Män</li>
         </ul>
+        
+        <!-- HERO-SEKTION: Stor marknadsföringssektion med bild och text -->
         <div class="hero">
+            <!-- Hero-bild -->
             <div class="hero-image">
                 <img src="./images/placeholder-hero.jpg" alt="heroPlaceholder">
             </div>
+            
+            <!-- Hero-text med huvudmeddelande -->
             <div class="hero-text">
                 <h2>
                     Lorem ipsum dolor sit amet
@@ -53,17 +78,20 @@
             </div>
         </div>
 
-        <!-- Sökresultat text (ny sektion) -->
+        <!-- SÖKRESULTAT-INFO: Visar antal sökresultat (dolt som standard) -->
         <div id="search-results-info" style="display: none; text-align: center; padding: 20px 0; font-size: 18px; color: #666; font-weight: 500;">
-            <!-- Sökresultat text visas här -->
+            <!-- Sökresultat text visas här dynamiskt via JavaScript -->
         </div>
 
+        <!-- PRODUKTCONTAINER: Här renderas alla produkter dynamiskt -->
         <div class="products-wrapper" id="products-container">
-            <!-- Produkter laddas dynamiskt här -->
+            <!-- Laddningsmeddelande som visas medan produkter hämtas -->
             <div class="loading-message">Laddar produkter...</div>
         </div>
 
+        <!-- FÖRDELAR-SEKTION: Visar butikens fördelar och tjänster -->
         <div class="perks-wrapper">
+            <!-- Fördel 1: Gratis frakt och returer -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-earth-americas"></i>
@@ -72,6 +100,8 @@
                     Gratis frakt och returer
                 </div>
             </div>
+            
+            <!-- Fördel 2: Expressfrakt -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-truck-fast"></i>
@@ -80,6 +110,8 @@
                     Expressfrakt
                 </div>
             </div>
+            
+            <!-- Fördel 3: Säkra betalningar -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-shield"></i>
@@ -88,6 +120,8 @@
                     Säkra betalningar
                 </div>
             </div>
+            
+            <!-- Fördel 4: Dagliga nyheter -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-face-smile"></i>
@@ -98,8 +132,10 @@
             </div>
         </div>
 
+        <!-- ACCORDION-SEKTION: Utfällbara menyer för additional navigation -->
         <div class="accordions">
 
+            <!-- Accordion 1: Shopping-kategorier -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Shopping
@@ -112,6 +148,7 @@
                 </div>
             </div>
     
+            <!-- Accordion 2: Mina sidor-funktioner -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Mina sidor
@@ -122,6 +159,7 @@
                 </div>
             </div>
     
+            <!-- Accordion 3: Kundtjänst-alternativ -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Kundtjänst
@@ -133,106 +171,185 @@
             </div>
         </div>
 
+        <!-- FOOTER-SEKTION: Enkel copyright-information -->
         <footer>
             &#169; FakeShop
         </footer>
     </div>
 
+    <!-- JAVASCRIPT-SEKTION: Accordion-funktionalitet för mobil navigation -->
     <script>
+        // ====================================================================
+        // ACCORDION-FUNKTIONALITET
+        // ====================================================================
+        
+        // Hämta alla accordion-knappar från DOM:en
         var acc = document.getElementsByClassName("accordion");
         var i;
 
+        // Loopa igenom alla accordion-knappar och lägg till click-lyssnare
         for (i = 0; i < acc.length; i++) {
             acc[i].addEventListener("click", function () {
-                /* Toggle between adding and removing the "active" class,
-                to highlight the button that controls the panel */
+                // Växla "active"-klassen för att highlighta aktiv knapp
                 this.classList.toggle("active");
 
-                /* Toggle between hiding and showing the active panel */
+                // Hitta panelen som hör till denna knapp och växla synlighet
                 var panel = this.nextElementSibling;
                 if (panel.style.display === "block") {
-                    panel.style.display = "none";
+                    panel.style.display = "none";  // Dölj panelen
                 } else {
-                    panel.style.display = "block";
+                    panel.style.display = "block"; // Visa panelen
                 }
             });
         }
     </script>
 
+    <!-- JAVASCRIPT-SEKTION: Huvudfunktionalitet för produktvisning och sökning -->
     <script>
-    let allProducts = []; // Lagra alla produkter för snabb filtrering
-    let currentSearchQuery = ''; // Håll koll på aktuell sökning
+    // ====================================================================
+    // GLOBALA VARIABLER FÖR PRODUKTHANTERING
+    // ====================================================================
+    
+    // Array för att lagra alla produkter från API:et för snabb lokal filtrering
+    let allProducts = [];
+    
+    // Håller koll på aktuell sökfråga för att visa rätt meddelanden
+    let currentSearchQuery = '';
 
-    // Hämta produkter från API:et
+    // ====================================================================
+    // API-KOMMUNIKATION: HÄMTA PRODUKTER FRÅN BACKEND
+    // ====================================================================
+    
+    /**
+     * Hämta alla produkter från API:et
+     * Denna funktion körs när sidan laddas och hämtar alla tillgängliga produkter
+     */
     async function fetchProducts() {
         try {
             console.log('🔄 Hämtar produkter från API...');
+            
+            // Skicka GET-request till produkter-API:et
             const response = await fetch('/api/products');
             
+            // Kontrollera att requestet var framgångsrikt
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
+            // Parsea JSON-svaret
             const products = await response.json();
             console.log('✅ Produkter hämtade:', products.length);
             
-            allProducts = products; // Spara för sökning
+            // Spara produkterna globalt för sökning och visa dem
+            allProducts = products;
             displayProducts(products);
+            
         } catch (error) {
+            // Hantera fel vid hämtning och visa felmeddelande
             console.error('❌ Fel vid hämtning av produkter:', error);
             document.getElementById('products-container').innerHTML = 
                 '<div class="error-message">Kunde inte ladda produkter. Försök igen senare.</div>';
         }
     }
 
-    // Sök produkter lokalt (snabbare)
+    // ====================================================================
+    // SÖKFUNKTIONALITET: LOKAL FILTRERING AV PRODUKTER
+    // ====================================================================
+    
+    /**
+     * Sök produkter lokalt (snabbare än API-anrop)
+     * Filtrerar produkter baserat på namn, märke eller beskrivning
+     * 
+     * @param {string} query - Sökterm från användaren
+     */
     function searchProducts(query) {
+        // Spara aktuell sökfråga
         currentSearchQuery = query;
         
+        // Om sökning är tom, visa alla produkter och dölj sökresultat-info
         if (!query || query.trim() === '') {
             hideSearchResults();
             displayProducts(allProducts);
             return;
         }
         
+        // Konvertera sökterm till gemener för case-insensitive sökning
         const searchTerm = query.toLowerCase().trim();
+        
+        // Filtrera produkter som matchar söktermen i namn, märke eller beskrivning
         const filteredProducts = allProducts.filter(product => 
             product.name.toLowerCase().includes(searchTerm) ||
             product.brand.toLowerCase().includes(searchTerm) ||
             (product.description && product.description.toLowerCase().includes(searchTerm))
         );
         
+        // Logga sökresultat och visa dem
         console.log(`🔍 Sökning "${query}" gav ${filteredProducts.length} resultat`);
         showSearchResults(filteredProducts.length, query);
         displayProducts(filteredProducts);
     }
 
-    // Visa sökresultat information
+    // ====================================================================
+    // UI-FUNKTIONER FÖR SÖKRESULTAT
+    // ====================================================================
+    
+    /**
+     * Visa information om sökresultat
+     * 
+     * @param {number} count - Antal hittade produkter
+     * @param {string} query - Sökterm som användes
+     */
     function showSearchResults(count, query) {
         const searchInfo = document.getElementById('search-results-info');
         searchInfo.textContent = `Hittade ${count} produkter`;
         searchInfo.style.display = 'block';
     }
 
-    // Dölj sökresultat information
+    /**
+     * Dölj sökresultat-information
+     * Används när sökning rensas eller inga söktermer anges
+     */
     function hideSearchResults() {
         const searchInfo = document.getElementById('search-results-info');
         searchInfo.style.display = 'none';
     }
 
-    // Kontrollera om en produkt är ny (skapad inom 7 dagar)
+    // ====================================================================
+    // PRODUKTLOGIK: KONTROLLERA OM PRODUKT ÄR NY
+    // ====================================================================
+    
+    /**
+     * Kontrollera om en produkt är ny (skapad inom 7 dagar)
+     * Används för att visa "Nyhet"-märkning på produktkort
+     * 
+     * @param {string} createdAt - Produktens skapandedatum från databasen
+     * @returns {boolean} True om produkten är ny, annars false
+     */
     function isNewProduct(createdAt) {
         const now = new Date();
         const productDate = new Date(createdAt);
+        
+        // Beräkna skillnad i dagar mellan nu och skapandedatum
         const daysDifference = Math.floor((now - productDate) / (1000 * 60 * 60 * 24));
         
+        // Produkten är "ny" om den skapades inom 7 dagar
         return daysDifference <= 7;
     }
 
-    // Visa produkter på sidan
+    // ====================================================================
+    // PRODUKTVISNING: RENDERA PRODUKTKORT PÅ SIDAN
+    // ====================================================================
+    
+    /**
+     * Visa produkter på sidan genom att skapa HTML-struktur
+     * Hanterar både normala produktlistor och tomma sökresultat
+     * 
+     * @param {Array} products - Array med produktobjekt att visa
+     */
     function displayProducts(products) {
         const container = document.getElementById('products-container');
         
+        // Hantera fallet när inga produkter hittas
         if (products.length === 0) {
             const message = currentSearchQuery 
                 ? `Inga produkter hittades för "${currentSearchQuery}"`
@@ -243,17 +360,26 @@
         
         // Skapa HTML för alla produkter
         const productsHTML = products.map(product => {
+            // Kontrollera om produkten är ny för att visa "Nyhet"-märkning
             const isNew = isNewProduct(product.created_at);
             
+            // Returnera HTML-struktur för varje produktkort
             return `
                 <div class="product-card" data-product-id="${product.id}" title="Klicka för att se detaljer">
                     <div class="product-image">
+                        <!-- Produktbild -->
                         <img src="${product.image_url}" alt="${product.name}">
+                        
+                        <!-- Hjärt-overlay för önskelista (visuell, ej funktionell) -->
                         <div class="product-overlay overlay-heart">
                             &#x2764;
                         </div>
+                        
+                        <!-- "Nyhet"-märkning som visas endast för nya produkter -->
                         ${isNew ? '<div class="product-overlay overlay-banner">Nyhet</div>' : ''}
                     </div>
+                    
+                    <!-- Produktinformation -->
                     <div class="product-info">
                         <div class="product-info-name">
                             <h3>${product.name}</h3>
@@ -265,34 +391,57 @@
             `;
         }).join('');
         
+        // Sätt in all HTML i containern
         container.innerHTML = productsHTML;
         console.log('✅ Produkter visade på sidan');
     }
 
-    // Hantera sökfunktionalitet
+    // ====================================================================
+    // EVENT LISTENERS: SÖKFUNKTIONALITET
+    // ====================================================================
+    
+    /**
+     * Konfigurera sökfunktionalitet med olika triggare
+     * - Sök medan användaren skriver (med fördröjning)
+     * - Sök när sökknappen klickas
+     * - Sök när Enter trycks i sökfältet
+     */
     function setupSearch() {
         const searchInput = document.querySelector('.search-bar .input');
         const searchButton = document.querySelector('.search-bar button');
         
-        // Sök medan användaren skriver (med fördröjning)
-        let searchTimeout;
+        // ========================================================================
+        // REALTIDSSÖKNING: Sök medan användaren skriver
+        // ========================================================================
+        
+        let searchTimeout; // Variabel för att hantera timeout
+        
         searchInput.addEventListener('input', function() {
+            // Rensa tidigare timeout för att undvika onödiga sökningar
             clearTimeout(searchTimeout);
+            
+            // Starta ny timeout som triggar sökning efter 300ms
             searchTimeout = setTimeout(() => {
                 searchProducts(this.value);
             }, 300); // Vänta 300ms efter användaren slutat skriva
         });
         
-        // Sök när knappen klickas
+        // ========================================================================
+        // KNAPP-SÖKNING: Sök när sökknappen klickas
+        // ========================================================================
+        
         searchButton.addEventListener('click', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Förhindra form submission
             searchProducts(searchInput.value);
         });
         
-        // Sök när Enter trycks
+        // ========================================================================
+        // ENTER-SÖKNING: Sök när Enter trycks i sökfältet
+        // ========================================================================
+        
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                e.preventDefault();
+                e.preventDefault(); // Förhindra form submission
                 searchProducts(this.value);
             }
         });
@@ -300,24 +449,49 @@
         console.log('✅ Sökfunktionalitet aktiverad');
     }
 
-    // Lägg till klickhändelse för produktkort
+    // ====================================================================
+    // EVENT LISTENERS: PRODUKTKORT-NAVIGATION
+    // ====================================================================
+    
+    /**
+     * Lägg till klickhändelse för produktkort
+     * När användaren klickar på ett produktkort navigeras de till produktsidan
+     */
     function addProductClickListeners() {
+        // Använd event delegation för att hantera dynamiskt skapade produktkort
         document.addEventListener('click', function(e) {
+            // Hitta närmaste produktkort-element
             const productCard = e.target.closest('.product-card');
+            
             if (productCard) {
+                // Hämta produkt-ID från data-attribut
                 const productId = productCard.dataset.productId;
                 console.log('🖱️ Produkt klickad, ID:', productId);
-                // Navigera till produktsidan med produkt-ID
+                
+                // Navigera till produktdetaljsidan med produkt-ID som query parameter
                 window.location.href = `/product-details.html?id=${productId}`;
             }
         });
     }
 
-    // Kör när sidan har laddats
+    // ====================================================================
+    // HUVUDINITIALISERING: Starta allt när sidan laddas
+    // ====================================================================
+    
+    /**
+     * DOMContentLoaded event listener som kör när hela DOM:en är laddad
+     * Initialiserar alla huvudfunktioner för sidan
+     */
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 Sida laddad, hämtar produkter...');
+        console.log('📄 Sida laddad, initialiserar funktionalitet...');
+        
+        // Starta produkthämtning från API
         fetchProducts();
+        
+        // Aktivera sökfunktionalitet
         setupSearch();
+        
+        // Aktivera produktkort-klickhantering
         addProductClickListeners();
     });
     </script>

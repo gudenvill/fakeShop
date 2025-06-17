@@ -1,280 +1,372 @@
-/* Basket Styles */
+/* ============================================================================
+   FAKESHOP - VARUKORGSSIDANS STILMALL (BASKETSTYLES.CSS)
+   ============================================================================
+   Detta är stilmallen specifikt för varukorgssidan (basket.html) som innehåller:
+   - Layout för varukorgssidans huvudområde
+   - Styling för tom varukorg-meddelande
+   - Produkttabell med bild, namn, pris och kvantitetskontroller
+   - Varukorgssummering med totalsumma
+   - Handlingsknappar för fortsätt handla och till kassan
+   - Responsiv design för mobil, tablet och desktop
+   - Kvantitetskontroller med plus/minus-knappar
+   ============================================================================ */
+
+/* ============================================================================
+   VARUKORGSSIDANS HUVUDLAYOUT
+   ============================================================================ */
+
+/* Huvudcontainer för varukorgssidans innehåll */
 .basket-main {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    max-width: 1200px;                        /* Maxbredd för desktop */
+    margin: 2rem auto;                        /* Centrera med margin över/under */
+    padding: 0 1rem;                          /* Horisontell padding för mobil */
 }
 
+/* Huvudrubrik för varukorgssidan */
 .basket-main h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #333;
-    font-size: 2.5rem;
+    text-align: center;                       /* Centrera rubriken */
+    margin-bottom: 2rem;                      /* Avstånd under rubriken */
+    color: #333;                              /* Mörk textfärg */
+    font-size: 2.5rem;                        /* Stor textstorlek för tydlighet */
 }
 
-/* Empty Basket Styles */
+/* ============================================================================
+   TOM VARUKORG - MEDDELANDE OCH STYLING
+   ============================================================================ */
+
+/* Container för tom varukorg-meddelande */
 .empty-basket {
-    text-align: center;
-    padding: 4rem 2rem;
+    text-align: center;                       /* Centrera allt innehåll */
+    padding: 4rem 2rem;                       /* Generös padding för luftighet */
 }
 
+/* Stor ikon för tom varukorg */
 .empty-basket-icon {
-    font-size: 4rem;
-    color: #ddd;
-    margin-bottom: 1rem;
+    font-size: 4rem;                          /* Mycket stor ikonstorlek */
+    color: #ddd;                              /* Ljusgrå färg */
+    margin-bottom: 1rem;                      /* Avstånd under ikonen */
 }
 
+/* Rubrik för tom varukorg */
 .empty-basket h2 {
-    color: #666;
-    margin-bottom: 1rem;
+    color: #666;                              /* Medium grå färg */
+    margin-bottom: 1rem;                      /* Avstånd under rubriken */
 }
 
+/* Beskrivande text för tom varukorg */
 .empty-basket p {
-    color: #999;
-    margin-bottom: 2rem;
+    color: #999;                              /* Ljusare grå färg */
+    margin-bottom: 2rem;                      /* Avstånd under texten */
 }
 
-/* Basket Table */
+/* ============================================================================
+   VARUKORGSTABELL - PRODUKTLISTA
+   ============================================================================ */
+
+/* Container för varukorgstabell med scrollning på mobil */
 .basket-table-container {
-    overflow-x: auto;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border-radius: 8px;
+    overflow-x: auto;                         /* Horisontell scrollning vid behov */
+    margin-bottom: 2rem;                      /* Avstånd under tabellen */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);  /* Subtil skugga för djup */
+    border-radius: 8px;                       /* Rundade hörn */
 }
 
+/* Huvudtabell för varukorgsprodukter */
 .basket-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+    width: 100%;                              /* Full bredd */
+    border-collapse: collapse;                /* Slå ihop tabellgränser */
+    background: white;                        /* Vit bakgrund */
 }
 
+/* Tabellhuvud-celler */
 .basket-table th {
-    background: #f8f9fa;
-    padding: 1rem;
-    text-align: left;
-    font-weight: 600;
-    color: #333;
-    border-bottom: 2px solid #dee2e6;
+    background: #f8f9fa;                      /* Ljusgrå bakgrund */
+    padding: 1rem;                            /* Generös padding */
+    text-align: left;                         /* Vänsterjustera text */
+    font-weight: 600;                         /* Semi-fet text */
+    color: #333;                              /* Mörk textfärg */
+    border-bottom: 2px solid #dee2e6;         /* Tjockare gräns under huvud */
 }
 
+/* Tabelldata-celler */
 .basket-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #dee2e6;
-    vertical-align: middle;
+    padding: 1rem;                            /* Samma padding som huvud */
+    border-bottom: 1px solid #dee2e6;         /* Tunn gräns mellan rader */
+    vertical-align: middle;                   /* Centrera innehåll vertikalt */
 }
 
-/* Item Info */
+/* ============================================================================
+   PRODUKTINFORMATION - BILD OCH DETALJER
+   ============================================================================ */
+
+/* Container för produktinfo (bild + text) */
 .item-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    display: flex;                            /* Flexbox för horisontell layout */
+    align-items: center;                      /* Centrera vertikalt */
+    gap: 1rem;                                /* Avstånd mellan bild och text */
 }
 
+/* Produktbild i varukorgen */
 .item-image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 4px;
+    width: 60px;                              /* Fast bredd */
+    height: 60px;                             /* Fast höjd (kvadrat) */
+    object-fit: cover;                        /* Beskär bild för att fylla området */
+    border-radius: 4px;                       /* Rundade hörn */
 }
 
+/* Produktnamn i varukorgen */
 .item-details h3 {
-    margin: 0 0 0.25rem 0;
-    font-size: 1rem;
-    color: #333;
+    margin: 0 0 0.25rem 0;                    /* Minimal margin under */
+    font-size: 1rem;                          /* Normal textstorlek */
+    color: #333;                              /* Mörk textfärg */
 }
 
+/* Produktmärke/beskrivning i varukorgen */
 .item-details p {
-    margin: 0;
-    color: #666;
-    font-size: 0.9rem;
+    margin: 0;                                /* Ingen margin */
+    color: #666;                              /* Medium grå färg */
+    font-size: 0.9rem;                        /* Lite mindre textstorlek */
 }
 
-/* Quantity Controls */
+/* ============================================================================
+   KVANTITETSKONTROLLER - PLUS/MINUS KNAPPAR
+   ============================================================================ */
+
+/* Container för kvantitetskontroller */
 .quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    display: flex;                            /* Flexbox för horisontell layout */
+    align-items: center;                      /* Centrera vertikalt */
+    gap: 0.5rem;                              /* Litet avstånd mellan element */
 }
 
+/* Plus/minus-knappar för kvantitet */
 .quantity-btn {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
+    background: #f8f9fa;                      /* Ljusgrå bakgrund */
+    border: 1px solid #ddd;                   /* Ljus gräns */
+    width: 32px;                              /* Fast bredd */
+    height: 32px;                             /* Fast höjd (kvadrat) */
+    border-radius: 4px;                       /* Rundade hörn */
+    display: flex;                            /* Flexbox för centrering */
+    align-items: center;                      /* Centrera vertikalt */
+    justify-content: center;                  /* Centrera horisontellt */
+    cursor: pointer;                          /* Visa att det är klickbart */
+    transition: all 0.2s;                     /* Mjuka övergångar */
 }
 
+/* Hover-effekt för kvantitetsknappar */
 .quantity-btn:hover {
-    background: #e9ecef;
-    border-color: #bbb;
+    background: #e9ecef;                      /* Mörkare bakgrund vid hover */
+    border-color: #bbb;                       /* Mörkare gräns vid hover */
 }
 
+/* Inputfält för kvantitet */
 .quantity-input {
-    width: 60px;
-    text-align: center;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    width: 60px;                              /* Fast bredd */
+    text-align: center;                       /* Centrera text */
+    padding: 0.5rem;                          /* Padding för komfort */
+    border: 1px solid #ddd;                   /* Ljus gräns */
+    border-radius: 4px;                       /* Rundade hörn */
+    font-size: 1rem;                          /* Normal textstorlek */
 }
 
-/* Remove Button */
+/* ============================================================================
+   TA BORT-KNAPP - RADERA PRODUKT FRÅN VARUKORG
+   ============================================================================ */
+
+/* Knapp för att ta bort produkt från varukorg */
 .remove-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s;
+    background: #dc3545;                      /* Röd bakgrund (varning) */
+    color: white;                             /* Vit text */
+    border: none;                             /* Ingen gräns */
+    padding: 0.5rem;                          /* Padding för klickområde */
+    border-radius: 4px;                       /* Rundade hörn */
+    cursor: pointer;                          /* Visa att det är klickbart */
+    transition: background 0.2s;              /* Mjuk bakgrundsövergång */
 }
 
+/* Hover-effekt för ta bort-knapp */
 .remove-btn:hover {
-    background: #c82333;
+    background: #c82333;                      /* Mörkare röd vid hover */
 }
 
-/* Price Columns */
+/* ============================================================================
+   PRISKOLUMNER - STYLING FÖR PRISER
+   ============================================================================ */
+
+/* Styling för pris- och totalkolumner */
 .item-price, .item-total {
-    font-weight: 600;
-    color: #333;
+    font-weight: 600;                         /* Semi-fet text för betoning */
+    color: #333;                              /* Mörk färg för tydlighet */
 }
 
-/* Basket Summary */
+/* ============================================================================
+   VARUKORGSSUMMERING - TOTALSUMMA OCH KNAPPAR
+   ============================================================================ */
+
+/* Container för varukorgssummering */
 .basket-summary {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    max-width: 400px;
-    margin-left: auto;
+    background: white;                        /* Vit bakgrund */
+    padding: 2rem;                            /* Generös padding */
+    border-radius: 8px;                       /* Rundade hörn */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);  /* Subtil skugga */
+    max-width: 400px;                         /* Maxbredd för summering */
+    margin-left: auto;                        /* Justera till höger */
 }
 
+/* Rader i summeringsområdet (delsumma, frakt, totalt) */
 .summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
+    display: flex;                            /* Flexbox för layout */
+    justify-content: space-between;           /* Fördela utrymme mellan text och pris */
+    margin-bottom: 1rem;                      /* Avstånd under varje rad */
+    padding-bottom: 0.5rem;                   /* Padding under varje rad */
 }
 
+/* Gränslinje under alla rader utom totalraden */
 .summary-row:not(.total-row) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;            /* Tunn gränslinje */
 }
 
+/* Totalrad med speciell styling */
 .total-row {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    border-top: 2px solid #333;
-    padding-top: 1rem;
-    margin-top: 1rem;
+    font-size: 1.2rem;                        /* Större textstorlek */
+    font-weight: 600;                         /* Semi-fet text */
+    color: #333;                              /* Mörk färg */
+    border-top: 2px solid #333;               /* Tjock gräns över */
+    padding-top: 1rem;                        /* Padding över */
+    margin-top: 1rem;                         /* Margin över */
 }
 
-/* Basket Actions */
+/* ============================================================================
+   HANDLINGSKNAPPAR - FORTSÄTT HANDLA OCH TILL KASSAN
+   ============================================================================ */
+
+/* Container för handlingsknappar */
 .basket-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+    display: flex;                            /* Flexbox för layout */
+    gap: 1rem;                                /* Avstånd mellan knappar */
+    margin-top: 2rem;                         /* Avstånd över knapparna */
 }
 
+/* Grundläggande styling för båda knapparna */
 .continue-shopping-btn, .checkout-btn {
-    flex: 1;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    text-align: center;
-    display: inline-block;
+    flex: 1;                                  /* Ta upp lika mycket utrymme */
+    padding: 1rem 2rem;                       /* Generös padding */
+    border: none;                             /* Ingen gräns */
+    border-radius: 4px;                       /* Rundade hörn */
+    font-size: 1rem;                          /* Normal textstorlek */
+    font-weight: 600;                         /* Semi-fet text */
+    cursor: pointer;                          /* Visa att det är klickbart */
+    transition: all 0.2s;                     /* Mjuka övergångar */
+    text-decoration: none;                    /* Ta bort understreck för länkar */
+    text-align: center;                       /* Centrera text */
+    display: inline-block;                    /* Block för korrekt layout */
 }
 
+/* Sekundär knapp (Fortsätt handla) */
 .continue-shopping-btn.secondary {
-    background: #6c757d;
-    color: white;
+    background: #6c757d;                      /* Grå bakgrund */
+    color: white;                             /* Vit text */
 }
 
+/* Hover-effekt för sekundär knapp */
 .continue-shopping-btn.secondary:hover {
-    background: #5a6268;
+    background: #5a6268;                      /* Mörkare grå vid hover */
 }
 
+/* Primär knapp (Till kassan) */
 .checkout-btn.primary {
-    background: #28a745;
-    color: white;
+    background: #007bff;                      /* Blå bakgrund */
+    color: white;                             /* Vit text */
 }
 
+/* Hover-effekt för primär knapp */
 .checkout-btn.primary:hover {
-    background: #218838;
+    background: #0056b3;                      /* Mörkare blå vid hover */
 }
 
+/* Inaktiverad kassaknapp */
 .checkout-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
+    background: #ccc;                         /* Grå bakgrund */
+    cursor: not-allowed;                      /* Visa att den inte är klickbar */
+    opacity: 0.6;                             /* Halvtransparent */
 }
 
-/* Responsive Design */
+/* ============================================================================
+   RESPONSIV DESIGN - TABLET (MAX 768PX)
+   ============================================================================ */
+
 @media (max-width: 768px) {
+    /* Anpassa huvudcontainer för tablet */
     .basket-main {
-        padding: 0 0.5rem;
+        margin: 1rem auto;                    /* Mindre margin */
+        padding: 0 0.5rem;                    /* Mindre padding */
     }
-    
+
+    /* Mindre rubrik på tablet */
     .basket-main h1 {
-        font-size: 2rem;
+        font-size: 2rem;                      /* Mindre textstorlek */
     }
-    
+
+    /* Anpassa tabell för tablet */
     .basket-table {
-        font-size: 0.9rem;
+        font-size: 0.9rem;                    /* Mindre textstorlek */
     }
-    
+
+    /* Mindre padding i tabellceller */
     .basket-table th,
     .basket-table td {
-        padding: 0.5rem;
+        padding: 0.75rem;                     /* Mindre padding */
     }
-    
+
+    /* Anpassa produktinfo för tablet */
     .item-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+        flex-direction: column;               /* Vertikal layout */
+        align-items: flex-start;              /* Justera till vänster */
+        gap: 0.5rem;                          /* Mindre avstånd */
     }
-    
+
+    /* Mindre produktbild på tablet */
     .item-image {
-        width: 40px;
-        height: 40px;
+        width: 50px;                          /* Mindre bredd */
+        height: 50px;                         /* Mindre höjd */
     }
-    
+
+    /* Anpassa kvantitetskontroller för tablet */
     .quantity-controls {
-        justify-content: center;
+        justify-content: center;              /* Centrera kontroller */
     }
-    
+
+    /* Anpassa summering för tablet */
     .basket-summary {
-        margin: 2rem 0;
-        max-width: none;
+        max-width: none;                      /* Ta bort maxbredd */
+        margin-left: 0;                       /* Ta bort höger-justering */
     }
-    
+
+    /* Stapla handlingsknappar vertikalt på tablet */
     .basket-actions {
-        flex-direction: column;
+        flex-direction: column;               /* Vertikal layout */
     }
 }
 
+/* ============================================================================
+   RESPONSIV DESIGN - MOBIL (MAX 480PX)
+   ============================================================================ */
+
 @media (max-width: 480px) {
+    /* Ta bort horisontell scrollning på mobil */
     .basket-table-container {
-        margin: 0 -0.5rem 2rem -0.5rem;
+        overflow-x: visible;                  /* Ingen horisontell scroll */
     }
-    
-    .basket-table th:nth-child(2),
-    .basket-table td:nth-child(2) {
-        display: none;
+
+    /* Dölj vissa kolumner på mobil för att spara plats */
+    .basket-table th:nth-child(2),            /* Dölj pris-kolumnhuvud */
+    .basket-table td:nth-child(2) {           /* Dölj pris-kolumn */
+        display: none;                        /* Dold på mobil */
     }
-    
+
+    /* Visa totalpris med pseudo-element på mobil */
     .item-total::before {
-        content: attr(data-price) " × " attr(data-quantity) " = ";
-        font-size: 0.8rem;
-        color: #666;
+        content: "Totalt: ";                  /* Lägg till etikett */
+        font-weight: normal;                  /* Normal textvikt för etikett */
     }
 }

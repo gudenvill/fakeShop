@@ -2,26 +2,45 @@
 <html lang="sv">
 
 <head>
+    <!-- Meta-taggar för dokumenttyp och responsiv design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Sidans titel som visas i webbläsarens flik -->
     <title>FakeShop | Kassa</title>
+    
+    <!-- Externa CSS-bibliotek för ikoner (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Lokal CSS för grundläggande styling av hela sidan -->
     <link rel="stylesheet" href="./css/styles.css">
+    
+    <!-- Specifik CSS för kassasidans styling -->
     <link rel="stylesheet" href="./css/checkoutStyles.css">
 </head>
+
 <body>
+    <!-- Huvudwrapper som omsluter hela sidans innehåll -->
     <div class="wrapper">
+        
+        <!-- HEADER-SEKTION: Innehåller logotyp och navigationsverktyg -->
         <header class="header">
+            <!-- Logotypområde -->
             <div class="logotype">
                 <h1>logotype</h1>
             </div>
+            
+            <!-- Handlingsområde med sökfält och knappar -->
             <div class="actions">
+                <!-- Sökfält för produktsökning -->
                 <div class="search-bar">
                     <input class="input" type="text" placeholder="Search products...">
                     <button type="submit" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
+                
+                <!-- Handlingsknappar för önskelista och varukorg -->
                 <div class="action-buttons">
                     <button aria-label="Wishlist">
                         <i class="fas fa-heart"></i>
@@ -32,6 +51,8 @@
                 </div>
             </div>
         </header>
+        
+        <!-- NAVIGATIONSSEKTION: Huvudnavigering för olika produktkategorier -->
         <ul class="navigation-list">
             <li>Nyheter</li>
             <li>Bästsäljare</li>
@@ -39,13 +60,21 @@
             <li>Män</li>
         </ul>
 
+        <!-- HUVUDINNEHÅLL: Kassasidans huvudområde -->
         <main class="checkout-page-main">
+            <!-- Sidans huvudrubrik -->
             <h1>Kassan</h1>
 
+            <!-- Kassans innehållsområde med två huvudsektioner -->
             <div class="checkout-content">
+                
+                <!-- SEKTION 1: Varukorgssummering -->
                 <section class="checkout-summary">
                     <h2>Varukorg</h2>
+                    
+                    <!-- Tabell som visar alla produkter i varukorgen -->
                     <table class="cart-summary-table">
+                        <!-- Tabellhuvud med kolumnrubriker -->
                         <thead>
                             <tr>
                                 <th>Produkt</th>
@@ -54,13 +83,18 @@
                                 <th>Totalt</th>
                             </tr>
                         </thead>
+                        
+                        <!-- Tabellkropp där produkterna renderas dynamiskt av JavaScript -->
                         <tbody>
+                            <!-- Exempel på statisk produkt (kommer ersättas av JavaScript) -->
                             <tr>
                                 <td data-label="Produkt:">Svart T-Shirt<br><small>Artikelnummer: 12345</small></td>
                                 <td data-label="Antal:">1</td>
                                 <td data-label="Pris:">199 SEK</td>
                                 <td data-label="Totalt:">199 SEK</td>
                             </tr>
+                            
+                            <!-- Ytterligare exempel på statisk produkt -->
                              <tr>
                                 <td data-label="Produkt:">Vit T-Shirt<br><small>Artikelnummer: 67890</small></td>
                                 <td data-label="Antal:">2</td>
@@ -68,6 +102,8 @@
                                 <td data-label="Totalt:">398 SEK</td>
                             </tr>
                         </tbody>
+                        
+                        <!-- Tabellfot med summeringar (delsumma, frakt, totalt) -->
                         <tfoot>
                             <tr>
                                 <td colspan="3">RE-SUMMA</td>
@@ -77,40 +113,60 @@
                     </table>
                 </section>
 
+                <!-- SEKTION 2: Kunduppgifter och beställningsformulär -->
                 <section class="customer-details">
                     <h2>Kunduppgifter</h2>
+                    
+                    <!-- Formulär för kundinformation och beställning -->
                     <form class="customer-form" id="checkout-form">
+                        
+                        <!-- Förnamn - obligatoriskt fält -->
                         <div class="form-group">
                             <label for="fnamn">Förnamn</label>
                             <input type="text" id="fnamn" name="fnamn" required>
                         </div>
+                        
+                        <!-- Efternamn - obligatoriskt fält -->
                         <div class="form-group">
                             <label for="enamn">Efternamn</label>
                             <input type="text" id="enamn" name="enamn" required>
                         </div>
+                        
+                        <!-- E-post - obligatoriskt fält med e-postvalidering -->
                          <div class="form-group full-width">
                             <label for="email">E-post</label>
                             <input type="email" id="email" name="email" required>
                         </div>
+                        
+                        <!-- Telefonnummer - valfritt fält -->
                         <div class="form-group full-width">
                              <label for="telefon">Telefon (valfritt)</label>
                              <input type="tel" id="telefon" name="telefon" placeholder="070-123 45 67">
                         </div>
+                        
+                        <!-- Leveransadress - grupperade fält för fullständig adress -->
                         <div class="form-group full-width">
                              <label for="adress">Leveransadress</label>
+                             <!-- Gata och gatunummer -->
                              <input type="text" id="gata" name="gata" placeholder="Gata och nummer" required>
+                             <!-- Postnummer -->
                              <input type="text" id="postnummer" name="postnummer" placeholder="Postnummer" required>
+                             <!-- Stad -->
                              <input type="text" id="stad" name="stad" placeholder="Stad" required>
                          </div>
 
+                        <!-- Kryssruta för nyhetsbrevsprenumeration -->
                         <div class="form-group checkbox-group full-width">
                             <input type="checkbox" id="newsletter" name="newsletter" value="subscribe">
                             <label for="newsletter">Jag vill ta emot nyhetsbrev</label>
                         </div>
 
+                        <!-- Skicka-knapp för att slutföra köpet -->
                         <div class="form-group full-width">
                             <button type="submit" class="btn-purchase" id="purchase-btn">
+                                <!-- Normal text som visas när knappen är aktiv -->
                                 <span id="btn-text">Slutför köp</span>
+                                <!-- Laddningsanimation som visas under bearbetning -->
                                 <span id="btn-spinner" style="display: none;">
                                     <i class="fas fa-spinner fa-spin"></i> Bearbetar...
                                 </span>
@@ -121,7 +177,9 @@
             </div>
         </main>
 
+        <!-- FÖRDELAR-SEKTION: Visar butikens fördelar och tjänster -->
         <div class="perks-wrapper">
+            <!-- Fördel 1: Gratis frakt och returer -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-earth-americas"></i>
@@ -130,6 +188,8 @@
                     Gratis frakt och returer
                 </div>
             </div>
+            
+            <!-- Fördel 2: Expressfrakt -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-truck-fast"></i>
@@ -138,6 +198,8 @@
                     Expressfrakt
                 </div>
             </div>
+            
+            <!-- Fördel 3: Säkra betalningar -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-shield"></i>
@@ -146,6 +208,8 @@
                     Säkra betalningar
                 </div>
             </div>
+            
+            <!-- Fördel 4: Dagliga nyheter -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-face-smile"></i>
@@ -156,7 +220,9 @@
             </div>
         </div>
 
+        <!-- ACCORDION-SEKTION: Utfällbara menyer för mobil navigation -->
         <div class="accordions">
+             <!-- Accordion 1: Shopping-kategorier -->
              <div class="accordion-wrapper">
                 <button class="accordion">
                     Shopping
@@ -169,6 +235,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 2: Mina sidor-funktioner -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Mina sidor
@@ -179,6 +246,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 3: Kundtjänst-alternativ -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Kundtjänst
@@ -190,63 +258,110 @@
             </div>
         </div>
 
+        <!-- FOOTER-SEKTION: Enkel copyright-information -->
         <footer>
             &#169; FakeShop
         </footer>
     </div>
+    
+    <!-- JAVASCRIPT-SEKTION: All funktionalitet för kassasidan -->
      <script>
-        // Accordion funktionalitet
+        // ====================================================================
+        // ACCORDION-FUNKTIONALITET FÖR MOBIL NAVIGATION
+        // ====================================================================
+        
+        // Hämta alla accordion-knappar från DOM:en
         var acc = document.getElementsByClassName("accordion");
         var i;
 
+        // Loopa igenom alla accordion-knappar och lägg till click-lyssnare
         for (i = 0; i < acc.length; i++) {
+             // Kontrollera om skärmen är mindre än 640px (mobil)
              if (window.matchMedia("(max-width: 639px)").matches) {
+                 // Lägg till click-lyssnare för varje accordion-knapp
                  acc[i].addEventListener("click", function () {
+                    // Växla "active"-klassen på den klickade knappen
                     this.classList.toggle("active");
+                    
+                    // Hitta nästa element (panelen som hör till knappen)
                     var panel = this.nextElementSibling;
+                    
+                    // Växla synlighet för panelen
                     if (panel.style.display === "block") {
-                        panel.style.display = "none";
+                        panel.style.display = "none";  // Dölj panelen
                     } else {
-                        panel.style.display = "block";
+                        panel.style.display = "block"; // Visa panelen
                     }
                 });
             }
         }
 
-        // Checkout funktionalitet
+        // ====================================================================
+        // CHECKOUT-MANAGER KLASS: Hanterar hela kassafunktionaliteten
+        // ====================================================================
+        
         class CheckoutManager {
+            /**
+             * Konstruktor som initialiserar CheckoutManager
+             * Laddar varukorgen från localStorage och startar initialiseringen
+             */
             constructor() {
+                // Ladda befintliga varukorgsartiklar från localStorage
                 this.basketItems = this.loadBasket();
                 console.log('🛒 CheckoutManager initialiserad, varukorg:', this.basketItems);
+                
+                // Starta initialiseringsprocessen
                 this.init();
             }
 
-            // Ladda varukorg från localStorage
+            /**
+             * Ladda varukorg från localStorage
+             * @returns {Array} Array med varukorgsartiklar, tom array om inget finns
+             */
             loadBasket() {
+                // Försök hämta varukorg från localStorage
                 const basket = localStorage.getItem('fakeShopBasket');
+                
+                // Om varukorg finns, parsea JSON-data, annars returnera tom array
                 return basket ? JSON.parse(basket) : [];
             }
 
-            // Räkna ut totaler
+            /**
+             * Räkna ut alla totaler för beställningen
+             * @returns {Object} Objekt med subtotal, shipping och total
+             */
             calculateTotals() {
+                // Räkna ut delsumma genom att summera pris × antal för alla artiklar
                 const subtotal = this.basketItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
+                // Beräkna fraktkostnad: Gratis över 500 SEK, 49 SEK annars (0 om tom korg)
                 const shipping = subtotal > 500 ? 0 : (subtotal > 0 ? 49 : 0);
+                
+                // Beräkna totalsumma
                 const total = subtotal + shipping;
+                
+                // Returnera alla beräknade värden
                 return { subtotal, shipping, total };
             }
 
-            // Rendera varukorg i checkout
+            /**
+             * Rendera varukorgssummeringen i checkout-tabellen
+             * Uppdaterar både artiklar och totaler
+             */
             renderCheckoutSummary() {
+                // Hämta referenser till tabellens body och foot
                 const tableBody = document.querySelector('.cart-summary-table tbody');
                 const tableFoot = document.querySelector('.cart-summary-table tfoot');
 
+                // Kontrollera om varukorgen är tom
                 if (this.basketItems.length === 0) {
+                    // Visa meddelande om tom varukorg
                     tableBody.innerHTML = '<tr><td colspan="4">Din varukorg är tom</td></tr>';
                     tableFoot.innerHTML = '<tr><td colspan="3">TOTALT</td><td>0 SEK</td></tr>';
-                    return;
+                    return; // Avsluta funktionen tidigt
                 }
 
-                // Rendera artiklar
+                // Rendera alla artiklar som tabellrader
                 tableBody.innerHTML = this.basketItems.map(item => `
                     <tr>
                         <td data-label="Produkt:">${item.name}<br><small>${item.brand}</small></td>
@@ -256,7 +371,7 @@
                     </tr>
                 `).join('');
 
-                // Uppdatera totaler
+                // Beräkna och visa totaler
                 const { subtotal, shipping, total } = this.calculateTotals();
                 tableFoot.innerHTML = `
                     <tr>
@@ -274,39 +389,49 @@
                 `;
             }
 
-            // Hantera form submission
+            /**
+             * Hantera formulärinlämning för checkout-processen
+             * @param {Event} event - Form submit event
+             */
             async handleCheckout(event) {
                 console.log('📨 Form submission fångad av JavaScript');
                 
-                // Förhindra default form submission - VIKTIGT!
+                // VIKTIGT: Förhindra webbläsarens standard form submission
                 event.preventDefault();
                 event.stopPropagation();
                 
+                // Kontrollera att varukorgen inte är tom
                 if (this.basketItems.length === 0) {
                     alert('Din varukorg är tom!');
                     return;
                 }
 
+                // Hämta formulärdata
                 const form = event.target;
                 const formData = new FormData(form);
                 
-                // Visa loading state
+                // Hämta referenser till UI-element för loading state
                 const btnText = document.getElementById('btn-text');
                 const btnSpinner = document.getElementById('btn-spinner');
                 const submitBtn = document.getElementById('purchase-btn');
                 
+                // Visa loading state: dölj text, visa spinner, inaktivera knapp
                 btnText.style.display = 'none';
                 btnSpinner.style.display = 'inline';
                 submitBtn.disabled = true; // Förhindra flera klick
                 
                 try {
-                    // Skapa order data
+                    // Skapa orderdata-objekt från formulärdata och varukorgsartiklar
                     const orderData = {
+                        // Kombinera för- och efternamn till fullständigt namn
                         customer_name: `${formData.get('fnamn')} ${formData.get('enamn')}`,
                         customer_email: formData.get('email'),
+                        // Telefon är valfritt, använd tom sträng om inte ifyllt
                         customer_phone: formData.get('telefon') || '',
+                        // Kombinera alla adressfält till en fullständig adress
                         shipping_address: `${formData.get('gata')}, ${formData.get('postnummer')} ${formData.get('stad')}`,
-                        payment_method: 'card',
+                        payment_method: 'card', // Standardbetalningsmetod
+                        // Mappa varukorgsartiklar till orderformat
                         items: this.basketItems.map(item => ({
                             id: item.id,
                             name: item.name,
@@ -316,10 +441,11 @@
                         }))
                     };
 
+                    // Logga orderdata för debugging
                     console.log('🔄 Skickar order:', orderData);
                     console.log('📊 Items detaljer:', JSON.stringify(orderData.items, null, 2));
 
-                    // Skicka order till API
+                    // Skicka POST-request till API:et för att skapa ordern
                     const response = await fetch('/api/orders', {
                         method: 'POST',
                         headers: {
@@ -328,42 +454,50 @@
                         body: JSON.stringify(orderData)
                     });
 
+                    // Kontrollera om API-svaret är framgångsrikt
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
+                    // Parsea JSON-svaret från API:et
                     const result = await response.json();
                     console.log('✅ Order skapad:', result);
 
-                    // Rensa varukorg
+                    // Rensa varukorgen från localStorage eftersom ordern är skapad
                     localStorage.removeItem('fakeShopBasket');
 
-                    // Omdirigera till bekräftelsesida
+                    // Omdirigera användaren till bekräftelsesidan med order-ID
                     window.location.href = `/order-confirmation.html?order=${result.order_id}`;
 
                 } catch (error) {
+                    // Hantera fel som kan uppstå under checkout-processen
                     console.error('❌ Fel vid checkout:', error);
                     alert('Ett fel uppstod vid beställningen. Försök igen.');
                     
-                    // Återställ knapp
+                    // Återställ knappens tillstånd så användaren kan försöka igen
                     btnText.style.display = 'inline';
                     btnSpinner.style.display = 'none';
                     submitBtn.disabled = false;
                 }
             }
 
-            // Initiera
+            /**
+             * Initiera CheckoutManager genom att rendera UI och lägga till event listeners
+             */
             init() {
                 console.log('🔧 Initialiserar CheckoutManager...');
+                
+                // Rendera den aktuella varukorgens innehåll
                 this.renderCheckoutSummary();
                 
-                // Lägg till event listener för form
+                // Hitta checkout-formuläret och lägg till submit-lyssnare
                 const form = document.getElementById('checkout-form');
                 if (form) {
                     console.log('✅ Form hittad, lägger till event listener');
+                    // Binda handleCheckout-metoden till form submit event
                     form.addEventListener('submit', (e) => this.handleCheckout(e));
                     
-                    // Extra säkerhet - lyssna på submit-knappen också
+                    // Extra säkerhet - lyssna även på submit-knappen direkt
                     const submitBtn = document.getElementById('purchase-btn');
                     if (submitBtn) {
                         submitBtn.addEventListener('click', (e) => {
@@ -372,41 +506,54 @@
                         });
                     }
                 } else {
+                    // Felsökning: logga om formuläret inte hittas
                     console.error('❌ Kunde inte hitta checkout-form!');
                 }
             }
         }
 
-        // Initiera när sidan laddas
+        // ====================================================================
+        // HUVUDINITIALISERING: Startar allt när DOM:en är laddad
+        // ====================================================================
+        
+        // Vänta tills hela DOM:en är laddad innan vi startar JavaScript
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 DOM laddad, startar CheckoutManager');
             
-            // RENSA OCH LÄGG TILL NYA TESTPRODUKTER
+            // ================================================================
+            // UTVECKLINGS-/FELSÖKNINGSSEKTION: Rensa och lägg till testdata
+            // ================================================================
+            
             console.log('🧹 Rensar befintlig varukorg för felsökning...');
+            // Rensa befintlig varukorg för konsistent testning
             localStorage.removeItem('fakeShopBasket');
             
             console.log('🛒 Lägger till nya testprodukter...');
+            // Skapa testartiklar för att demonstrera funktionaliteten
             const testItems = [
                 {
-                    id: 36,
-                    name: "Premium Kappa",
-                    brand: "Calvin Klein",
-                    price: 1299,
-                    quantity: 1,
-                    image_url: "/images/product.png"
+                    id: 36,                              // Unikt produkt-ID
+                    name: "Premium Kappa",               // Produktnamn
+                    brand: "Calvin Klein",               // Märke
+                    price: 1299,                         // Pris i SEK
+                    quantity: 1,                         // Antal i varukorgen
+                    image_url: "/images/product.png"     // Produktbild (används inte i checkout)
                 },
                 {
-                    id: 5,
-                    name: "Hot Tröja",
-                    brand: "Tommy Hilfiger",
-                    price: 549,
-                    quantity: 2,
-                    image_url: "/images/product.png"
+                    id: 5,                               // Unikt produkt-ID för andra produkten
+                    name: "Hot Tröja",                   // Produktnamn
+                    brand: "Tommy Hilfiger",             // Märke
+                    price: 549,                          // Pris i SEK
+                    quantity: 2,                         // Antal i varukorgen
+                    image_url: "/images/product.png"     // Produktbild
                 }
             ];
+            
+            // Spara testartiklarna i localStorage
             localStorage.setItem('fakeShopBasket', JSON.stringify(testItems));
             console.log('✅ Testprodukter tillagda:', testItems);
             
+            // Skapa och starta CheckoutManager med testdata
             new CheckoutManager();
         });
     </script>

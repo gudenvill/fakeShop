@@ -1,284 +1,402 @@
+/* ============================================================================
+   FAKESHOP - KASSASIDANS STILMALL (CHECKOUTSTYLES.CSS)
+   ============================================================================
+   Detta är stilmallen specifikt för kassasidan (checkout.html) som innehåller:
+   - Layout för kassasidans huvudområde
+   - Styling för varukorgssummering och produkttabell
+   - Formulärstyling för kunduppgifter
+   - Responsiv design för mobil och desktop
+   - Knapp-styling för köpprocess
+   - Tabellayout som anpassas mellan mobil och desktop
+   ============================================================================ */
+
+/* ============================================================================
+   KASSASIDANS HUVUDLAYOUT
+   ============================================================================ */
+
+/* Huvudcontainer för kassasidans innehåll */
 .checkout-page-main {
-    padding: calc(var(--mainpadding) * 2) 0;
+    padding: calc(var(--mainpadding) * 2) 0;  /* Dubbel vertikal padding för luftighet */
 }
 
+/* Huvudrubrik för kassasidan */
 .checkout-page-main h1 {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: calc(var(--mainpadding) * 3);
-    color: var(--text-color);
+    text-align: center;                        /* Centrera rubriken */
+    font-size: 1.8rem;                         /* Stor textstorlek för tydlighet */
+    margin-bottom: calc(var(--mainpadding) * 3); /* Trippelt avstånd under rubriken */
+    color: var(--text-color);                  /* Använd huvudtextfärg */
 }
 
+/* ============================================================================
+   KASSAINNEHÅLL - HUVUDLAYOUT FÖR VARUKORG OCH FORMULÄR
+   ============================================================================ */
+
+/* Container som håller varukorgssummering och kundformulär */
 .checkout-content {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--mainpadding) * 4);
+    display: flex;                             /* Flexbox för layout */
+    flex-direction: column;                    /* Vertikal layout på mobil */
+    gap: calc(var(--mainpadding) * 4);        /* Stort avstånd mellan sektioner */
 }
 
+/* ============================================================================
+   SEKTIONSRUBRIKER - VARUKORG OCH KUNDUPPGIFTER
+   ============================================================================ */
+
+/* Rubriker för varukorg och kunduppgifter-sektionerna */
 .checkout-summary h2,
 .customer-details h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: calc(var(--mainpadding) * 1.5);
-    padding-bottom: var(--mainpadding);
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-color);
+    font-size: 1.3rem;                        /* Medium textstorlek */
+    font-weight: 600;                         /* Semi-fet text */
+    margin-bottom: calc(var(--mainpadding) * 1.5); /* Avstånd under rubrik */
+    padding-bottom: var(--mainpadding);       /* Padding innan gränslinje */
+    border-bottom: 1px solid var(--border-color); /* Subtil gränslinje under */
+    color: var(--text-color);                 /* Huvudtextfärg */
 }
 
+/* ============================================================================
+   VARUKORGSTABELL - PRODUKTSUMMERING
+   ============================================================================ */
+
+/* Huvudtabell för varukorgssummering */
 .cart-summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid var(--border-color);
+    width: 100%;                              /* Full bredd */
+    border-collapse: collapse;                /* Slå ihop tabellgränser */
+    border: 1px solid var(--border-color);   /* Gräns runt hela tabellen */
 }
 
+/* Dölj tabellhuvud på mobil (ersätts med data-labels) */
 .cart-summary-table thead {
-    display: none;
+    display: none;                            /* Dold på mobil */
 }
 
+/* ============================================================================
+   MOBIL TABELLAYOUT - STAPLADE RADER
+   ============================================================================ */
+
+/* Tabellrader på mobil - visas som block istället för table-row */
 .cart-summary-table tbody tr {
-    display: block;
-    margin-bottom: calc(var(--mainpadding) * 2);
-    padding-bottom: calc(var(--mainpadding) * 2);
-    border-bottom: 1px solid var(--border-color);
+    display: block;                           /* Block-layout för mobil */
+    margin-bottom: calc(var(--mainpadding) * 2); /* Avstånd mellan produkter */
+    padding-bottom: calc(var(--mainpadding) * 2); /* Padding under varje produkt */
+    border-bottom: 1px solid var(--border-color); /* Gränslinje mellan produkter */
 }
 
+/* Tabellceller på mobil - staplade vertikalt */
 .cart-summary-table td {
-    display: block;
-    text-align: right;
-    padding-left: 40%;
-    position: relative;
-    font-size: 0.95rem;
-    padding-top: calc(var(--mainpadding) * 0.5);
-    padding-bottom: calc(var(--mainpadding) * 0.5);
+    display: block;                           /* Block-layout för vertikal staplning */
+    text-align: right;                        /* Högerjustera värden */
+    padding-left: 40%;                        /* Plats för etiketter till vänster */
+    position: relative;                       /* För absolut positionering av etiketter */
+    font-size: 0.95rem;                       /* Lite mindre textstorlek */
+    padding-top: calc(var(--mainpadding) * 0.5);    /* Vertikal padding */
+    padding-bottom: calc(var(--mainpadding) * 0.5); /* Vertikal padding */
 }
 
+/* Liten text inom tabellceller (t.ex. artikelnummer) */
 .cart-summary-table td small {
-    font-size: 0.8rem;
-    color: var(--text-light);
-    display: block;
-    margin-top: 4px;
+    font-size: 0.8rem;                        /* Mindre textstorlek */
+    color: var(--text-light);                 /* Ljusare färg */
+    display: block;                           /* Block för ny rad */
+    margin-top: 4px;                          /* Litet avstånd över */
 }
 
+/* ============================================================================
+   MOBIL ETIKETTSYSTEM - DATA-LABELS
+   ============================================================================ */
+
+/* Pseudo-element som visar etiketter på mobil (t.ex. "Produkt:", "Pris:") */
 .cart-summary-table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    width: 35%;
-    padding-right: var(--mainpadding);
-    font-weight: bold;
-    text-align: left;
-    color: var(--text-color);
+    content: attr(data-label);                /* Hämta text från data-label attribut */
+    position: absolute;                       /* Absolut positionering */
+    left: 0;                                  /* Placera längst till vänster */
+    width: 35%;                               /* Bredden för etikettområdet */
+    padding-right: var(--mainpadding);       /* Padding mellan etikett och värde */
+    font-weight: bold;                        /* Fet text för etiketter */
+    text-align: left;                         /* Vänsterjustera etiketter */
+    color: var(--text-color);                 /* Huvudtextfärg för etiketter */
 }
 
+/* ============================================================================
+   TABELLFOT - TOTALSUMMA
+   ============================================================================ */
+
+/* Tabellfot med totalsumma */
 .cart-summary-table tfoot tr {
-    border-top: 2px solid var(--text-color);
-    font-weight: bold;
-    padding-top: var(--mainpadding);
+    border-top: 2px solid var(--text-color);  /* Tjock gränslinje över totalsumma */
+    font-weight: bold;                        /* Fet text för totalsumma */
+    padding-top: var(--mainpadding);          /* Padding över totalsumma */
 }
 
+/* Tabellceller i tabellfot */
 .cart-summary-table tfoot td {
-    border-bottom: none;
-    /* Override mobile row border */
-    padding-bottom: 0;
-    /* Override mobile cell padding */
+    border-bottom: none;                      /* Ta bort nedre gräns */
+    padding-bottom: 0;                        /* Ta bort nedre padding */
 }
 
+/* Första cellen i tabellfot (texten "TOTALT") */
 .cart-summary-table tfoot td:first-child {
-    text-align: left;
-    padding-left: 0;
-    font-size: 1rem;
+    text-align: left;                         /* Vänsterjustera text */
+    padding-left: 0;                          /* Ta bort vänster padding */
+    font-size: 1rem;                          /* Normal textstorlek */
 }
 
+/* Dölj pseudo-element för första cellen i tabellfot */
 .cart-summary-table tfoot td:first-child::before {
-    display: none;
+    display: none;                            /* Ingen etikett behövs */
 }
 
+/* Sista cellen i tabellfot (totalsumman) */
 .cart-summary-table tfoot td:last-child {
-    font-size: 1.1rem;
-    color: #000;
+    font-size: 1.1rem;                        /* Större textstorlek för summa */
+    color: #000;                              /* Svart färg för betoning */
 }
 
+/* ============================================================================
+   KUNDFORMULÄR - GRUNDLÄGGANDE LAYOUT
+   ============================================================================ */
+
+/* Huvudcontainer för kundformulär */
 .customer-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: calc(var(--mainpadding) * 1.5);
+    display: flex;                            /* Flexbox för layout */
+    flex-wrap: wrap;                          /* Tillåt radbrytning */
+    gap: calc(var(--mainpadding) * 1.5);     /* Avstånd mellan formulärgrupper */
 }
 
+/* ============================================================================
+   FORMULÄRGRUPPER - FÄLT OCH ETIKETTER
+   ============================================================================ */
+
+/* Grundläggande formulärgrupp (innehåller label + input) */
 .form-group {
-    flex: 1 1 100%;
+    flex: 1 1 100%;                           /* Ta upp full bredd på mobil */
 }
 
+/* Etiketter för formulärfält */
 .form-group label {
-    display: block;
-    margin-bottom: calc(var(--mainpadding) * 0.5);
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--text-light);
+    display: block;                           /* Block för att få egen rad */
+    margin-bottom: calc(var(--mainpadding) * 0.5); /* Avstånd under etikett */
+    font-weight: 500;                         /* Semi-fet text */
+    font-size: 0.9rem;                        /* Lite mindre textstorlek */
+    color: var(--text-light);                 /* Ljusare färg för etiketter */
 }
 
+/* ============================================================================
+   INPUTFÄLT - TEXT OCH EMAIL
+   ============================================================================ */
+
+/* Styling för text- och email-inputfält */
 .form-group input[type="text"],
 .form-group input[type="email"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: calc(var(--mainpadding) * 0.5);
-    /* For stacked inputs like address */
+    width: 100%;                              /* Full bredd */
+    padding: 10px 12px;                       /* Bekväm padding */
+    border: 1px solid #ccc;                   /* Grå gräns */
+    border-radius: 4px;                       /* Rundade hörn */
+    font-size: 1rem;                          /* Normal textstorlek */
+    margin-bottom: calc(var(--mainpadding) * 0.5); /* Avstånd för staplade inputs */
 }
 
+/* Ta bort margin från sista input i en grupp */
 .form-group input[type="text"]:last-child,
 .form-group input[type="email"]:last-child {
-    margin-bottom: 0;
-    /* No margin on last input in a group */
+    margin-bottom: 0;                         /* Ingen margin på sista input */
 }
 
+/* Focus-state för inputfält */
 .form-group input:focus {
-    outline: none;
-    border-color: #aaa;
-    box-shadow: 0 0 0 2px rgba(170, 170, 170, 0.2);
+    outline: none;                            /* Ta bort standard outline */
+    border-color: #aaa;                       /* Mörkare gräns vid focus */
+    box-shadow: 0 0 0 2px rgba(170, 170, 170, 0.2); /* Subtil skugga vid focus */
 }
 
+/* ============================================================================
+   KRYSSRUTA-GRUPPER - NYHETSBREV OCH AVTAL
+   ============================================================================ */
+
+/* Formulärgrupp för kryssrutor */
 .form-group.checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: var(--mainpadding);
-    margin-top: var(--mainpadding);
+    display: flex;                            /* Flexbox för horisontell layout */
+    align-items: center;                      /* Centrera vertikalt */
+    gap: var(--mainpadding);                  /* Avstånd mellan kryssruta och text */
+    margin-top: var(--mainpadding);           /* Extra avstånd över */
 }
 
+/* Etiketter för kryssrutor */
 .form-group.checkbox-group label {
-    margin-bottom: 0;
-    font-weight: normal;
-    color: var(--text-color);
-    font-size: 0.95rem;
+    margin-bottom: 0;                         /* Ingen margin under */
+    font-weight: normal;                      /* Normal textvikt */
+    color: var(--text-color);                 /* Huvudtextfärg */
+    font-size: 0.95rem;                       /* Lite mindre textstorlek */
 }
 
+/* Kryssruta-input */
 .form-group.checkbox-group input[type="checkbox"] {
-    width: auto;
-    margin-right: 5px;
-    flex-shrink: 0;
+    width: auto;                              /* Automatisk bredd */
+    margin-right: 5px;                        /* Avstånd till höger */
+    flex-shrink: 0;                           /* Förhindra krympning */
 }
 
+/* ============================================================================
+   KÖP-KNAPP - SLUTFÖR BESTÄLLNING
+   ============================================================================ */
+
+/* Huvudknapp för att slutföra köpet */
 .btn-purchase {
-    background-color: #333;
-    color: var(--background-white);
-    border: none;
-    padding: 15px 25px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-    text-align: center;
-    width: 100%;
-    margin-top: var(--mainpadding);
+    background-color: #333;                   /* Mörk bakgrund */
+    color: var(--background-white);           /* Vit text */
+    border: none;                             /* Ingen gräns */
+    padding: 15px 25px;                       /* Generös padding */
+    font-size: 1.1rem;                        /* Större textstorlek */
+    font-weight: bold;                        /* Fet text */
+    cursor: pointer;                          /* Visa att det är klickbart */
+    border-radius: 4px;                       /* Rundade hörn */
+    transition: background-color 0.2s ease;   /* Mjuk bakgrundsövergång */
+    text-align: center;                       /* Centrera text */
+    width: 100%;                              /* Full bredd */
+    margin-top: var(--mainpadding);           /* Avstånd över knappen */
 }
 
+/* Hover-effekt för köp-knapp */
 .btn-purchase:hover {
-    background-color: #000;
+    background-color: #000;                   /* Svart bakgrund vid hover */
 }
+
+/* ============================================================================
+   RESPONSIV DESIGN - TABLET OCH DESKTOP (640PX+)
+   ============================================================================ */
 
 @media(min-width: 640px) {
+    /* ========================================================================
+       KASSAINNEHÅLL - DESKTOP LAYOUT
+       ======================================================================== */
+    
+    /* Kassainnehåll förblir vertikalt men med mer avstånd */
     .checkout-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: calc(var(--mainpadding) * 5);
+        flex-direction: column;               /* Fortsätt med vertikal layout */
+        align-items: flex-start;              /* Justera till vänster */
+        gap: calc(var(--mainpadding) * 5);   /* Större avstånd mellan sektioner */
     }
 
+    /* Varukorg och kunduppgifter tar full bredd */
     .checkout-summary,
     .customer-details {
-        width: 100%;
+        width: 100%;                          /* Full bredd för båda sektioner */
     }
 
+    /* ========================================================================
+       TABELL - DESKTOP LAYOUT
+       ======================================================================== */
+    
+    /* Visa tabellhuvud på desktop */
     .cart-summary-table thead {
-        display: table-header-group;
+        display: table-header-group;          /* Visa som normal tabellhuvud */
     }
 
+    /* Återställ tabellrader till normal table-layout */
     .cart-summary-table tbody tr,
     .cart-summary-table tfoot tr {
-        display: table-row;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: 1px solid var(--border-color);
+        display: table-row;                   /* Normal tabellrad */
+        margin-bottom: 0;                     /* Ta bort mobil-margin */
+        padding-bottom: 0;                    /* Ta bort mobil-padding */
+        border-bottom: 1px solid var(--border-color); /* Behåll gränslinje */
     }
 
-    .cart-summary-table tfoot tr {
-        border-top-width: 2px;
-        font-weight: normal;
-    }
-
+    /* Återställ tabellceller till normal layout */
     .cart-summary-table td {
-        display: table-cell;
-        text-align: left;
-        padding: var(--mainpadding) calc(var(--mainpadding) * 0.75);
-        position: static;
-        font-size: 0.9rem;
-        vertical-align: middle;
-        border-right: 1px solid var(--border-color); 
+        display: table-cell;                  /* Normal tabellcell */
+        text-align: left;                     /* Vänsterjustera som standard */
+        padding: 12px;                        /* Normal cellpadding */
+        position: static;                     /* Ta bort relativ positionering */
+        border-bottom: none;                  /* Ta bort cellgränser */
     }
 
+    /* Anpassa liten text för desktop */
     .cart-summary-table td small {
-        margin-top: 2px;
+        display: inline;                      /* Inline istället för block */
+        margin-top: 0;                        /* Ta bort margin */
+        margin-left: 8px;                     /* Avstånd till vänster */
     }
 
-
+    /* Ta bort pseudo-element etiketter på desktop */
     .cart-summary-table td::before {
-        display: none;
+        display: none;                        /* Inga etiketter behövs */
     }
 
+    /* ========================================================================
+       TABELLHUVUD - KOLUMNRUBRIKER
+       ======================================================================== */
+    
+    /* Styling för tabellhuvud-celler */
     .cart-summary-table th {
-        text-align: left;
-        padding: var(--mainpadding) calc(var(--mainpadding) * 0.75);
-        font-weight: bold;
-        font-size: 0.85rem;
-        color: var(--text-light);
-        text-transform: uppercase;
-        border-bottom: 2px solid var(--border-color);
-        border-right: 1px solid var(--border-color);
+        background-color: var(--background-light); /* Ljus bakgrund */
+        font-weight: bold;                    /* Fet text */
+        padding: 12px;                        /* Samma padding som celler */
+        text-align: left;                     /* Vänsterjustera */
+        border-bottom: 2px solid var(--border-color); /* Tjockare gräns under */
+        color: var(--text-color);             /* Huvudtextfärg */
     }
 
+    /* ========================================================================
+       KOLUMNJUSTERINGAR - SPECIFIK STYLING PER KOLUMN
+       ======================================================================== */
+    
+    /* Antal-kolumn - centrera innehåll */
     .cart-summary-table td[data-label="Antal"] {
-        text-align: center;
+        text-align: center;                   /* Centrera antal */
     }
 
+    /* Antal-kolumnhuvud - centrera */
     .cart-summary-table th:nth-child(2) {
-        text-align: center;
+        text-align: center;                   /* Centrera rubrik */
     }
 
+    /* Pris och Totalt-kolumner - högerjustera */
     .cart-summary-table td[data-label="Pris"],
     .cart-summary-table td[data-label="Totalt"] {
-        text-align: right;
+        text-align: right;                    /* Högerjustera priser */
     }
 
+    /* Pris och Totalt-kolumnhuvuden - högerjustera */
     .cart-summary-table th:nth-child(3),
     .cart-summary-table th:nth-child(4) {
-        text-align: right;
+        text-align: right;                    /* Högerjustera rubriker */
     }
 
-
+    /* ========================================================================
+       TABELLFOT - DESKTOP ANPASSNING
+       ======================================================================== */
+    
+    /* Första cellen i tabellfot - högerjustera på desktop */
     .cart-summary-table tfoot td:first-child {
-        font-weight: bold;
-        font-size: 0.95rem;
-        text-align: right;
-        color: var(--text-color);
+        text-align: right;                    /* Högerjustera "TOTALT" text */
+        padding-right: var(--mainpadding);   /* Padding till höger */
+        font-size: 1.1rem;                   /* Större textstorlek */
     }
 
+    /* Sista cellen i tabellfot - behåll högerjustering */
     .cart-summary-table tfoot td:last-child {
-        font-weight: bold;
-        font-size: 1rem;
-        color: #000;
+        text-align: right;                    /* Högerjustera summa */
+        font-size: 1.2rem;                   /* Ännu större textstorlek */
+        font-weight: bold;                    /* Fet text */
     }
 
+    /* ========================================================================
+       FORMULÄR - DESKTOP LAYOUT
+       ======================================================================== */
+    
+    /* Formulärgrupper - två kolumner på desktop */
     .customer-form .form-group {
-        flex: 1 1 calc(50% - var(--mainpadding) * 0.75);
+        flex: 1 1 48%;                        /* Två kolumner med lite mellanrum */
     }
 
+    /* Fullbredd-grupper (email, telefon, adress) */
     .customer-form .form-group.full-width {
-        flex-basis: 100%;
+        flex: 1 1 100%;                       /* Full bredd för vissa fält */
     }
 
+    /* Köp-knapp - mindre bredd på desktop */
     .btn-purchase {
-        width: auto;
-        padding: 12px 40px;
+        width: auto;                          /* Automatisk bredd */
+        min-width: 200px;                     /* Minsta bredd */
+        align-self: flex-start;               /* Justera till vänster */
     }
 }

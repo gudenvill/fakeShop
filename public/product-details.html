@@ -2,29 +2,47 @@
 <html lang="sv">
 
 <head>
+    <!-- Meta-taggar för dokumenttyp och responsiv design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Sidans titel som uppdateras dynamiskt med produktnamn -->
     <title id="page-title">FakeShop | Produktdetaljer</title>
+    
+    <!-- Externa CSS-bibliotek för ikoner (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Lokal CSS för grundläggande styling av hela sidan -->
     <link rel="stylesheet" href="./css/styles.css">
+    
+    <!-- Specifik CSS för produktdetaljsidans styling -->
     <link rel="stylesheet" href="./css/productStyles.css">
 </head>
 
 <body>
+    <!-- Huvudwrapper som omsluter hela sidans innehåll -->
     <div class="wrapper">
+        
+        <!-- HEADER-SEKTION: Innehåller logotyp och navigationsverktyg -->
         <header class="header">
+            <!-- Logotypområde med länk tillbaka till startsidan -->
             <div class="logotype">
                 <h1><a href="/" style="text-decoration: none; color: inherit;">logotype</a></h1>
             </div>
+            
+            <!-- Handlingsområde med sökfält och knappar -->
             <div class="actions">
+                <!-- Sökfält för produktsökning -->
                 <div class="search-bar">
                     <input class="input" type="text" placeholder="Sök produkter...">
                     <button type="submit" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
+                
+                <!-- Handlingsknappar för önskelista och varukorg -->
                 <div class="action-buttons">
                     <a href="#" aria-label="Wishlist"> 
                         <i class="fas fa-heart"></i>
@@ -35,6 +53,8 @@
                 </div>
             </div>
         </header>
+        
+        <!-- NAVIGATIONSSEKTION: Huvudnavigering med länk hem -->
         <ul class="navigation-list">
             <li><a href="/" style="text-decoration: none; color: inherit;">Hem</a></li>
             <li>Nyheter</li>
@@ -43,13 +63,13 @@
             <li>Män</li>
         </ul>
 
-        <!-- Laddningsmeddelande -->
+        <!-- LADDNINGSTILLSTÅND: Visas medan produktdata hämtas från servern -->
         <div id="loading" class="loading-container">
             <div class="loading-spinner"></div>
             <p>Laddar produktinformation...</p>
         </div>
 
-        <!-- Felmeddelande -->
+        <!-- FELTILLSTÅND: Visas om produkten inte kan hittas eller vid serverfel -->
         <div id="error" class="error-container" style="display: none;">
             <div class="error-content">
                 <i class="fas fa-exclamation-triangle error-icon"></i>
@@ -59,48 +79,68 @@
             </div>
         </div>
 
-        <!-- Produktdetaljer -->
+        <!-- PRODUKTDETALJER: Huvudsektion som visar produktinformation -->
         <div id="product-content" class="product-details" style="display: none;">
+            <!-- Produktbild-sektion -->
             <div class="product-details-image">
                 <img id="product-image" src="./images/product.png" alt="Produktbild">
             </div>
+            
+            <!-- Produktinformation-sektion -->
             <div class="product-details-info">
+                <!-- Produktnamn och märke -->
                 <div class="product-info-name">
                     <h3 id="product-name">Laddar...</h3>
                     <p id="product-brand">Laddar...</p>
                 </div>
+                
+                <!-- Produktpris -->
                 <div class="product-info-price" id="product-price">0 SEK</div>
+                
+                <!-- Lagerstatus -->
                 <div class="product-stock-info">
                     <p id="product-stock" class="stock-status">Kontrollerar lagerstatus...</p>
                 </div>
+                
+                <!-- Produktbeskrivning -->
                 <p id="product-description" class="product-description">
                     Laddar produktbeskrivning...
                 </p>
+                
+                <!-- Lägg till varukorg-knapp -->
                 <button class="add-to-cart-btn" id="add-to-cart">Lägg i varukorg</button>
             </div>
         </div>
 
-        <!-- Liknande produkter -->
+        <!-- RELATERADE PRODUKTER - LADDNINGSTILLSTÅND -->
         <div id="related-loading" class="loading-container">
             <p>Laddar liknande produkter...</p>
         </div>
 
+        <!-- RELATERADE PRODUKTER - KARUSELL MED SENASTE PRODUKTER -->
         <section id="related-products" class="related-products-carousel" style="display: none;">
             <h2>Senaste Produkter</h2>
             <div class="carousel-container">
                 <div class="carousel-track">
+                    <!-- Container där relaterade produkter renderas dynamiskt -->
                     <div id="related-products-track">
                         <!-- Related products will be dynamically added here -->
                     </div>
                 </div>
-                <button class="carousel-btn prev" aria-label="Previous related products"><i
-                        class="fas fa-chevron-left"></i></button>
-                <button class="carousel-btn next" aria-label="Next related products"><i
-                        class="fas fa-chevron-right"></i></button>
+                
+                <!-- Navigeringsknappar för karusell -->
+                <button class="carousel-btn prev" aria-label="Previous related products">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next" aria-label="Next related products">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </section>
 
+        <!-- FÖRDELAR-SEKTION: Visar butikens fördelar och tjänster -->
         <div class="perks-wrapper">
+            <!-- Fördel 1: Gratis frakt och returer -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-earth-americas"></i>
@@ -109,6 +149,8 @@
                     Gratis frakt och returer
                 </div>
             </div>
+            
+            <!-- Fördel 2: Expressfrakt -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-truck-fast"></i>
@@ -117,6 +159,8 @@
                     Expressfrakt
                 </div>
             </div>
+            
+            <!-- Fördel 3: Säkra betalningar -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-shield"></i>
@@ -125,6 +169,8 @@
                     Säkra betalningar
                 </div>
             </div>
+            
+            <!-- Fördel 4: Dagliga nyheter -->
             <div class="perk-item">
                 <div class="perk-icon">
                     <i class="fa-solid fa-face-smile"></i>
@@ -135,7 +181,9 @@
             </div>
         </div>
 
+        <!-- ACCORDION-SEKTION: Utfällbara menyer för additional navigation -->
         <div class="accordions">
+            <!-- Accordion 1: Shopping-kategorier -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Shopping
@@ -148,6 +196,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 2: Mina sidor-funktioner -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Mina sidor
@@ -158,6 +207,7 @@
                 </div>
             </div>
 
+            <!-- Accordion 3: Kundtjänst-alternativ -->
             <div class="accordion-wrapper">
                 <button class="accordion">
                     Kundtjänst
@@ -169,210 +219,378 @@
             </div>
         </div>
 
+        <!-- FOOTER-SEKTION: Enkel copyright-information -->
         <footer>
             &#169; FakeShop
         </footer>
     </div>
 
+    <!-- JAVASCRIPT-SEKTION: All funktionalitet för produktdetaljsidan -->
     <script>
+        // ====================================================================
+        // GLOBALA VARIABLER
+        // ====================================================================
+        
+        // Håller aktuell produktdata efter hämtning från API
         let currentProduct = null;
 
-        // Hämta produkt-ID från URL parametrar
+        // ====================================================================
+        // URL OCH PARAMETER-HANTERING
+        // ====================================================================
+        
+        /**
+         * Hämta produkt-ID från URL:s query parameters
+         * URL-format: /product-details.html?id=123
+         * @returns {string|null} Produkt-ID eller null om inte finns
+         */
         function getProductIdFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('id');
         }
 
-        // Kontrollera om en produkt är ny
+        // ====================================================================
+        // PRODUKTLOGIK: KONTROLLERA OM PRODUKT ÄR NY
+        // ====================================================================
+        
+        /**
+         * Kontrollera om en produkt är ny (skapad inom 7 dagar)
+         * Används för att visa "Nyhet"-märkning
+         * @param {string} createdAt - Produktens skapandedatum från databasen
+         * @returns {boolean} True om produkten är ny, annars false
+         */
         function isNewProduct(createdAt) {
             const now = new Date();
             const productDate = new Date(createdAt);
+            
+            // Beräkna skillnad i dagar mellan nu och skapandedatum
             const daysDifference = Math.floor((now - productDate) / (1000 * 60 * 60 * 24));
+            
+            // Produkten är "ny" om den skapades inom 7 dagar
             return daysDifference <= 7;
         }
 
-        // Hämta produktdata från API
+        // ====================================================================
+        // API-KOMMUNIKATION: HÄMTA PRODUKTDATA
+        // ====================================================================
+        
+        /**
+         * Hämta produktdata från API och visa på sidan
+         * Hanterar laddningstillstånd, fel och framgångsrik datahämtning
+         */
         async function loadProduct() {
+            // Hämta produkt-ID från URL
             const productId = getProductIdFromUrl();
             
+            // Om inget ID finns i URL, visa felmeddelande
             if (!productId) {
                 showError();
                 return;
             }
 
             try {
-                console.log('🔄 Hämtar produktdata för ID:', productId);
+                console.log('🔄 Hämtar produkt med ID:', productId);
+                
+                // Skicka GET-request till produkter-API:et
                 const response = await fetch(`/api/products/${productId}`);
                 
+                // Kontrollera att requestet var framgångsrikt
                 if (!response.ok) {
-                    if (response.status === 404) {
-                        showError();
-                        return;
-                    }
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
+                // Parsea JSON-svaret
                 const product = await response.json();
-                console.log('✅ Produktdata hämtad:', product);
+                console.log('✅ Produkt hämtad:', product);
                 
+                // Spara produktdata globalt och visa på sidan
                 currentProduct = product;
                 displayProduct(product);
-                loadRelatedProducts(product.id);
                 
             } catch (error) {
-                console.error('❌ Fel vid hämtning av produktdata:', error);
+                // Hantera fel vid hämtning
+                console.error('❌ Fel vid hämtning av produkt:', error);
                 showError();
             }
         }
 
-        // Visa produktinformation
-        function displayProduct(product) {
-            // Uppdatera sidelement
-            document.getElementById('page-title').textContent = `FakeShop | ${product.name}`;
-            document.getElementById('product-image').src = product.image_url;
-            document.getElementById('product-image').alt = product.name;
-            document.getElementById('product-name').textContent = product.name;
-            document.getElementById('product-brand').textContent = product.brand;
-            document.getElementById('product-price').textContent = `${product.price} SEK`;
-            document.getElementById('product-description').textContent = product.description || 'Ingen beskrivning tillgänglig.';
-            
-            // Lagerstatus
-            const stockElement = document.getElementById('product-stock');
-            if (product.stock_quantity > 0) {
-                stockElement.textContent = `${product.stock_quantity} i lager`;
-                stockElement.style.color = '#28a745';
-            } else {
-                stockElement.textContent = 'Slut i lager';
-                stockElement.style.color = '#dc3545';
-                document.getElementById('add-to-cart').disabled = true;
-                document.getElementById('add-to-cart').textContent = 'Slut i lager';
-            }
-            
-            // Visa innehållet
+        // ====================================================================
+        // UI-TILLSTÅNDSHANTERING: VISA/DÖLJ OLIKA SEKTIONER
+        // ====================================================================
+        
+        /**
+         * Visa felmeddelande och dölj andra sektioner
+         * Används när produkten inte kan hittas eller vid API-fel
+         */
+        function showError() {
+            // Dölj laddning och produktinnehåll
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('product-content').style.display = 'block';
+            document.getElementById('product-content').style.display = 'none';
             
-            console.log('✅ Produktinformation visad');
+            // Visa felmeddelande
+            document.getElementById('error').style.display = 'block';
         }
 
-        // Hämta liknande produkter (nu visar senaste produkter istället för kategori)
-        async function loadRelatedProducts(excludeId) {
+        /**
+         * Visa produktinnehåll och dölj laddning/fel
+         * Används när produktdata har hämtats framgångsrikt
+         */
+        function showProduct() {
+            // Dölj laddning och felmeddelande
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            
+            // Visa produktinnehåll
+            document.getElementById('product-content').style.display = 'flex';
+        }
+
+        // ====================================================================
+        // PRODUKTVISNING: RENDERA PRODUKTDATA PÅ SIDAN
+        // ====================================================================
+        
+        /**
+         * Visa produktinformation på sidan
+         * Uppdaterar alla DOM-element med produktdata
+         * @param {Object} product - Produktobjekt från API:et
+         */
+        function displayProduct(product) {
+            // Uppdatera sidans titel med produktnamn
+            document.getElementById('page-title').textContent = `FakeShop | ${product.name}`;
+            
+            // Uppdatera produktbild
+            document.getElementById('product-image').src = product.image_url;
+            document.getElementById('product-image').alt = product.name;
+            
+            // Uppdatera produktnamn och märke
+            document.getElementById('product-name').textContent = product.name;
+            document.getElementById('product-brand').textContent = product.brand;
+            
+            // Uppdatera pris
+            document.getElementById('product-price').textContent = `${product.price} SEK`;
+            
+            // Uppdatera produktbeskrivning
+            document.getElementById('product-description').textContent = product.description || 'Ingen beskrivning tillgänglig.';
+            
+            // Uppdatera lagerstatus med färgkodning
+            const stockElement = document.getElementById('product-stock');
+            if (product.stock_quantity > 0) {
+                stockElement.textContent = `I lager (${product.stock_quantity} st)`;
+                stockElement.className = 'stock-status in-stock';  // Grön färg
+            } else {
+                stockElement.textContent = 'Slut i lager';
+                stockElement.className = 'stock-status out-of-stock';  // Röd färg
+            }
+            
+            // Aktivera eller inaktivera "Lägg till varukorg"-knappen baserat på lager
+            const addToCartBtn = document.getElementById('add-to-cart');
+            if (product.stock_quantity > 0) {
+                addToCartBtn.disabled = false;
+                addToCartBtn.textContent = 'Lägg i varukorg';
+            } else {
+                addToCartBtn.disabled = true;
+                addToCartBtn.textContent = 'Slut i lager';
+            }
+            
+            // Visa produktsektionen
+            showProduct();
+        }
+
+        // ====================================================================
+        // VARUKORGSFUNKTIONALITET: LÄGG TILL PRODUKTER
+        // ====================================================================
+        
+        /**
+         * Lägg till produkt i varukorg (localStorage)
+         * Uppdaterar befintlig kvantitet eller lägger till ny produkt
+         * @param {Object} product - Produktobjekt att lägga till
+         */
+        function addToBasket(product) {
+            // Hämta befintlig varukorg från localStorage
+            let basket = JSON.parse(localStorage.getItem('fakeShopBasket')) || [];
+            
+            // Kontrollera om produkten redan finns i varukorgen
+            const existingItem = basket.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                // Om produkten finns, öka kvantiteten
+                existingItem.quantity += 1;
+                console.log('✅ Ökade kvantitet för:', product.name);
+            } else {
+                // Om produkten inte finns, lägg till den med kvantitet 1
+                basket.push({
+                    id: product.id,
+                    name: product.name,
+                    brand: product.brand,
+                    price: product.price,
+                    image_url: product.image_url,
+                    quantity: 1
+                });
+                console.log('✅ Lade till ny produkt:', product.name);
+            }
+            
+            // Spara uppdaterad varukorg i localStorage
+            localStorage.setItem('fakeShopBasket', JSON.stringify(basket));
+            
+            // Visa bekräftelse till användaren
+            showAddToCartFeedback();
+        }
+
+        /**
+         * Visa visuell bekräftelse när produkt läggs till i varukorg
+         * Ändrar knapptext tillfälligt för att bekräfta åtgärden
+         */
+        function showAddToCartFeedback() {
+            const button = document.getElementById('add-to-cart');
+            const originalText = button.textContent;
+            
+            // Ändra knapptext och style tillfälligt
+            button.textContent = 'Tillagd! ✓';
+            button.style.backgroundColor = '#28a745';  // Grön färg
+            button.disabled = true;
+            
+            // Återställ knappen efter 2 sekunder
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '';  // Återgå till original styling
+                button.disabled = false;
+            }, 2000);
+        }
+
+        // ====================================================================
+        // RELATERADE PRODUKTER: HÄMTA OCH VISA SENASTE PRODUKTER
+        // ====================================================================
+        
+        /**
+         * Hämta och visa relaterade produkter (senaste produkter)
+         * Visar en karusell med andra produkter från butiken
+         */
+        async function loadRelatedProducts() {
             try {
-                console.log('🔄 Hämtar senaste produkter...');
-                const response = await fetch('/api/products'); // Fetch all products
+                console.log('🔄 Hämtar relaterade produkter...');
                 
+                // Hämta alla produkter från API:et
+                const response = await fetch('/api/products');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const allProducts = await response.json();
                 
-                // Sortera efter datum (senast skapade först) och filtrera bort aktuell produkt
-                const recentProducts = allProducts
-                    .filter(p => p.id !== excludeId) // Filtrera bort aktuell produkt
-                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Senaste först
-                    .slice(0, 6); // Ta de 6 senaste
+                // Filtrera bort den aktuella produkten och ta de 8 senaste
+                const relatedProducts = allProducts
+                    .filter(product => product.id !== currentProduct?.id)
+                    .slice(0, 8);
                 
-                console.log('✅ Hämtade', recentProducts.length, 'senaste produkter');
-                displayRelatedProducts(recentProducts);
+                console.log('✅ Hämtade', relatedProducts.length, 'relaterade produkter');
+                
+                // Rendera relaterade produkter
+                displayRelatedProducts(relatedProducts);
                 
             } catch (error) {
-                console.error('❌ Fel vid hämtning av senaste produkter:', error);
-                document.getElementById('related-loading').textContent = 'Kunde inte ladda senaste produkter.';
+                console.error('❌ Fel vid hämtning av relaterade produkter:', error);
+                
+                // Dölj relaterade produkter-sektionen vid fel
+                document.getElementById('related-loading').style.display = 'none';
             }
         }
 
-        // Visa liknande produkter
+        /**
+         * Visa relaterade produkter i karusell
+         * @param {Array} products - Array med produktobjekt att visa
+         */
         function displayRelatedProducts(products) {
             const track = document.getElementById('related-products-track');
             
-            if (products.length === 0) {
-                document.getElementById('related-loading').textContent = 'Inga liknande produkter hittades.';
-                return;
-            }
-            
-            const productsHTML = products.map(product => {
+            // Skapa HTML för alla relaterade produkter
+            track.innerHTML = products.map(product => {
+                // Kontrollera om produkten är ny för "Nyhet"-märkning
                 const isNew = isNewProduct(product.created_at);
                 
                 return `
-                    <div class="product-card" onclick="goToProduct(${product.id})">
-                        <div class="product-image">
+                    <div class="related-product-card" data-product-id="${product.id}">
+                        <div class="related-product-image">
                             <img src="${product.image_url}" alt="${product.name}">
-                            <div class="product-overlay overlay-heart">&#x2764;</div>
                             ${isNew ? '<div class="product-overlay overlay-banner">Nyhet</div>' : ''}
                         </div>
-                        <div class="product-info">
-                            <div class="product-info-name">
-                                <h3>${product.name}</h3>
-                                <p>${product.brand}</p>
-                            </div>
-                            <div class="product-info-price">${product.price} SEK</div>
+                        <div class="related-product-info">
+                            <h4>${product.name}</h4>
+                            <p>${product.brand}</p>
+                            <span class="related-product-price">${product.price} SEK</span>
                         </div>
                     </div>
                 `;
             }).join('');
             
-            track.innerHTML = productsHTML;
-            
+            // Dölj laddning och visa relaterade produkter
             document.getElementById('related-loading').style.display = 'none';
             document.getElementById('related-products').style.display = 'block';
+        }
+
+        // ====================================================================
+        // KARUSELL-FUNKTIONALITET: NAVIGERING MELLAN RELATERADE PRODUKTER
+        // ====================================================================
+        
+        /**
+         * Initiera karusell-navigation för relaterade produkter
+         * Lägger till klick-lyssnare för framåt/bakåt-knappar
+         */
+        function initializeCarousel() {
+            const track = document.getElementById('related-products-track');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
             
-            console.log('✅ Liknande produkter visade');
-        }
-
-        // Navigera till produktsida
-        function goToProduct(productId) {
-            window.location.href = `/product-details.html?id=${productId}`;
-        }
-
-        // Visa felmeddelande
-        function showError() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-        }
-
-        // Hantera "Lägg i varukorg" knapp
-        document.getElementById('add-to-cart').addEventListener('click', function() {
-            if (currentProduct) {
-                // Spara till localStorage direkt
-                let basketItems = JSON.parse(localStorage.getItem('fakeShopBasket') || '[]');
-                const existingItem = basketItems.find(item => item.id === currentProduct.id);
+            let currentIndex = 0;  // Håller koll på aktuell position
+            const cardWidth = 250; // Bredd per produktkort (inkl. margin)
+            const visibleCards = 4; // Antal synliga kort åt gången
+            
+            /**
+             * Uppdatera karusellens position
+             * @param {number} index - Ny position att visa
+             */
+            function updateCarousel(index) {
+                const maxIndex = Math.max(0, track.children.length - visibleCards);
+                currentIndex = Math.max(0, Math.min(index, maxIndex));
                 
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    basketItems.push({
-                        id: currentProduct.id,
-                        name: currentProduct.name,
-                        brand: currentProduct.brand,
-                        price: currentProduct.price,
-                        image_url: currentProduct.image_url,
-                        quantity: 1
-                    });
-                }
+                // Flytta karusellen med CSS transform
+                track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
                 
-                localStorage.setItem('fakeShopBasket', JSON.stringify(basketItems));
-                
-                console.log('🛒 Lägger till i varukorg:', currentProduct.name);
-                
-                // Visa bekräftelse
-                this.textContent = 'Tillagd i varukorg! ✓';
-                this.style.backgroundColor = '#28a745';
-                
-                setTimeout(() => {
-                    this.textContent = 'Lägg i varukorg';
-                    this.style.backgroundColor = '#333';
-                }, 2000);
+                // Uppdatera knapp-tillgänglighet
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex >= maxIndex;
             }
-        });
+            
+            // Event listeners för navigeringsknappar
+            prevBtn.addEventListener('click', () => {
+                updateCarousel(currentIndex - 1);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                updateCarousel(currentIndex + 1);
+            });
+            
+            // Initiera karusellen
+            updateCarousel(0);
+        }
 
-        // Accordion funktionalitet
-        document.addEventListener('DOMContentLoaded', function() {
-        var acc = document.getElementsByClassName("accordion");
-            for (let i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function () {
+        // ====================================================================
+        // EVENT LISTENERS: HUVUDFUNKTIONALITET
+        // ====================================================================
+        
+        /**
+         * Initiera alla event listeners för sidan
+         * Accordion, sök, varukorg och produktklick
+         */
+        function initializeEventListeners() {
+            // ================================================================
+            // ACCORDION-FUNKTIONALITET
+            // ================================================================
+            
+            const accordions = document.getElementsByClassName("accordion");
+            for (let i = 0; i < accordions.length; i++) {
+                accordions[i].addEventListener("click", function () {
+                    // Växla active-klass och panel-synlighet
                     this.classList.toggle("active");
-                    var panel = this.nextElementSibling;
+                    const panel = this.nextElementSibling;
+                    
                     if (panel.style.display === "block") {
                         panel.style.display = "none";
                     } else {
@@ -381,11 +599,55 @@
                 });
             }
             
+            // ================================================================
+            // LÄGG TILL VARUKORG-FUNKTIONALITET
+            // ================================================================
+            
+            document.getElementById('add-to-cart').addEventListener('click', function() {
+                if (currentProduct && currentProduct.stock_quantity > 0) {
+                    addToBasket(currentProduct);
+                }
+            });
+            
+            // ================================================================
+            // PRODUKTKORT-NAVIGATION (RELATERADE PRODUKTER)
+            // ================================================================
+            
+            // Event delegation för dynamiskt skapade produktkort
+            document.addEventListener('click', function(e) {
+                const productCard = e.target.closest('.related-product-card');
+                if (productCard) {
+                    const productId = productCard.dataset.productId;
+                    // Navigera till produktdetaljsida för den klickade produkten
+                    window.location.href = `/product-details.html?id=${productId}`;
+                }
+            });
+        }
+
+        // ====================================================================
+        // HUVUDINITIALISERING: STARTA ALLT NÄR DOM:EN ÄR LADDAD
+        // ====================================================================
+        
+        /**
+         * DOMContentLoaded event listener som initialiserar hela sidan
+         * Kör alla huvudfunktioner när DOM:en är färdigladdad
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 Produktdetaljsida laddad, initialiserar...');
+            
+            // Initiera event listeners
+            initializeEventListeners();
+            
             // Ladda produktdata
             loadProduct();
+            
+            // Ladda relaterade produkter (efter en kort fördröjning)
+            setTimeout(loadRelatedProducts, 500);
+            
+            // Initiera karusell när relaterade produkter är laddade
+            setTimeout(initializeCarousel, 1000);
         });
     </script>
-
 </body>
 
 </html>
